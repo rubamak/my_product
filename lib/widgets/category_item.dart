@@ -5,10 +5,10 @@ import '../pages/families_screen.dart';
 class CategoryItem extends StatelessWidget {
 
  final int categoryId ;
- final String categoryName;
- final String image_category;
+ final String? categoryName;
+ final String? image_category;
 
-  CategoryItem(this.categoryId, this.categoryName, this.image_category);
+  CategoryItem({ required this.categoryId, this.categoryName, this.image_category});
 
   void SelectCategory(BuildContext ctx){
     
@@ -41,11 +41,11 @@ class CategoryItem extends StatelessWidget {
                child: ClipRRect(
 
                  borderRadius: BorderRadius.circular(20),
-                 child:Image.asset(image_category,width: double.infinity,height: 100,),
+                 child:Image.asset(image_category!,width: double.infinity,height: 100,),
                ),
                margin: EdgeInsets.all(20),
              ),
-              Text(categoryName,
+              Text(categoryName!,
            textAlign: TextAlign.center,
            style: TextStyle(fontSize: 35,fontWeight: FontWeight.w600),),
 

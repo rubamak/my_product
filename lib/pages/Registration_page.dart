@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:my_product/color/my_colors.dart';
 import 'package:my_product/pages/home.dart';
+import 'package:my_product/widgets/category_item.dart';
 import 'package:select_form_field/select_form_field.dart';
 
 import 'login.dart';
@@ -60,11 +61,13 @@ enum AuthMode {SignUp, Login }
 
 
    static String? valueChoose;
+   static List  listItems = ["User","productive Family"];
+
    @override
    Widget build(BuildContext context) {
 
 
-    List  listItems = ["User","productiveFamily"];
+
 
 
      return  Scaffold(
@@ -316,10 +319,10 @@ enum AuthMode {SignUp, Login }
                                         }).toList(),
                                     ),
                                   ],
-                                )
-
-
+                                ),
                       ),
+
+                   familyType(),
                       Padding(
                         padding: const EdgeInsets.all(20.0),
                         child: ElevatedButton(
@@ -365,8 +368,6 @@ enum AuthMode {SignUp, Login }
 
    CollectionReference users = FirebaseFirestore.instance.collection("users");
 
-
- 
   void   _submit()     {
      //يتاكد من الاشياء الي داخل الفورم يتحقق منها عشان بعدها يخزنها
      if(!_formKey.currentState!.validate()){
@@ -394,8 +395,7 @@ enum AuthMode {SignUp, Login }
        'account type': valueChoose,
 
 
-     }).then((value) =>
-         print("user added!"));
+     }).then((value) =>   print("user added!"));
    }
      Future<void> _createUser() async {
          try {
@@ -465,6 +465,50 @@ enum AuthMode {SignUp, Login }
        // });
       // Navigator.pushNamed(context, '/');  زبط ولكن ما يعرض لي بيانات المستخدم
 
+   }
+
+    static List categoryList =
+    [ "Food","Drinks","Clothes","Homemade","Digital Services" ];
+  static String? categoryChoose;
+
+   Widget familyType() {
+
+    return Container(
+      child: valueChoose == listItems[0]? null  :
+      Container(
+        padding: EdgeInsets.all(10),
+        margin: EdgeInsets.all(12),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(color: white,width: 2)
+        ),
+        child: Column(
+          children: [
+            DropdownButton(
+
+              borderRadius: BorderRadius.circular(20),
+              hint: Text("select your Category:"),
+              isExpanded: true,
+              value: categoryChoose,
+              onChanged: (newValue){
+                setState(() {
+                  categoryChoose = newValue as String?;
+
+                });
+              },
+              items: categoryList.map((catItem) {
+                return DropdownMenuItem(
+
+                  value: catItem,
+                  child: Text(catItem),
+                  enabled: true,
+                );
+              }).toList(),
+            ),
+          ],
+        ),
+      ),
+    );
    }
 
 }

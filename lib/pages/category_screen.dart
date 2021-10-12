@@ -30,7 +30,11 @@ class CategoryScreen extends StatelessWidget {
             children:
                 //اما طريقة الماب واما girdView.builder
             DUMMY_CATEGORY.map((catData) =>
-             CategoryItem(catData.categoryId,catData.categoryName,catData.image_location)
+             CategoryItem(
+               categoryName: catData.categoryName,
+               image_category: catData.image_location, categoryId: catData.categoryId,
+
+                )
 
             ).toList(),
 
