@@ -41,8 +41,10 @@ import 'package:provider/provider.dart';
 // runApp is library function
 // here where program start
 
- Future<void> main()  async {
+ void main()  async {
+  //يتاكد من عملية التهيئة تمت عشان يشغل البرنلمج
    WidgetsFlutterBinding.ensureInitialized();
+   //يتاكد من اتصال مع الفاير بيس
    await Firebase.initializeApp();
    runApp(
 

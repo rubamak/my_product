@@ -1,11 +1,13 @@
 
 import 'dart:ui';
 
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:my_product/color/my_colors.dart';
 import 'package:my_product/pages/home.dart';
 import 'package:my_product/widgets/category_item.dart';
@@ -19,7 +21,6 @@ import 'login.dart';
    _RegistartionState createState() => _RegistartionState();
  }
 
-enum AuthMode {SignUp, Login }
 
  class _RegistartionState extends State<Registartion> {
    static var accountType = {"Choose one","user", "Productive Family"};
@@ -33,19 +34,7 @@ enum AuthMode {SignUp, Login }
    var _lastNameController = TextEditingController();
    var _usernameController = TextEditingController();
 
-
-   final GlobalKey<FormState> _formKey = GlobalKey();
-
-   //AuthMode _authMode = AuthMode.Login;
-
-   Map <String,String> _authData = {
-
-     'email': '',
-     'firstName': '',
-     'lastName': '',
-     'username': '',
-     'password': '',
-   };
+   var myEmail ,firstName, lastName, username, myPassword;
    var _isLoading = false;
 
 
@@ -62,13 +51,9 @@ enum AuthMode {SignUp, Login }
 
    static String? valueChoose;
    static List  listItems = ["User","productive Family"];
-
+    GlobalKey<FormState> _formKey = GlobalKey<FormState>();
    @override
    Widget build(BuildContext context) {
-
-
-
-
 
      return  Scaffold(
        backgroundColor: grey,
@@ -83,8 +68,6 @@ enum AuthMode {SignUp, Login }
                    Container(
                      padding: EdgeInsets.all(20),
                      child: TextFormField(
-
-
                        //type of text
                        //keyboardType: TextInputType.,
                        style: TextStyle(color: white),
@@ -105,14 +88,14 @@ enum AuthMode {SignUp, Login }
                        cursorColor: white,
                        controller: _firstNameController,
                        validator: (val){
-                          if(val== null) {
-                             return " invalid Entry(";
-                               }   else{return null;} ;
+                          if(val!.isEmpty|| val.length < 2) {
+                             return " Short name :(";
+                               }   else{
+                            return null;} ;
 
                               },
                          onSaved: (value){
-                         _authData['firstName']= value!;
-                         print(_authData['firstName']);
+                         firstName = value;
                          },
 
 
@@ -142,13 +125,15 @@ enum AuthMode {SignUp, Login }
                        cursorColor: white,
                        controller:   _lastNameController,
                        validator: (val){
-                         if(val== null) {
+                         if(val!.isEmpty ) {
                            return " invalid Entry:(";
-                         }   else{return null;} ;
+                         }else if(val.length < 2){
+                           return "short last name ";
+                         }
+                         else{return null;} ;
                        },
                        onSaved: (value){
-                         _authData['lastName']= value!;
-                         print(_authData['lastName']);
+                         lastName = value;
                        },
                      ),
                    ),
@@ -176,13 +161,23 @@ enum AuthMode {SignUp, Login }
                        cursorColor: white,
                        controller:   _usernameController,
                        validator: (val){
-                         if(val== null) {
+                         if(val!.isEmpty ) {
                            return " invalid Entry:(";
-                         }   else{return null;} ;
+                         }else if (val.length<4){
+                           return"short username";
+
+                         }
+                         else if( !val.contains("_")){
+                           return " add any symbols";
+                         }
+                         else if (!val.contains(RegExp(r'[0-9]'))) {
+                           return " you should add numbers ";}
+
+                         else{
+                           return null;} ;
                        },
                        onSaved: (value){
-                         _authData['username']= value!;
-                         print(_authData['username']);
+                        username = value;
                        },
                      ),
                    ),
@@ -213,8 +208,7 @@ enum AuthMode {SignUp, Login }
                         }   else{return null;} ;
                        },
                        onSaved: (value){
-                      _authData['email']= value!;
-                      print(_authData['email']);
+                      myEmail = value;
                        },
                      ),
                    ),
@@ -248,8 +242,7 @@ enum AuthMode {SignUp, Login }
                          }   else{return null;} ;
                        },
                        onSaved: (value){
-                         _authData['password']= value!;
-                         print(_authData['password']);
+                        myPassword = value;
                        },
                      ),
                    ),
@@ -284,57 +277,21 @@ enum AuthMode {SignUp, Login }
                        },
                      ),
                    ),
-                      Container(
+                      // Container(
 
-
-                        padding: EdgeInsets.all(10),
-                            margin: EdgeInsets.all(12),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              border: Border.all(color: white,width: 2)
-                            ),
-
-                            child:
-                                Column(
-                                  children: [
-                                    DropdownButton(
-
-                                      borderRadius: BorderRadius.circular(20),
-                                      hint: Text("select your Account"),
-                                     isExpanded: true,
-                                      value: valueChoose,
-                                        onChanged: (newValue){
-                                        setState(() {
-                                          valueChoose = newValue as String?;
-
-                                        });
-                                        },
-                                        items: listItems.map((valueItem) {
-                                          return DropdownMenuItem(
-
-                                              value: valueItem,
-                                            child: Text(valueItem),
-                                            enabled: true,
-                                          );
-                                        }).toList(),
-                                    ),
-                                  ],
-                                ),
-                      ),
-
-                   familyType(),
-                      Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: ElevatedButton(
-                           child: Text('Sign Up'),
-                           onPressed: _submit,
-                           style: ElevatedButton.styleFrom(
-                             padding: EdgeInsets.all(10),
-                             primary: Theme.of(context).primaryColor,
-                             shape: RoundedRectangleBorder(
-                               borderRadius: BorderRadius.circular(25), ),),
-                             ),
-                      ),
+                   //familyType(),
+                   Padding(
+                     padding: const EdgeInsets.all(20.0),
+                     child: ElevatedButton(
+                       child: Text('Sign Up'),
+                       onPressed: signUp,
+                       style: ElevatedButton.styleFrom(
+                         padding: EdgeInsets.all(10),
+                         primary: Theme.of(context).primaryColor,
+                         shape: RoundedRectangleBorder(
+                           borderRadius: BorderRadius.circular(25), ),),
+                     ),
+                   ),
                        SizedBox(width: 50,),
                      Padding(
                        padding: const EdgeInsets.all(20.0),
@@ -366,25 +323,34 @@ enum AuthMode {SignUp, Login }
    //FirebaseAuth firebaseAuth = FirebaseAuth.instance;
    //DatabaseReference dbRef = FirebaseDatabase.instance.reference().child("Users");
 
-   CollectionReference users = FirebaseFirestore.instance.collection("users");
 
-  void   _submit()     {
+
+  Future<void> signUp() async {
+     // var formData = _formKey.currentState;
+     // if(formData!.validate()){
+     //هدول السطرين يكافؤ السطر الي تحت في سطر واحد
+     // }
      //يتاكد من الاشياء الي داخل الفورم يتحقق منها عشان بعدها يخزنها
      if(!_formKey.currentState!.validate()){
-       return ;
-     }
+       //return ;
+       print("not valid");
+     }else
+       print("vaild");
      // حفظ الداتا الي تحقق منها داخل الفورم
          _formKey.currentState!.save();
-
+          _createUser();
      //انشاء حساب لليوزر جديد
-   _createUser();
+
+
+   //
     //Navigator.pushReplacementNamed(context, HomePage.routeName);
     // addUser();
     // Fluttertoast.showToast(msg: "Account has Successfully created ");
 
 
   }
-
+  //add user to collection on firebase
+   CollectionReference users = FirebaseFirestore.instance.collection("users");
    Future addUser() async{
      return users.add({
        "email":_emailController.text,
@@ -392,124 +358,149 @@ enum AuthMode {SignUp, Login }
        'last name': _lastNameController.text,
        'username': _usernameController.text,
        'password': _passwordController.text,
-       'account type': valueChoose,
-
-
-     }).then((value) =>   print("user added!"));
+     }).then((value) =>
+         print("user added!"));
    }
-     Future<void> _createUser() async {
+
+  // Future<UserCredential> signInWithGoogle() async {
+     // Trigger the authentication flow
+   //   final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+   //
+   //   // Obtain the auth details from the request
+   //   final GoogleSignInAuthentication? googleAuth = await googleUser
+   //       ?.authentication;
+   //
+   //
+   //   // Create a new credential
+   //   final credential = GoogleAuthProvider.credential(
+   //     accessToken: googleAuth?.accessToken,
+   //     idToken: googleAuth?.idToken,
+   //   );
+   //   //addUser();
+   //   //Fluttertoast.showToast(msg: "google account created!");
+   //
+   //
+   //   // Once signed in, return the UserCredential
+   //   return await FirebaseAuth.instance.signInWithCredential(credential);
+   //
+   // }
+   User? user = FirebaseAuth.instance.currentUser;
+   Future<void> _createUser() async {
          try {
            UserCredential userCredential = await FirebaseAuth.instance
-               .createUserWithEmailAndPassword(email: _emailController.text, password: _passwordController.text);
-           print("yeeeeeeeeeeessssssssssssss");
-           addUser();
+               .createUserWithEmailAndPassword(email: myEmail, password: myPassword);
+           print(userCredential.user!.email);
+           print("===================================");
+           //print(userCredential.user!.displayName);
+           //print(userCredential.user!.uid);
            Fluttertoast.showToast(msg: "Account has Successfully created ");
-         } catch(err){
-             showDialog(context: context, builder: (BuildContext context){
-               return AlertDialog(
-                 title: Text("Error"),
-                 content: Text(err.toString()),
-                 actions: [
-                   TextButton(
-                     child: Text("ok"),
-                     onPressed: (){
-                       Navigator.of(context).pop();
-                     },
-                   )
-                 ],
+           addUser();
 
+           // if( userCredential.user!.emailVerified ==false ) {
+           //   await user!.sendEmailVerification();
+           // }
 
-               );
-             });
+         } on FirebaseException catch(e){
+           if( e.code == 'weak-password') {
+             AwesomeDialog(context: context, title: "Something wrong!",
+               body: Text("password is too weak"), )..show();
+             print("weak pass");
+           }else if (e.code == 'email-already-in-use'){
+             AwesomeDialog(context: context, title: "Something wrong!",
+               body: Text("email is used by another account.."), )..show();
+             print("emaid is used ");
+             // showDialog(context: context, builder: (BuildContext context){
+             //     return AlertDialog(
+             //       title: Text("Something Wrong !"),
+             //       content:
+             //       Text(e.toString() ),
+             //       actions: [
+             //         TextButton(
+             //           child: Text("ok"),
+             //           onPressed: (){
+             //             Navigator.of(context).pop();
+             //           },
+             //         )
+             //       ],
+             //
+             //
+             //     );
+             //   });
+
+             }
+             // showDialog(context: context, builder: (BuildContext context){
+             //   return AlertDialog(
+             //     title: Text("Error"),
+             //     content:
+             //     Text(e.toString() ),
+             //     actions: [
+             //       TextButton(
+             //         child: Text("ok"),
+             //         onPressed: (){
+             //           Navigator.of(context).pop();
+             //         },
+             //       )
+             //     ],
+             //
+             //
+             //   );
+           // });
+
        }
 
-       // print("email: $_email, pass: $_password");
-       // to create account and added to firebase
-       // Null userCredential = await FirebaseAuth.instance
-       //     .createUserWithEmailAndPassword(email: _emailController.text, password: _passwordController.text).then((result){
-       //       dbRef.child(result.user!.uid).set({
-       //
-       //         "email":_emailController.text,
-       //         'firstName': _firstNameController.text,
-       //         'lastName': _lastNameController.text,
-       //         'username': _usernameController.text,
-       //         'password': _passwordController.text,
-       //
-       //       });
-       //         //   .then((res){
-       //         // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> HomePage(uid: result.user!.uid)),
-       //         // );
-       //         Fluttertoast.showToast(msg: "Account has Successfully created ");
-       //         print("yeeeeeeeeeeessssssssssssss");
-       //
-       //
-       //       });
-       // }).catchError((err){
-       //   showDialog(context: context, builder: (BuildContext context){
-       //     return AlertDialog(
-       //       title: Text("Error"),
-       //       content: Text(err.toString()),
-       //       actions: [
-       //         TextButton(
-       //           child: Text("ok"),
-       //           onPressed: (){
-       //             Navigator.of(context).pop();
-       //           },
-       //         )
-       //       ],
-       //
-       //
-       //     );
-       //   });
-       //
-       // });
+       catch(err){
+             Center(child: CircularProgressIndicator());
+           print(err);
+         }
+
+
       // Navigator.pushNamed(context, '/');  زبط ولكن ما يعرض لي بيانات المستخدم
 
    }
 
-    static List categoryList =
-    [ "Food","Drinks","Clothes","Homemade","Digital Services" ];
-  static String? categoryChoose;
-
-   Widget familyType() {
-
-    return Container(
-      child: valueChoose == listItems[0]? null  :
-      Container(
-        padding: EdgeInsets.all(10),
-        margin: EdgeInsets.all(12),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: white,width: 2)
-        ),
-        child: Column(
-          children: [
-            DropdownButton(
-
-              borderRadius: BorderRadius.circular(20),
-              hint: Text("select your Category:"),
-              isExpanded: true,
-              value: categoryChoose,
-              onChanged: (newValue){
-                setState(() {
-                  categoryChoose = newValue as String?;
-
-                });
-              },
-              items: categoryList.map((catItem) {
-                return DropdownMenuItem(
-
-                  value: catItem,
-                  child: Text(catItem),
-                  enabled: true,
-                );
-              }).toList(),
-            ),
-          ],
-        ),
-      ),
-    );
-   }
+  //   static List categoryList =
+  //   [ "Food","Drinks","Clothes","Homemade","Digital Services" ];
+  // static String? categoryChoose;
+  //
+  //  Widget familyType() {
+  //
+  //   return Container(
+  //     child: valueChoose == listItems[0]? null  :
+  //     Container(
+  //       padding: EdgeInsets.all(10),
+  //       margin: EdgeInsets.all(12),
+  //       decoration: BoxDecoration(
+  //           borderRadius: BorderRadius.circular(20),
+  //           border: Border.all(color: white,width: 2)
+  //       ),
+  //       child: Column(
+  //         children: [
+  //           DropdownButton(
+  //
+  //             borderRadius: BorderRadius.circular(20),
+  //             hint: Text("select your Category:"),
+  //             isExpanded: true,
+  //             value: categoryChoose,
+  //             onChanged: (newValue){
+  //               setState(() {
+  //                 categoryChoose = newValue as String?;
+  //
+  //               });
+  //             },
+  //             items: categoryList.map((catItem) {
+  //               return DropdownMenuItem(
+  //
+  //                 value: catItem,
+  //                 child: Text(catItem),
+  //                 enabled: true,
+  //               );
+  //             }).toList(),
+  //           ),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  //  }
 
 }
 

@@ -18,6 +18,8 @@ class HomePage extends StatefulWidget {
  // const HomePage({Key? key, required Object uid}) : super(key: key);
   static const routeName = '/homepage-screen';
 
+
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -73,8 +75,6 @@ class _HomePageState extends State<HomePage> {
             IconButton(
                 icon: Icon(Icons.settings, color: white),
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => CartScreen()));
                 }),
           ],
 
@@ -208,7 +208,6 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         floatingActionButton: FloatingActionButton(
-
           onPressed: () => bottomSheet(context),
          /* async{
             try{

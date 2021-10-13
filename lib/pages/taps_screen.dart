@@ -149,7 +149,7 @@ class _TapsScreenState extends State<TapsScreen> {
           ),
         ],
       ),
-        drawer: const MainDrawer(),
+        drawer:  MainDrawer(),
     );
   }
 

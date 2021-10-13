@@ -1,3 +1,5 @@
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +15,7 @@ import 'package:my_product/pages/login.dart';
 import 'package:my_product/pages/taps_screen.dart';
 
 class MainDrawer extends StatefulWidget {
-  const MainDrawer({Key? key}) : super(key: key);
+
 
 
 
@@ -22,6 +24,9 @@ class MainDrawer extends StatefulWidget {
 }
 
 class _MainDrawerState extends State<MainDrawer> {
+
+
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -47,7 +52,7 @@ class _MainDrawerState extends State<MainDrawer> {
 
                 //بعدين حيصير ياخد الايميل من الداتا بيز لما ينضافو
 
-                accountName: Text("."),
+                accountName: Text(""),
                 accountEmail: Text(""),
                 currentAccountPicture: GestureDetector(
                   child: const CircleAvatar(
@@ -102,5 +107,7 @@ class _MainDrawerState extends State<MainDrawer> {
         leading: Icon(icon, color: grey),
       );
   }
+
+
 
 }

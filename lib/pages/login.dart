@@ -44,7 +44,7 @@ class _LoginState extends State<Login> {
     try {
       // print("Emmmmmmmail: $_email, نننننتنتpassword: $_password");
       // to create account and added to firebase
-      UserCredential userCredential = await FirebaseAuth.instance
+       UserCredential userCredential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: _email, password: _password);
       //to showing the details of data in firebase within console
      // Navigator.of(context).pushNamed('/');
@@ -52,6 +52,23 @@ class _LoginState extends State<Login> {
 
       print("Loggginnnnn dooooooooooonnnnnnnnnneeeeeeeeee");
     } catch (e) {
+      showDialog(context: context, builder: (BuildContext context){
+        return AlertDialog(
+          title: Text("Error"),
+          content:
+          Text(e.toString() ),
+          actions: [
+            TextButton(
+              child: Text("ok"),
+              onPressed: (){
+                Navigator.of(context).pop();
+              },
+            )
+          ],
+
+
+        );
+      });
       print("Error : $e");
     }
 
