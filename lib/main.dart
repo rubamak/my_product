@@ -101,7 +101,7 @@ class _MyAppState extends State<MyApp> {
         initialRoute:'/' ,
         routes: {
 
-          '/': (context) => Registartion(),//MyProductsPage(),//,//MyProductsPage(),//SignupPage(),//MyProductsPage(),//Login(),HomePage()//this line is same -->  home:  HomePage(),
+          '/': (context) => HomePage(),//MyProductsPage(),//,//MyProductsPage(),//SignupPage(),//MyProductsPage(),//Login(),HomePage()//this line is same -->  home:  HomePage(),
          TapsScreen.routeName: (context) => TapsScreen(_favoriteProducts),
           CategoryScreen.routeName: (context)=> CategoryScreen(),
           FamiliesScreen.routeName: (context) => FamiliesScreen(),

@@ -5,8 +5,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_product/color/my_colors.dart';
 import 'package:my_product/pages/Registration_page.dart';
+import 'package:my_product/pages/add_product.dart';
 import 'package:my_product/pages/cart.dart';
 import 'package:my_product/pages/category_screen.dart';
+import 'package:my_product/pages/drawer_section_pages/add_new_family.dart';
 import 'package:my_product/pages/drawer_section_pages/single_chat_screen.dart';
 import 'package:my_product/pages/drawer_section_pages/favorite_screen.dart';
 import 'package:my_product/pages/drawer_section_pages/helping_section.dart';
@@ -72,17 +74,20 @@ class _MainDrawerState extends State<MainDrawer> {
 
           //body-----------------------------------------
 
-          buildListTile("Home Page", Icons.home_outlined,(){/*Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> HomePage()));*/} ),
+          buildListTile("Home Page", Icons.home_outlined,(){Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> HomePage()));} ),
           buildListTile("My Profile", Icons.person_outline_sharp,(){}),
           buildListTile('Categories', Icons.dashboard_outlined,(){Navigator.pushReplacementNamed(context, TapsScreen.routeName);}),
           buildListTile('My Orders', Icons.shopping_cart_outlined,(){}),
          // buildListTile('Favourites Products', Icons.favorite_outline,(){Navigator.pushNamed(context, FavoriteScreen.routeName);}),
           buildListTile('My Chats', Icons.chat_outlined,(){  }),
-          const Divider(color: Color(0xffFFBCBC)),
+          const Divider(color: Colors.black54),//0xffFFBCBC الللون القديم لو تبيه ياربا
+          //هنا مفروض اضيف الفايل او اللسته من الصفحه الجديده اللي ضفتها add_new_family
+          buildListTile('Add Store',Icons.add,(){Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> addNewFamily()));}),
           buildListTile('Settings', Icons.settings,(){}),
           buildListTile('Enjoy to Help you', Icons.help_outline_outlined,(){Navigator.push(context, MaterialPageRoute(builder: (context)=> HelpingSection()));}),
 
-          const Divider(color: Color(0xffFFBCBC)),
+
+          const Divider(color: Colors.black54),//0xffFFBCBC الللون القديم لو تبيه ياربا
 
           MaterialButton(
             onPressed: () async {
@@ -97,6 +102,9 @@ class _MainDrawerState extends State<MainDrawer> {
         ],
       ),
     );
+
+
+
   }
                                         // use voidCallback for use void method that not using ()=>
   Widget buildListTile(String title, IconData icon ,VoidCallback onTapHandler, ){

@@ -5,7 +5,7 @@ import 'package:my_product/modules/products.dart';
 import 'dart:io';
 
 //داتا مبدأية افتراضية اشتخدم منها
-
+//سموحه التحتوتحه
 List<Category> DUMMY_CATEGORY = [
   Category(categoryId: 1, categoryName: 'Food', image_location: 'images/categories/food.png'),
   Category(categoryId: 2, categoryName: 'Beverages', image_location: 'images/categories/drinks.jpeg'),

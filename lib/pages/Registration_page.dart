@@ -56,7 +56,7 @@ import 'login.dart';
    Widget build(BuildContext context) {
 
      return  Scaffold(
-       backgroundColor: grey,
+       backgroundColor: Colors.grey[200],
        body:Center(
          child: Form(
             key: _formKey,
@@ -64,25 +64,25 @@ import 'login.dart';
              padding: const EdgeInsets.only(top: 50),
              child: ListView(
                  children: [
-                   Container(child: Text("Sign up Form ",textAlign: TextAlign.center,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 30,backgroundColor: white),),),
+                   Container(child: Text("Sign up Form ",textAlign: TextAlign.center,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 30,backgroundColor: Colors.grey[200]),),),
                    Container(
                      padding: EdgeInsets.all(20),
                      child: TextFormField(
                        //type of text
                        //keyboardType: TextInputType.,
-                       style: TextStyle(color: white),
+                       style: TextStyle(color: Colors.black54),
                        decoration: InputDecoration(labelText: "Enter Your First Name:",
                          enabledBorder: OutlineInputBorder(
-                           borderSide: BorderSide(width: 2, color: Colors.white),
+                           borderSide: BorderSide(width: 2, color: basicColor),
                            borderRadius: BorderRadius.circular(20.0),
                          ),
-                         labelStyle: TextStyle(color: white),
-                         hintText: "Ruba..",
+                         labelStyle: TextStyle(color: Colors.black54),
+                         //hintText: "Ruba..",
                          hintStyle: TextStyle(
                              fontWeight: FontWeight.w900,
                              color: Colors.white,
                              fontStyle: FontStyle.italic),
-                         prefixIcon: IconButton( icon: Icon(Icons.person_pin_outlined, color: Colors.white,), onPressed: () {  },),
+                         prefixIcon: IconButton( icon: Icon(Icons.person_pin_outlined, color: Colors.black54,), onPressed: () {  },),
                        ),
                        keyboardType: TextInputType.name,
                        cursorColor: white,
@@ -107,19 +107,19 @@ import 'login.dart';
 
                        //type of text
                        //keyboardType: TextInputType.,
-                       style: TextStyle(color: white),
+                       style: TextStyle(color: Colors.black54),
                        decoration: InputDecoration(labelText: "Enter Your Last Name:",
                          enabledBorder: OutlineInputBorder(
-                           borderSide: BorderSide(width: 2, color: Colors.white),
+                           borderSide: BorderSide(width: 2, color: basicColor),
                            borderRadius: BorderRadius.circular(20.0),
                          ),
-                         labelStyle: TextStyle(color: white),
-                         hintText: "Almakkawi",
+                         labelStyle: TextStyle(color: Colors.black54),
+                         //hintText: "Almakkawi",
                          hintStyle: TextStyle(
                              fontWeight: FontWeight.w900,
-                             color: Colors.white,
+                             color: Colors.black54,
                              fontStyle: FontStyle.italic),
-                         prefixIcon: IconButton( icon: Icon(Icons.people_alt_outlined, color: Colors.white,), onPressed: () {  },),
+                         prefixIcon: IconButton( icon: Icon(Icons.people_alt_outlined, color: Colors.black54,), onPressed: () {  },),
                        ),
                        keyboardType: TextInputType.name,
                        cursorColor: white,
@@ -143,19 +143,19 @@ import 'login.dart';
 
                        //type of text
                        //keyboardType: TextInputType.,
-                       style: TextStyle(color: white),
+                       style: TextStyle(color: Colors.black54),
                        decoration: InputDecoration(labelText: "Enter username :",
                          enabledBorder: OutlineInputBorder(
-                           borderSide: BorderSide(width: 2, color: Colors.white),
+                           borderSide: BorderSide(width: 2, color: basicColor),
                            borderRadius: BorderRadius.circular(20.0),
                          ),
-                         labelStyle: TextStyle(color: white),
+                         labelStyle: TextStyle(color: Colors.black54),
                          hintText: "roro store/ roro_99",
                          hintStyle: TextStyle(
                              fontWeight: FontWeight.w900,
-                             color: Colors.white,
+                             color: Colors.black54,
                              fontStyle: FontStyle.italic),
-                         prefixIcon: IconButton( icon: Icon(Icons.people_alt_outlined, color: Colors.white,), onPressed: () {  },),
+                         prefixIcon: IconButton( icon: Icon(Icons.people_alt_outlined, color: Colors.black54,), onPressed: () {  },),
                        ),
                        keyboardType: TextInputType.name,
                        cursorColor: white,
@@ -185,19 +185,19 @@ import 'login.dart';
                    Container(
                      padding: EdgeInsets.all(20),
                      child: TextFormField(
-                       style: TextStyle(color: white),
+                       style: TextStyle(color: Colors.black54),
                        decoration: InputDecoration(labelText: "Enter Email:",
                            enabledBorder: OutlineInputBorder(
-                             borderSide: BorderSide(width: 2, color: Colors.white),
+                             borderSide: BorderSide(width: 2, color: basicColor),
                              borderRadius: BorderRadius.circular(20.0),
                            ),
-                         labelStyle: TextStyle(color: white),
+                         labelStyle: TextStyle(color: Colors.black54),
                          hintText: "example@gmail.com",
                          hintStyle: TextStyle(
                              fontWeight: FontWeight.w900,
-                             color: Colors.white,
+                             color: Colors.black54,
                              fontStyle: FontStyle.italic),
-                         suffixIcon: IconButton(onPressed: _emailController.clear, icon: Icon(Icons.cancel, color: Colors.white,),),
+                         suffixIcon: IconButton(onPressed: _emailController.clear, icon: Icon(Icons.cancel, color: Colors.black54,),),
                        ),
                        keyboardType: TextInputType.emailAddress,
                        cursorColor: white,
@@ -215,10 +215,10 @@ import 'login.dart';
                    Container(
                      padding: EdgeInsets.all(20),
                      child: TextFormField(
-                       style: TextStyle(color: white),
-                       decoration: InputDecoration(labelText: "Enter Password:", labelStyle: TextStyle(color: white),
+                       style: TextStyle(color: Colors.black54),
+                       decoration: InputDecoration(labelText: "Enter Password:", labelStyle: TextStyle(color: Colors.black54),
                          enabledBorder: OutlineInputBorder(
-                           borderSide: BorderSide(width: 2, color: Colors.white),
+                           borderSide: BorderSide(width: 2, color:basicColor),
                            borderRadius: BorderRadius.circular(20.0),
                          ),
                          suffixIcon: IconButton(
@@ -228,7 +228,7 @@ import 'login.dart';
                            icon: Icon(
                              passwordVisible ? Icons.visibility_off : Icons
                                  .visibility,
-                             color: Colors.white,
+                             color: Colors.black54,
                            ),
                          ),
                        ),
@@ -249,10 +249,10 @@ import 'login.dart';
                    Container(
                      padding: EdgeInsets.all(20),
                      child: TextFormField(
-                       style: TextStyle(color: white),
-                       decoration: InputDecoration(labelText: "Confirm Password", labelStyle: TextStyle(color: white),
+                       style: TextStyle(color: Colors.black54),
+                       decoration: InputDecoration(labelText: "Confirm Password", labelStyle: TextStyle(color: Colors.black54),
                          enabledBorder: OutlineInputBorder(
-                           borderSide: BorderSide(width: 2, color: Colors.white),
+                           borderSide: BorderSide(width: 2, color: basicColor),
                            borderRadius: BorderRadius.circular(20.0),
                          ),
                          suffixIcon: IconButton(
@@ -262,7 +262,7 @@ import 'login.dart';
                            icon: Icon(
                              passwordVisible2 ? Icons.visibility_off : Icons
                                  .visibility,
-                             color: Colors.white,
+                             color: Colors.black54,
                            ),
                          ),
                        ),
