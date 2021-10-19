@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_product/color/my_colors.dart';
 import 'package:my_product/dummy_data.dart';
+import 'package:my_product/modules/families.dart';
 import 'package:my_product/pages/taps_screen.dart';
 import 'package:my_product/widgets/family_item.dart';
 import 'package:my_product/widgets/main_drawer.dart';
@@ -80,7 +81,14 @@ class FamiliesScreen extends StatelessWidget {
                         .height - 300,
                     child: ListView(
                       children: familiesStores.map((familyItem) =>
-                          FamilyItem(familyItem.familyId, familyItem.familyName, familyItem.description, familyItem.familyImage)
+                          FamilyItem(
+                            familyImage: familyItem.familyImage,
+                              description: familyItem.description,
+                              familyName: familyItem.familyName,
+                              categoryId: familyItem.categoryId,
+                              userId: familyItem.userId, familyId: familyItem.familyId,
+                            )
+
                       ).toList(),
                     ),
                   ),

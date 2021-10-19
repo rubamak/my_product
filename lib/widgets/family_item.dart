@@ -6,13 +6,19 @@ import 'package:my_product/pages/drawer_section_pages/single_chat_screen.dart';
 import 'package:my_product/pages/products_screen.dart';
 
 class FamilyItem extends StatelessWidget {
-  final int familyId ;
-
+  final String userId;
+  final String familyId ;
+  final String categoryId;
   final String familyName;
   final String description;
   final String familyImage;
 
-  FamilyItem(this.familyId, this.familyName, this.description, this.familyImage);
+  FamilyItem({
+    required this.familyId,
+    required this.familyName,
+    required this.description,
+    required this.familyImage,
+    required this.categoryId, required this.userId});
 
   void selectFamily(BuildContext context){
     Navigator.of(context).pushNamed(
@@ -25,7 +31,7 @@ class FamilyItem extends StatelessWidget {
     );
 
   }
-  void chatWithFamily (BuildContext context, int familyId){
+  void chatWithFamily (BuildContext context){
     Navigator.of(context).pushNamed(
       SingleChatScreen.routeName,
       arguments: {
@@ -76,15 +82,14 @@ class FamilyItem extends StatelessWidget {
                               //  overflow: TextOverflow,
                                 style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold,color: grey),)
 
-                      )
-
+                      ),
                       ],
                     )
                 ],
                 ),
               ),
               IconButton(
-                onPressed: ()=> chatWithFamily(context,familyId),
+                onPressed: ()=> chatWithFamily(context),
                  // Navigator.of(context).pushNamed(ChatScreen.routeName);
 
 

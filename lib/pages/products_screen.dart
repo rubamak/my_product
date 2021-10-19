@@ -73,7 +73,8 @@ class ProductsScreen extends StatelessWidget {
                           .height - 300,
                       child: ListView(
                         children: products.map((productItem) =>
-                            ProductItem(productId: productItem.productId,
+                            ProductItem(
+                                productId: productItem.productId,
                                 productName: productItem.productName,
                                 productImage: productItem.productImage,
                                 price: productItem.price,

@@ -4,7 +4,7 @@ import '../pages/families_screen.dart';
 
 class CategoryItem extends StatelessWidget {
 
- final int categoryId ;
+ final String categoryId ;
  final String? categoryName;
  final String? image_category;
 

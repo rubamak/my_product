@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:core';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,7 @@ class ProductDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final productId = ModalRoute.of(context)!.settings.arguments as int;
+    final productId = ModalRoute.of(context)!.settings.arguments as Object;
 
     //هنا ليس لست كاملة وانما عنصر واحد فقط لانه فيرست وير
     final selectedProduct =

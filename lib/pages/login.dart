@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:my_product/color/my_colors.dart';
 import 'package:my_product/pages/Registration_page.dart';
-import 'package:my_product/pages/home.dart';
+import 'package:my_product/pages/home_page.dart';
 
 // ===the packages the packages that added in pubspec.yaml==
 
@@ -25,8 +26,6 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-
-
   // function every time called will create a new account and insert in firebase
   // Future<void> _createUser() async {
   //   try {
@@ -39,39 +38,70 @@ class _LoginState extends State<Login> {
   //     print("Error : $e");
   //   }
   // }
+      _loginUser() async {
+    if (!_formKey.currentState!.validate()) {
+      print("Not valid login");
 
-  Future<void> _loginUser() async {
-    try {
-      // print("Emmmmmmmail: $_email, نننننتنتpassword: $_password");
-      // to create account and added to firebase
-       UserCredential userCredential = await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: _email, password: _password);
-      //to showing the details of data in firebase within console
-     // Navigator.of(context).pushNamed('/');
-      Navigator.of(context).push(MaterialPageRoute(builder: (context)=> HomePage()));
-
-      print("Loggginnnnn dooooooooooonnnnnnnnnneeeeeeeeee");
-    } catch (e) {
-      showDialog(context: context, builder: (BuildContext context){
-        return AlertDialog(
-          title: Text("Error"),
-          content:
-          Text(e.toString() ),
-          actions: [
-            TextButton(
-              child: Text("ok"),
-              onPressed: (){
-                Navigator.of(context).pop();
-              },
-            )
-          ],
-
-
+    } else {
+      _formKey.currentState!.save();
+      print(" valid login ");
+      // print
+      try {
+        UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: _email,
+          password: _password,
         );
-      });
-      print("Error : $e");
+        // تعجيييييللل هنا تعديل return userCredential;
+          return userCredential;
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'user-not-found') {
+          AwesomeDialog(
+              context: context,
+              title: "Error",
+              showCloseIcon: true,
+              body: Text("user not registered !"))
+            ..show();
+
+          print('No user found for that email.');
+        } else if (e.code == 'wrong-password') {
+          print('Wrong password provided for that user.');
+          AwesomeDialog(
+              context: context,
+              title: "Error",
+              showCloseIcon: true,
+              body: Text("wrong password"))..show();
+        }
+      }
+      // }catch(e){
+      //   AwesomeDialog(context: context,body:Text("some thing wrong else "))..show();
+      // }
+      // UserCredential userCredential = await FirebaseAuth.instance
+      //     .signInWithEmailAndPassword(email: _email, password: _password);
+      // Navigator.of(context).pushReplacement(
+      //     MaterialPageRoute(builder: (context) => HomePage()));
+      // print("Loggginnnnn dooooooooooonnnnnnnnnneeeeeeeeee");
     }
 
+    //to showing the details of data in firebase within console
+    // Navigator.of(context).pushNamed('/');
+
+    // showDialog(context: context, builder: (BuildContext context){
+    //   return AlertDialog(
+    //     title: Text("Error"),
+    //     content:
+    //     Text(e.toString() ),
+    //     actions: [
+    //       TextButton(
+    //         child: Text("ok"),
+    //         onPressed: (){
+    //           Navigator.of(context).pop();
+    //         },
+    //       )
+    //     ],
+    //
+    //
+    //   );
+    // });
   }
 
 /*
@@ -158,131 +188,182 @@ class _LoginState extends State<Login> {
   var _controllerEmail = TextEditingController();
   var _controllerPass = TextEditingController();
   bool passwordVisible = true;
-  late String _email;
-  late String _password;
+  var _email;
+  var _password;
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: new AppBar(
         //elevation: 0.9,// remove the shadows
-        backgroundColor:basicColor,
-        title: const Text('Login page ',style: TextStyle(fontSize: 30),),
+        backgroundColor: basicColor,
+        title: const Text(
+          'Login page ',
+          style: TextStyle(fontSize: 30),
+        ),
         toolbarHeight: 100,
-
       ),
-      body: Container(
-        padding: const EdgeInsets.all(30),
-        // decoration: BoxDecoration(
-        //   image: DecorationImage(
-        //     image: NetworkImage(
-        //         "https://img.etimg.com/thumb/msid-66290834,width-300,imgsize-69978,,resizemode-4,quality-100/mobile-apps-getty.jpg"),
-        //     fit: BoxFit.cover,
-        //     colorFilter: ColorFilter.mode(Colors.black87, BlendMode.darken),
-        //   ),
-        // ),
-        child: ListView(
-            children: <Widget>[
-          SizedBox(
-            height: 200,
-          ),
-          TextFormField(
-            keyboardType: TextInputType.emailAddress,
-            decoration: InputDecoration(
-              border: OutlineInputBorder(borderRadius: BorderRadius.circular(20),),
-              labelText: "Enter Email :",
-              labelStyle: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontStyle: FontStyle.italic),
-              prefix:  Icon(Icons.email_outlined,),
-              suffixIcon: IconButton(
-                onPressed: _controllerEmail.clear,
-                icon: Icon(Icons.cancel,color: black,),),
+      body: Center(
+        child: Form(
+          key: _formKey,
+            child: Padding(
+          padding: const EdgeInsets.all(30),
+          // decoration: BoxDecoration(
+          //   image: DecorationImage(
+          //     image: NetworkImage(
+          //         "https://img.etimg.com/thumb/msid-66290834,width-300,imgsize-69978,,resizemode-4,quality-100/mobile-apps-getty.jpg"),
+          //     fit: BoxFit.cover,
+          //     colorFilter: ColorFilter.mode(Colors.black87, BlendMode.darken),
+          //   ),
+          // ),
+          child: ListView(children: <Widget>[
+            SizedBox(
+              height: 200,
             ),
-            onFieldSubmitted: (dynamic value){
-              //عند ضغط الانتر
-              print("email entered is: "+ value);
-            },
-            onChanged: (dynamic value) {
-              //عند التغيير في القيمة الي في النص يعمل شي
-              _email = value;
-             // print(value);
-            },
-            // onTap: ,
-            // onSaved: ,
-            controller: _controllerEmail,
-          ),
-              SizedBox(
-                height: 20,
-              ),
-
-              TextFormField(
-                obscureText: passwordVisible,
-                keyboardType: TextInputType.visiblePassword,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(20),),
-                  labelText: "Enter password :",
-                  labelStyle: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontStyle: FontStyle.italic),
-                  prefix:  Icon(Icons.lock_outline,),
-
-                  suffixIcon: IconButton(
-                    onPressed: (){
-                      setState(() {
-                        passwordVisible = !passwordVisible;
-                      });
-                    },
-                    icon: Icon(passwordVisible? Icons.visibility_off: Icons.visibility,color:black,),),
+            TextFormField(
+              keyboardType: TextInputType.emailAddress,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20),
                 ),
-                onFieldSubmitted: (dynamic value){
-                  //عند ضغط الانتر
-
-                },
-                onChanged: (dynamic value) {
-                  //عند التغيير في القيمة الي في النص يعمل شي
-                  _password = value;
-                },
-                controller: _controllerPass,
-
+                labelText: "Enter Email :",
+                labelStyle: TextStyle(
+                    fontWeight: FontWeight.bold, fontStyle: FontStyle.italic),
+                prefix: Icon(
+                  Icons.email_outlined,
+                ),
+                suffixIcon: IconButton(
+                  onPressed: _controllerEmail.clear,
+                  icon: Icon(
+                    Icons.cancel,
+                    color: black,
+                  ),
+                ),
               ),
-            SizedBox(height: 50,),
-
-
-                    MaterialButton(
+              onFieldSubmitted: (dynamic value) {
+                //عند ضغط الانتر
+                print("email entered is: " + value);
+              },
+              onSaved: (dynamic value) {
+                //عند التغيير في القيمة الي في النص يعمل شي
+                _email = value;
+                // print(value);
+              },
+              validator: (val) {
+                if (val == null ||
+                    !val.contains("@") ||
+                    !val.contains(".") ||
+                    val.length > 30) {
+                  return " invalid Email :(";
+                } else {
+                  print("vaild email");
+                  return null;
+                }
+                ;
+              },
+              //onChanged
+              // onTap: ,
+              // onSaved: ,
+              controller: _controllerEmail,
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            TextFormField(
+              obscureText: passwordVisible,
+              keyboardType: TextInputType.visiblePassword,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                labelText: "Enter password :",
+                labelStyle: TextStyle(
+                    fontWeight: FontWeight.bold, fontStyle: FontStyle.italic),
+                prefix: Icon(
+                  Icons.lock_outline,
+                ),
+                suffixIcon: IconButton(
+                  onPressed: () {
+                    setState(() {
+                      passwordVisible = !passwordVisible;
+                    });
+                  },
+                  icon: Icon(
+                    passwordVisible ? Icons.visibility_off : Icons.visibility,
+                    color: black,
+                  ),
+                ),
+              ),
+              onFieldSubmitted: (dynamic value) {
+                //عند ضغط الانتر
+              },
+              onSaved: (dynamic value) {
+                //عند التغيير في القيمة الي في النص يعمل شي
+                _password = value;
+              },
+              controller: _controllerPass,
+              validator: (val) {
+                if (val.toString().length < 8) {
+                  return " Too Short password:(";
+                } else if (val.toString().length > 20) {
+                  return "very long password";
+                } else {
+                  return null;
+                }
+                ;
+              },
+            ),
+            SizedBox(
+              height: 50,
+            ),
+            MaterialButton(
+              color: basicColor,
+              child: Text(
+                " login ",
+                style: TextStyle(color: Colors.white),
+              ),
+              onPressed: () async {
+                 var  userCred = await _loginUser();
+                 if(userCred != null){
+                   Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> HomePage()));
+                 }
+              },
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Don't Have an account.",
+                  ),
+                  MaterialButton(
+                    // color: basicColor.withOpacity(0.2),
+                    child: Text(
+                      " Create new Account ",
+                      style: TextStyle(
                           color: basicColor,
-                          child: Text(
-                            " login ",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          onPressed:() => _loginUser(),
-                        ),
-                    SizedBox(height: 20,),
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text("Don't Have an account.",),
-                          MaterialButton(
-                            // color: basicColor.withOpacity(0.2),
-                            child: Text(
-                              " Create new Account ",
-                              style: TextStyle(color: basicColor,fontWeight: FontWeight.bold,fontSize: 18),
-                            ),
-                            onPressed:() {
-                              Navigator.push(context, MaterialPageRoute(
-                                  builder: (context) =>  Registartion()));
-
-                            },
-                          ),
-                        ],
-                      ),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18),
                     ),
-
-                  ],
-                ),
-
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Registartion()));
+                    },
+                  ),
+                ],
+              ),
             ),
+          ]),
+        ),
+      ),
+      ),
     );
   }
 }

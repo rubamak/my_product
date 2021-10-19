@@ -9,7 +9,7 @@ import 'package:my_product/pages/categories_pages/digital_services.dart';
 import 'package:my_product/pages/categories_pages/handmade.dart';
 import 'package:my_product/modules/category.dart';
 import 'package:my_product/pages/families_screen.dart';
-import 'package:my_product/pages/home.dart';
+import 'package:my_product/pages/home_page.dart';
 import 'package:my_product/widgets/category_item.dart';
 
 class HorizontelList extends StatelessWidget {
@@ -26,17 +26,17 @@ class HorizontelList extends StatelessWidget {
 
 
           CategoryHere(
-            id: 1,
+            id: "1",
             image_location: 'images/categories/food.png',
             image_caption: 'Food',
           ),
           CategoryHere(
-            id: 2,
+            id: "2",
             image_location: 'images/categories/drinks.jpeg',
             image_caption: 'Beverages',
           ),
           CategoryHere(
-            id: 3,
+            id: "3",
             image_location: 'images/categories/dress.jpeg',
             image_caption: 'Clothes',
           ),
@@ -47,12 +47,12 @@ class HorizontelList extends StatelessWidget {
 
           ),*/
           CategoryHere(
-            id: 4,
+            id: "4",
             image_location: 'images/categories/h.png',
             image_caption: 'Handmade',
           ),
           CategoryHere(
-            id: 5,
+            id: "5",
             image_location: 'images/categories/servoces.jpeg',
             image_caption: 'Digital Services',
           ),
@@ -64,7 +64,7 @@ class HorizontelList extends StatelessWidget {
 }
 
 class CategoryHere extends StatelessWidget {
-  final int id;
+  final String id;
   final String image_location;
   final String image_caption;
 

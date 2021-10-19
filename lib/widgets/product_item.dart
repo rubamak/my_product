@@ -9,21 +9,22 @@ import 'package:my_product/pages/product_details_latest_products.dart';
 import 'package:my_product/pages/product_detail_screen.dart';
 
 class ProductItem extends StatelessWidget {
-  final int? productId;
+   final String? productId;
   final double? price;
   final String? productImage;
   final String? description;
   final String? productName;
 
-  ProductItem( { this.productId,   this.productName,   this.productImage,   this.price,
+  ProductItem( { this.productId,   this.productName,   this.productImage, this.price,
         this.description});
 
   void selectProductItem(BuildContext ctx) {
     Navigator.of(ctx).pushNamed(
         ProductDetailScreen.routeName,
-        arguments:
-          productId,
-
+        arguments: {
+          'id': productId,
+          'name' : productName,
+        }
 
     );
 
@@ -43,7 +44,8 @@ class ProductItem extends StatelessWidget {
               child: Row(
                 children: <Widget>[
                   Hero(
-                      tag: productId!, child: Image(
+                      tag: productId as Object ,
+                      child: Image(
                     image: AssetImage(productImage!),
                     fit: BoxFit.cover,
                     height: 75,

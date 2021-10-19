@@ -1,9 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:my_product/pages/type_of_user.dart';
 
-import 'home.dart';
+import 'home_page.dart';
 import 'login.dart';
 
 class LandingPage extends StatelessWidget {
@@ -29,8 +28,8 @@ class LandingPage extends StatelessWidget {
             print("firebase initializeddd");
 
 
-            return
-               TypeOfUser();
+            // return "";
+              // TypeOfUser();
             //Login();
 
 
@@ -55,13 +54,13 @@ class LandingPage extends StatelessWidget {
                   Object? user = snapshot.data;
 
                  if(user == null){
-                    return  //HomePage();
-                    TypeOfUser();
+                    // return  //HomePage();
+                    // TypeOfUser();
                       //Login();
 
                   }else {
-                    return //HomePage();
-                      TypeOfUser();
+                    // return //HomePage();
+                    //   TypeOfUser();
                   }
                 }
                 return Scaffold(

@@ -25,9 +25,29 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  //String str = 'Home Page';
  var url = "https://www.youtube.com/watch?v=nIH3i7fjd2U";
-  bool isSwitched = false;
+  bool isSwitfched = false;
+
+  //  getCurrentUser(){
+  //   //هادا المتغير يحفظ لي معلومات اخر يوزر عمل تسجيل دخول في التطبيق
+  //   // عشان استخدم معلوماته دام لسه ما سوا تسجيل خروج
+  //   var currentUser = FirebaseAuth.instance.currentUser;
+  //   print(currentUser!.email);
+  //   return currentUser ;
+  //
+  // }
+  // @override
+  // void initState(){
+  //   if(getCurrentUser() != null) {
+  //     getCurrentUser();
+  //     super.initState();
+  //   }else{
+  //
+  //
+  //   }
+
+  // }
+
 
   @override
   Widget build(BuildContext context) {
@@ -47,8 +67,7 @@ class _HomePageState extends State<HomePage> {
           NetworkImage(
               'https://onlinedjradio.com/wp-content/uploads/2016/10/ads.jpeg'),
           AssetImage('images/download.jpeg'),
-          AssetImage(
-            'images/images.jpeg',
+          AssetImage('images/images.jpeg',
           ),
         ],
         autoplay: true,
@@ -64,7 +83,8 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
 
         appBar: AppBar(
-          actions: [
+
+        actions: [
 
             IconButton(
                 icon: Icon(Icons.shopping_cart_outlined, color: white),

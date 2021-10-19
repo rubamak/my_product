@@ -6,7 +6,7 @@ import 'package:my_product/color/my_colors.dart';
 import 'package:my_product/modules/products.dart';
 import 'package:my_product/pages/category_screen.dart';
 import 'package:my_product/pages/drawer_section_pages/favorite_screen.dart';
-import 'package:my_product/pages/home.dart';
+import 'package:my_product/pages/home_page.dart';
 import 'package:my_product/widgets/main_drawer.dart';
 
 class TapsScreen extends StatefulWidget {
@@ -149,7 +149,7 @@ class _TapsScreenState extends State<TapsScreen> {
           ),
         ],
       ),
-        drawer:  MainDrawer(),
+       // drawer:  MainDrawer(),
     );
   }
 

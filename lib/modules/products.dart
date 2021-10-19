@@ -10,8 +10,8 @@ import 'package:image_picker/image_picker.dart';
 
 class Product {
     final
-    int productId;
- final int familyId;
+    String productId;
+ final String familyId;
  //final int categoryId;
    final String productName;
   final String categoryName;
@@ -67,12 +67,12 @@ class Products with ChangeNotifier{
     // })).then((res) {
     //   print( json.decode(res.body));
 
-          CollectionReference product = FirebaseFirestore.instance.collection("product");
+          CollectionReference product = FirebaseFirestore.instance.collection("products");
 
           productsList.add(
           Product(
-              productId: 1,//int.parse(json.decode(res.body)['name']),
-              familyId: 2,
+              productId: "1",//int.parse(json.decode(res.body)['name']),
+              familyId: "2",
               categoryName: category,
               familyName: familyName,
               productName: title,
@@ -80,7 +80,6 @@ class Products with ChangeNotifier{
               productImage: image,
               description: desc
           ));
-      //_ref.push().set({'name':"waffle "}); احط بيانات في داتا بيس
 
      product.add({
        "product name": title ,

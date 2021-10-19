@@ -13,11 +13,14 @@ import 'package:my_product/json_test.dart';
 import 'package:my_product/pages/Registration_page.dart';
 import 'package:my_product/pages/add_product.dart';
 import 'package:my_product/pages/cart.dart';
+import 'package:my_product/pages/drawer_section_pages/add_family_store.dart';
 
 import 'package:my_product/pages/drawer_section_pages/single_chat_screen.dart';
 import 'package:my_product/pages/drawer_section_pages/favorite_screen.dart';
+import 'package:my_product/pages/my_family_store_page.dart';
+import 'package:my_product/pages/signup_form.dart';
 import '../pages/families_screen.dart';
-import 'package:my_product/pages/home.dart';
+import 'package:my_product/pages/home_page.dart';
 import 'package:my_product/pages/infro_screen.dart';
 import 'package:my_product/pages/landing_page.dart';
 import 'package:my_product/pages/login.dart';
@@ -25,7 +28,6 @@ import 'package:my_product/pages/my_products_page.dart';
 import '../pages/product_details_latest_products.dart';
 import '../pages/product_detail_screen.dart';
 import 'package:my_product/pages/products_screen.dart';
-import 'package:my_product/pages/signup_page.dart';
 import 'package:my_product/pages/taps_screen.dart';
 import '../providers/my_provider.dart';
 
@@ -40,6 +42,7 @@ import 'package:provider/provider.dart';
 
 // runApp is library function
 // here where program start
+
 
  void main()  async {
   //يتاكد من عملية التهيئة تمت عشان يشغل البرنلمج
@@ -94,6 +97,9 @@ class _MyAppState extends State<MyApp> {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primaryColor:basicColor,
+          textSelectionTheme: TextSelectionThemeData(
+            cursorColor: black,
+          ),
 
         ),
 
