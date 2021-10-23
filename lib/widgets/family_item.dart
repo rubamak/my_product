@@ -27,7 +27,6 @@ class FamilyItem extends StatelessWidget {
         'id': familyId,
         'name': familyName,
       }
-
     );
 
   }
@@ -91,8 +90,6 @@ class FamilyItem extends StatelessWidget {
               IconButton(
                 onPressed: ()=> chatWithFamily(context),
                  // Navigator.of(context).pushNamed(ChatScreen.routeName);
-
-
                 icon: Icon(Icons.chat_outlined),
                 color: black,
               )
@@ -101,27 +98,6 @@ class FamilyItem extends StatelessWidget {
 
             ),
           ),
-          // child: Card(
-          //   child: Container(
-          //
-          //     padding: EdgeInsets.all(50),
-          //     margin: EdgeInsets.all(20),
-          //     child: Column(
-          //       children:[
-          //         Text(familyName,
-          //         //textAlign: TextAlign.center,
-          //         style: TextStyle(fontSize: 30,fontWeight: FontWeight.w600),),
-          //        Text(description, style: TextStyle(fontSize: 15,fontWeight: FontWeight.w600)),
-          //     ])
-          //     ,
-          //
-          //     decoration: BoxDecoration(
-          //       color: Colors.lightBlue[50],
-          //       borderRadius: BorderRadius.circular(50),
-          //     ),
-          //
-          //   ),
-          // )
 
     );
   }

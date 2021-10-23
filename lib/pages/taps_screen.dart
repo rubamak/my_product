@@ -3,7 +3,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_product/color/my_colors.dart';
-import 'package:my_product/modules/products.dart';
+import 'package:my_product/modules/product.dart';
 import 'package:my_product/pages/category_screen.dart';
 import 'package:my_product/pages/drawer_section_pages/favorite_screen.dart';
 import 'package:my_product/pages/home_page.dart';
@@ -57,13 +57,11 @@ class _TapsScreenState extends State<TapsScreen> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        leading:  IconButton(
+        leading: IconButton(
+          onPressed: ()=> Navigator.of(context).pop() ,
           icon: Icon(Icons.arrow_back_ios),
-          onPressed: () {
-           // Navigator.of(context).popAndPushNamed(_pages[_selectedPageIndex]['title'].toString());
-          },
-          color: Colors.white,
         ),
+
 
         title: Padding(
           padding: EdgeInsets.only(top: 1),
@@ -82,7 +80,7 @@ class _TapsScreenState extends State<TapsScreen> {
         backgroundColor: Color(0xFF90A4AE),
         toolbarHeight: 80,
       ),
-      endDrawer: MainDrawer(),
+     // endDrawer: MainDrawer(),
 
       backgroundColor: Color(0xFF90A4AE),
 

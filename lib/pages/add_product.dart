@@ -4,7 +4,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_product/color/my_colors.dart';
-import 'package:my_product/modules/products.dart';
+import 'package:my_product/modules/product.dart';
 import 'package:my_product/pages/home_page.dart';
 import 'package:my_product/pages/my_products_page.dart';
 import 'package:provider/provider.dart';
@@ -283,29 +283,7 @@ class AddProduct extends StatelessWidget {
     );
 
 
-    //   TextField(
-    //     //type of text
-    //     //keyboardType: TextInputType.,
-    //     cursorColor: Colors.white,
-    //     decoration: InputDecoration(
-    //       enabledBorder: OutlineInputBorder(
-    //         borderSide: BorderSide(width: 2, color: Colors.white),
-    //         borderRadius: BorderRadius.circular(20.0),
-    //
-    //       ),
-    //       suffixIcon: IconButton(onPressed: usernameController.clear, icon: Icon(Icons.cancel, color: Colors.white,),),
-    //
-    //       labelText: "Enter Username :",
-    //       labelStyle: TextStyle(color: Colors.white),
-    //       //hintText: "ruba_19",
-    //       // hintStyle: TextStyle(color: Colors.white),
-    //       prefixIcon: Icon(
-    //         Icons.person_pin_outlined, color: Colors.white,),
-    //     ),
-    //     controller: usernameController,
-    //     style: TextStyle(color: Colors.white),
-    //   ),
-    // ),
+
 
 
   }

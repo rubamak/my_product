@@ -32,7 +32,7 @@ import 'package:my_product/pages/taps_screen.dart';
 import '../providers/my_provider.dart';
 
 import 'color/my_colors.dart';
-import 'modules/products.dart';
+import 'modules/product.dart';
 import '../pages/category_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -49,6 +49,7 @@ import 'package:provider/provider.dart';
    WidgetsFlutterBinding.ensureInitialized();
    //يتاكد من اتصال مع الفاير بيس
    await Firebase.initializeApp();
+
    runApp(
 
          ChangeNotifierProvider(
@@ -107,7 +108,7 @@ class _MyAppState extends State<MyApp> {
         initialRoute:'/' ,
         routes: {
 
-          '/': (context) => HomePage(),//MyProductsPage(),//,//MyProductsPage(),//SignupPage(),//MyProductsPage(),//Login(),HomePage()//this line is same -->  home:  HomePage(),
+          '/': (context) => LandingPage(),//MyProductsPage(),//,//MyProductsPage(),//SignupPage(),//MyProductsPage(),//Login(),HomePage()//this line is same -->  home:  HomePage(),
          TapsScreen.routeName: (context) => TapsScreen(_favoriteProducts),
           CategoryScreen.routeName: (context)=> CategoryScreen(),
           FamiliesScreen.routeName: (context) => FamiliesScreen(),
@@ -122,41 +123,4 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
-/*class AppIsolate extends StatefulWidget {
-  const AppIsolate({Key? key}) : super(key: key);
 
-  @override
-  _AppIsolateState createState() => _AppIsolateState();
-}
-
-class _AppIsolateState extends State<AppIsolate> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("test isolate"),
-
-      ),
-      body: Center(
-        child: TextButton(
-          onPressed: () {
-             //print("main isolate");
-
-           // compute( blockApp, 2); or Isolate.spawn(blockApp,2)
-          },
-          child: Text('click here '),
-        ),
-      ) ,
-    );
-    }
-
-}
-
-blockApp(int sec){
-
-  print("begin");
-
-  sleep(Duration(seconds: sec));
-
-  print("end");
-}*/

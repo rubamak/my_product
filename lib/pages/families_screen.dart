@@ -1,20 +1,31 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_product/color/my_colors.dart';
 import 'package:my_product/dummy_data.dart';
-import 'package:my_product/modules/families.dart';
+import 'package:my_product/modules/family_store.dart';
 import 'package:my_product/pages/taps_screen.dart';
 import 'package:my_product/widgets/family_item.dart';
 import 'package:my_product/widgets/main_drawer.dart';
 
-class FamiliesScreen extends StatelessWidget {
+class FamiliesScreen extends StatefulWidget {
   static const routeName = '/families_categories';
+
+  @override
+  State<FamiliesScreen> createState() => _FamiliesScreenState();
+}
+
+class _FamiliesScreenState extends State<FamiliesScreen> {
+  var firebaseUser = FirebaseAuth.instance.currentUser;
+
+
+
 
   @override
   Widget build(BuildContext context) {
     //استقبل البيانات من خلال بوش ناميد
-    final routeArg =
-        ModalRoute.of(context)!.settings.arguments as Map<String, Object>;
+    final routeArg = ModalRoute.of(context)!.settings.arguments as Map<String, Object>;
     //اخزن البيانات الي اخذتها في متغير عنشان اعرضها او اي شي
     final categoryId = routeArg['id'];
     final categoryName = routeArg['title'];
@@ -25,18 +36,13 @@ class FamiliesScreen extends StatelessWidget {
       return store.categoryId == categoryId;
     }).toList();
 
-    /*.where((store){
-       return store.categoryId.contains(categoryId);
-         }).toList(); ;*/
-//print(familiesStores);
-
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
         leading:  IconButton(
           icon: Icon(Icons.arrow_back_ios),
           onPressed: () {
-            Navigator.of(context).pop(categoryName);
+            Navigator.of(context).pop();
           },
           color: Colors.white,
         ),
@@ -53,7 +59,7 @@ class FamiliesScreen extends StatelessWidget {
         backgroundColor: Color(0xFF90A4AE),
         toolbarHeight: 80,
       ),
-      endDrawer: MainDrawer(),
+     // endDrawer: MainDrawer(),
        backgroundColor: Color(0xFF90A4AE),
         body: ListView(
 
@@ -86,7 +92,8 @@ class FamiliesScreen extends StatelessWidget {
                               description: familyItem.description,
                               familyName: familyItem.familyName,
                               categoryId: familyItem.categoryId,
-                              userId: familyItem.userId, familyId: familyItem.familyId,
+                              userId: familyItem.userId,
+                            familyId: familyItem.familyId,
                             )
 
                       ).toList(),

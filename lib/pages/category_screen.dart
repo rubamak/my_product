@@ -14,42 +14,22 @@ class CategoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-     /*appBar: AppBar(
-
-        backgroundColor: blue,
-        title: Text("Categories Screen",),
-      ),*/
       body: Container(
-        //color: Color(0xFF90A4AE),
-
       child: GridView(
-
-
           padding: const EdgeInsets.all(10),
-
             children:
                 //اما طريقة الماب واما girdView.builder
             DUMMY_CATEGORY.map((catData) =>
-             CategoryItem(
+                CategoryItem(
                categoryName: catData.categoryName,
-               image_category: catData.image_location, categoryId: catData.categoryId,
-
-                )
-
-            ).toList(),
-
+               image_category: catData.image_location, categoryId: catData.categoryId,)).toList(),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisSpacing: 1,
                 childAspectRatio:3/2,
                 mainAxisSpacing:100, crossAxisCount: 1,
-
               ),
-
-
           ),
       ),
-      //drawer: MainDrawer(),
-
     );
   }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:my_product/modules/category.dart';
-import 'package:my_product/modules/families.dart';
-import 'package:my_product/modules/products.dart';
+import 'package:my_product/modules/family_store.dart';
+import 'package:my_product/modules/product.dart';
 import 'dart:io';
 
 //داتا مبدأية افتراضية اشتخدم منها
@@ -14,8 +14,8 @@ List<Category> DUMMY_CATEGORY = [
   Category(categoryId: "5", categoryName: 'Digital Services',image_location: 'images/categories/servoces.jpeg'),
 ];
 
-List<Family> DUMMY_FAMILIES_STORES = [
-  Family(
+List<FamilyStore> DUMMY_FAMILIES_STORES = [
+  FamilyStore(
       familyId:"1",
       familyName: 'Happy House ',
       description: 'small description',
@@ -24,7 +24,7 @@ List<Family> DUMMY_FAMILIES_STORES = [
     familyImage: 'images/family.jpg',
 
   ),
-  Family(
+  FamilyStore(
     familyId: "2",
       familyName: 'New Home ',
       description: 'small description',
@@ -32,7 +32,7 @@ List<Family> DUMMY_FAMILIES_STORES = [
       categoryId: "4",
       familyImage: 'images/family.jpg',
   ),
-  Family(
+  FamilyStore(
     familyId: "3",
       familyName: 'Soso made ',
       description: 'small description',
@@ -40,7 +40,7 @@ List<Family> DUMMY_FAMILIES_STORES = [
       categoryId: "3",
       familyImage: 'images/family.jpg',
   ),
-  Family(
+  FamilyStore(
     familyId: "4",
       familyName: 'Little Service ',
       description: 'small descriptionssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss',
@@ -48,7 +48,7 @@ List<Family> DUMMY_FAMILIES_STORES = [
       categoryId: "5",
     familyImage: 'images/family.jpg',
   ),
-  Family(
+  FamilyStore(
     familyId: "5",
       familyName: 'Serve You',
       description: 'small description',
@@ -56,7 +56,7 @@ List<Family> DUMMY_FAMILIES_STORES = [
       categoryId: "5",
     familyImage: 'images/family.jpg',
   ),
-  Family(
+  FamilyStore(
     familyId: "6",
       familyName: 'Drink Mind ',
       description: 'small description',
@@ -64,7 +64,7 @@ List<Family> DUMMY_FAMILIES_STORES = [
       categoryId: "2",
     familyImage: 'images/family.jpg',
   ),
-  Family(
+  FamilyStore(
     familyId: "7",
       familyName: 'Happy Making ',
       description: 'small description',
@@ -75,7 +75,6 @@ List<Family> DUMMY_FAMILIES_STORES = [
 ];
 List<Product> DUMMY_PRODUCTS = [
   Product(
-
     categoryName: "Handmade",
       familyId: "1",
       familyName: 'Happy House ',

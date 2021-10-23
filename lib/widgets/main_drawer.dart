@@ -1,18 +1,17 @@
 
-
+import 'dart:core';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:my_product/color/my_colors.dart';
 import 'package:my_product/pages/Registration_page.dart';
 import 'package:my_product/pages/add_product.dart';
 import 'package:my_product/pages/cart.dart';
 import 'package:my_product/pages/category_screen.dart';
 
-import 'package:my_product/pages/drawer_section_pages/add_new_family.dart';
-import 'package:my_product/pages/drawer_section_pages/add_family_store.dart';
 
 import 'package:my_product/pages/drawer_section_pages/single_chat_screen.dart';
 import 'package:my_product/pages/drawer_section_pages/favorite_screen.dart';
@@ -21,31 +20,111 @@ import 'package:my_product/pages/home_page.dart';
 import 'package:my_product/pages/login.dart';
 import 'package:my_product/pages/my_family_store_page.dart';
 import 'package:my_product/pages/taps_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MainDrawer extends StatefulWidget {
-
-
-
   @override
   _MainDrawerState createState() => _MainDrawerState();
+  MainDrawer({
+     required this.username,
+     required this.useremail,
+});
+
+  String   username = '';
+  String  useremail = '';
+
 }
 
+
 class _MainDrawerState extends State<MainDrawer> {
-  bool islogin = false ;
-var user = FirebaseAuth.instance.currentUser;
-   bool checkLogin(){
-      if(user == null ){
 
-        islogin = false;
-      }else {
+  bool islogin = false;
 
-        islogin = true;
-      }
-      return islogin;
+  bool checkLogin() {
+    if (firebaseUser == null) {
+      islogin = false;
+    } else {
+      islogin = true;
     }
+    return islogin;
+  }
+var userEmail ;
+  getSharedPreferences()async{
+    SharedPreferences sharedpref = await SharedPreferences.getInstance();
+    setState(() {
+      userEmail = sharedpref.getString('email');
+      // sharedpref.setString('email',);
+      print(" shared get it ");
+    });
 
+
+
+  }
+
+
+  var firebaseUser = FirebaseAuth.instance.currentUser;
+
+  // var docData;
+  // getData(String uid) async {
+  //   DocumentReference documentReference = FirebaseFirestore.instance
+  //   //اجيب بيانات دوكيمنت واحد فقط
+  //    .collection('users').doc(uid);
+  //   //get will return docs Query snapshot
+  //   await documentReference.get().then((value) {
+  //     //value.data is the full fields for this doc
+  //     if(value.exists) {
+  //       docData = value.data();
+  //       print(docData);
+  //       // print(value.id);
+  //       print('=============');
+  //     }else{ }
+  //   });
+  //   return docData;
+  // }
+  //======================= how to use where
+  /*
+  CollectionReference userRef = FirebaseFirestore.instance.collection("users);
+  await usersRef.where("the field",isEqualTo: " value " ).get().then((value) {
+  //ممكن كمان where("name", whereIn/whereNotIn: [القيم عبارة عن مصفوفة ]
+  value.docs.forEach((element){
+  });
+  });
+*/
+  //var username;
+  //رح يجيب لستة فيها كل الدكيمونت الموجودة في الكولكيشن
+  // getData2() async {
+  //   //create collection
+  //   CollectionReference usersRef = FirebaseFirestore.instance.collection('users');
+  //   //استعلام كامل لهذا الكولكيشن
+  //   QuerySnapshot querySnapshot = await usersRef.get();
+  //   //all the docs in list
+  //   List <dynamic> listDocs = querySnapshot.docs;
+  //   // for each document get the data for specific field
+  //   listDocs.forEach((element) {
+  //     print(element.data()['email']);
+  //     print(element.data()['username']);
+  //     print("================================");
+  //   });
+  // }
+  //==========================OR===========
+  /* FirebaseFirestore.instance.collection('users').get().then((value) {
+      value.docs.forEach((element) {
+        print(element.data()['first Name']);
+      });
+    });
+  }*/
+  // @override
+  // void initState() {
+  //       if(firebaseUser!=null) {
+  //         getData(firebaseUser!.uid);
+  //         //getData2();
+  //         super.initState();
+  //       }
+  //
+  // }
 
   @override
+
   Widget build(BuildContext context) {
     return Drawer(
       child: ListView(
@@ -53,14 +132,15 @@ var user = FirebaseAuth.instance.currentUser;
           //header
           Column(
             children: [
-              const Text(
-                "Welcome to ",
-                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 30),
+             // SizedBox(height: 100,child: Image.asset('images/logo.png'),),
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: InkWell(
+                    onTap: () async {
+                      },
+                    child: SizedBox(height: 100,child: Image.asset('images/myLogo.png'),)),
               ),
-              const Text(
-                "My Product",
-                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 30),
-              ),
+
               UserAccountsDrawerHeader(
                 decoration: const BoxDecoration(
                   borderRadius: BorderRadius.only(topLeft: Radius.circular(50),bottomRight:Radius.circular(50),),
@@ -70,65 +150,80 @@ var user = FirebaseAuth.instance.currentUser;
 
                 //بعدين حيصير ياخد الايميل من الداتا بيز لما ينضافو
 
-                accountName: Text(""),
-                accountEmail:checkLogin() ? Text(user!.email.toString()): Text("Guest"),//فيه ايرور انه لما يسجل خروج يصير نل هنا وصفحة حمرا
+                accountName:
+                checkLogin()?
+                    Text(widget.username):  Text('Guest'),
+                    // FutureBuilder(
+                    //   future: getData(firebaseUser!.uid),
+                    //   builder: (_,AsyncSnapshot snapshot){
+                    //     if(snapshot.connectionState == ConnectionState.waiting){
+                    //       return SizedBox(height: 0,);
+                    //     }
+                    //       return Text(
+                    //           "Account Name: " + snapshot.data['username']);
+                    //
+                    //   },)
+
+
+                accountEmail: checkLogin()?
+                Text(widget.useremail):Text('null'),
+                //فيه ايرور انه لما يسجل خروج يصير نل هنا وصفحة حمرا(ضبطت الايرور بنجاح )
 
                 currentAccountPicture: GestureDetector(
-                  child: const CircleAvatar(
-                    backgroundColor: Colors.white,
-                    child: Icon(Icons.person, color: Colors.grey),
-                  ),
+                  child:
+                    const CircleAvatar(
+                      backgroundColor: Colors.white,
+                      child: Icon(Icons.person, color: Colors.grey),
+                    ),
+
+
                 ),
               ),
-
             ],
           ),
 
           //body-----------------------------------------
 
           buildListTile("Home Page", Icons.home_outlined,(){Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> HomePage()));} ),
-          buildListTile("My Profile", Icons.person_outline_sharp,(){}),
-          buildListTile('Categories', Icons.dashboard_outlined,(){Navigator.pushReplacementNamed(context, TapsScreen.routeName);}),
           checkLogin() ? buildListTile("My Profile", Icons.person_outline_sharp,(){}): SizedBox(height: 0,),
-          buildListTile('Categories', Icons.dashboard_outlined,(){Navigator.pushNamed(context, TapsScreen.routeName);}),
+          buildListTile('Categories & Favorites', Icons.dashboard_outlined,(){Navigator.pushNamed(context, TapsScreen.routeName);}),
           buildListTile('My Orders', Icons.shopping_cart_outlined,(){}),
           // buildListTile('Favourites Products', Icons.favorite_outline,(){Navigator.pushNamed(context, FavoriteScreen.routeName);}),
           buildListTile('My Chats', Icons.chat_outlined,(){  }),
           const Divider(color: Colors.black54),//0xffFFBCBC الللون القديم لو تبيه ياربا
           //هنا مفروض اضيف الفايل او اللسته من الصفحه الجديده اللي ضفتها add_new_family
-          buildListTile('Add Store',Icons.add,(){Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> addNewFamily()));}),
+          checkLogin() ?
+
+
+          buildListTile('Own Store',Icons.add,(){Navigator.push(context,MaterialPageRoute(builder: (context)=> MyFamilyStorePage()));}):SizedBox(height: 0,),
           buildListTile('Settings', Icons.settings,(){}),
           buildListTile('Enjoy to Help you', Icons.help_outline_outlined,(){Navigator.push(context, MaterialPageRoute(builder: (context)=> HelpingSection()));}),
-
-
           const Divider(color: Colors.black54),//0xffFFBCBC الللون القديم لو تبيه ياربا
-          checkLogin()? buildListTile('My Store',Icons.add,(){Navigator.push(context,MaterialPageRoute(builder: (context)=> MyFamilyStorePage()));}): SizedBox(height: 0,),
-          buildListTile('Settings', Icons.settings,(){}),
-          buildListTile('Enjoy to Help you', Icons.help_outline_outlined,(){Navigator.push(context, MaterialPageRoute(builder: (context)=> HelpingSection()));}),
-
-
-           Divider(color: Colors.black54),//0xffFFBCBC الللون القديم لو تبيه ياربا
-           checkLogin()? SizedBox(height: 0,): MaterialButton(
-            onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));},
-            child: const Text("Login", style: TextStyle(color: Colors.white),),
-            color: Color(0xFF90A4AE),
+           checkLogin()? SizedBox(height: 0,): Padding(
+             padding: const EdgeInsets.all(20.0),
+             child: MaterialButton(
+              onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));},
+              child: const Text("Login", style: TextStyle(color: Colors.white),),
+              color: Color(0xFF90A4AE),
           ),
-           checkLogin() ? MaterialButton(
-            onPressed: () async {
-              await FirebaseAuth.instance.signOut();
-              Navigator.of(context).pop();
-            },
-            color: Color(0xFF90A4AE),
-            child: const Text(
-              " Sign Out",
-              style: TextStyle(color: Colors.white),
-            ),
-          ) : Text("Login to gain more features",textAlign: TextAlign.center,),
+           ),
+           checkLogin() ? Padding(
+             padding: const EdgeInsets.all(20.0),
+             child: MaterialButton(
+              onPressed: () async {
+                await FirebaseAuth.instance.signOut();
+                Fluttertoast.showToast(msg: 'you signed out!');
+                Navigator.of(context).pop();
+              },
+              color: Color(0xFF90A4AE),
+              child: const Text(
+                " Sign Out",
+                style: TextStyle(color: Colors.white),
+              ),),
+           ) : Text("Login to gain more features",textAlign: TextAlign.center,),
         ],
       ),
     );
-
-
 
   }
   // use voidCallback for use void method that not using ()=>

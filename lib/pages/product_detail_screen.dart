@@ -23,7 +23,7 @@ class ProductDetailScreen extends StatelessWidget {
 
     //هنا ليس لست كاملة وانما عنصر واحد فقط لانه فيرست وير
     final selectedProduct =
-        DUMMY_PRODUCTS.firstWhere((product) => product.productId == productId);
+    DUMMY_PRODUCTS.firstWhere((product) => product.productId == productId);
 
     return Scaffold(
       appBar: AppBar(
@@ -43,59 +43,59 @@ class ProductDetailScreen extends StatelessWidget {
       backgroundColor: Color(0xFF90A4AE),
       body: ListView(children: [
         Stack(
-          children:
-          <Widget>[
-          Container(
-            height: MediaQuery.of(context).size.height - 82,
-            width: MediaQuery.of(context).size.width,
-            color: Colors.transparent,
-          ),
-          Positioned(
-            top: 75,
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(45),
-                    topRight: Radius.circular(45)),
-                color: Colors.white,
+            children:
+            <Widget>[
+              Container(
+                height: MediaQuery.of(context).size.height - 82,
+                width: MediaQuery.of(context).size.width,
+                color: Colors.transparent,
               ),
-              height: MediaQuery.of(context).size.height - 100,
-              width: MediaQuery.of(context).size.width,
-            ),
-          ),
-          Positioned(
-            top: 30,
-            left: (MediaQuery.of(context).size.width / 2) - 100,
-            child: Hero(
-              tag: productId,
-              child: Container(
-                decoration: BoxDecoration(
-                    image: DecorationImage(
-                        image: AssetImage(
-                          selectedProduct.productImage,
-                        ),
-                        fit: BoxFit.cover)),
+              Positioned(
+                top: 75,
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(45),
+                        topRight: Radius.circular(45)),
+                    color: Colors.white,
+                  ),
+                  height: MediaQuery.of(context).size.height - 100,
+                  width: MediaQuery.of(context).size.width,
+                ),
               ),
-            ),
-            height: 200,
-            width: 200,
-          ),
-            Positioned(
+              Positioned(
+                top: 30,
+                left: (MediaQuery.of(context).size.width / 2) - 100,
+                child: Hero(
+                  tag: productId,
+                  child: Container(
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            image: AssetImage(
+                              selectedProduct.productImage,
+                            ),
+                            fit: BoxFit.cover)),
+                  ),
+                ),
+                height: 200,
+                width: 200,
+              ),
+              Positioned(
                 top: 250,
                 left: 25,
                 right: 25,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                 // crossAxisAlignment: CrossAxisAlignment.start,
+                  // crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
 
 
                     Text(" Name:  ${selectedProduct.productName} ",
-                        style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold
-                        ),
+                      style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold
                       ),
+                    ),
                     SizedBox(height: 15),
 
 
@@ -105,7 +105,7 @@ class ProductDetailScreen extends StatelessWidget {
                         color: Colors.grey,
                       ),
                     ),
-                SizedBox(height: 15),
+                    SizedBox(height: 15),
 
                     Text(" description: ${selectedProduct.description} ",
                       style: TextStyle(
@@ -139,8 +139,8 @@ class ProductDetailScreen extends StatelessWidget {
 
 
 
-        ],
-        ),
+                  ],
+                ),
 
 
 //           Container(
@@ -189,10 +189,10 @@ class ProductDetailScreen extends StatelessWidget {
 
 
 
-    ),
+              ),
 
-    ]
-    )
+            ]
+        )
       ]
 
       ),
@@ -203,8 +203,8 @@ class ProductDetailScreen extends StatelessWidget {
             isProductFavorite(productId) ? Icons.star : Icons.star_border,
             color: grey,
           )
-          // Icons.star_border_outlined,color: Colors.red ),
-          ),
+        // Icons.star_border_outlined,color: Colors.red ),
+      ),
 
     );
   }

@@ -22,11 +22,8 @@ class Registartion extends StatefulWidget {
 
 
 class _RegistartionState extends State<Registartion> {
-  static var accountType = {"Choose one","user", "Productive Family"};
-
   bool passwordVisible = true;
   bool passwordVisible2 = true;
-
   var  _emailController = TextEditingController();
   var _passwordController = TextEditingController();
   var _firstNameController = TextEditingController();
@@ -34,18 +31,6 @@ class _RegistartionState extends State<Registartion> {
   var _usernameController = TextEditingController();
 
   var myEmail ,firstName, lastName, username, myPassword;
-  var _isLoading = false;
-
-
-  /*void _switchAuthMode(){
-     if(_authMode== AuthMode.Login){
-       setState(() {
-         _authMode == AuthMode.SignUp;
-       });
-     }else{
-       setState((){_authMode == AuthMode.Login;});
-     }
-   }*/
 
 
   static String? valueChoose;
@@ -53,7 +38,6 @@ class _RegistartionState extends State<Registartion> {
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-
     return  Scaffold(
       backgroundColor: Colors.grey[200],
       body:Center(
@@ -84,7 +68,7 @@ class _RegistartionState extends State<Registartion> {
                       prefixIcon: IconButton( icon: Icon(Icons.person_pin_outlined, color: Colors.black54,), onPressed: () {  },),
                     ),
                     keyboardType: TextInputType.name,
-                    cursorColor: white,
+                    cursorColor: basicColor,
                     controller: _firstNameController,
                     validator: (val){
                       if(val!.isEmpty|| val.length < 2) {
@@ -103,9 +87,6 @@ class _RegistartionState extends State<Registartion> {
                 Container(
                   padding: EdgeInsets.all(20),
                   child: TextFormField(
-
-                    //type of text
-                    //keyboardType: TextInputType.,
                     style: TextStyle(color: Colors.black54),
                     decoration: InputDecoration(labelText: "Enter Your Last Name:",
                       enabledBorder: OutlineInputBorder(
@@ -121,7 +102,7 @@ class _RegistartionState extends State<Registartion> {
                       prefixIcon: IconButton( icon: Icon(Icons.people_alt_outlined, color: Colors.black54,), onPressed: () {  },),
                     ),
                     keyboardType: TextInputType.name,
-                    cursorColor: white,
+                    cursorColor: basicColor,
                     controller:   _lastNameController,
                     validator: (val){
                       if(val!.isEmpty ) {
@@ -157,7 +138,7 @@ class _RegistartionState extends State<Registartion> {
                       prefixIcon: IconButton( icon: Icon(Icons.people_alt_outlined, color: Colors.black54,), onPressed: () {  },),
                     ),
                     keyboardType: TextInputType.name,
-                    cursorColor: white,
+                    cursorColor: basicColor,
                     controller:   _usernameController,
                     validator: (val){
                       if(val!.isEmpty ) {
@@ -199,7 +180,7 @@ class _RegistartionState extends State<Registartion> {
                       suffixIcon: IconButton(onPressed: _emailController.clear, icon: Icon(Icons.cancel, color: Colors.black54,),),
                     ),
                     keyboardType: TextInputType.emailAddress,
-                    cursorColor: white,
+                    cursorColor: basicColor,
                     controller: _emailController,
                     validator: (val) {
                       if(val== null || !val.contains("@")|| !val.contains(".")) {
@@ -233,7 +214,7 @@ class _RegistartionState extends State<Registartion> {
                     ),
                     obscureText: passwordVisible,
                     keyboardType: TextInputType.visiblePassword,
-                    cursorColor: white,
+                    cursorColor: basicColor,
                     controller: _passwordController,
                     validator: (val) {
                       if(val.toString().length < 8 || val == null) {
@@ -267,7 +248,7 @@ class _RegistartionState extends State<Registartion> {
                     ),
                     obscureText: passwordVisible2,
                     keyboardType: TextInputType.visiblePassword,
-                    cursorColor: white,
+                    cursorColor: basicColor,
                     //controller: _passwordController2,
                     validator: (val) {
                       if(val != _passwordController.text) {
@@ -283,7 +264,8 @@ class _RegistartionState extends State<Registartion> {
                   padding: const EdgeInsets.all(20.0),
                   child: ElevatedButton(
                     child: Text('Sign Up'),
-                    onPressed: signUp,
+                    onPressed:
+                      signUp,
                     style: ElevatedButton.styleFrom(
                       padding: EdgeInsets.all(10),
                       primary: Theme.of(context).primaryColor,
@@ -294,18 +276,31 @@ class _RegistartionState extends State<Registartion> {
                 SizedBox(width: 50,),
                 Padding(
                   padding: const EdgeInsets.all(20.0),
-                  child: ElevatedButton(
-                    child: Text('Return to Login '),
-                    onPressed: () =>
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=> Login()))
-                    ,
-                    style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.all(10),
-                      primary: Theme.of(context).primaryColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25), ),),
+                  child: MaterialButton(
+                    child: Text('Sign with google'),
+                    onPressed: signInWithGoogle,
+                    // style: ElevatedButton.styleFrom(
+                    //   padding: EdgeInsets.all(10),
+                    //   primary: Theme.of(context).primaryColor,
+                    //   shape: RoundedRectangleBorder(
+                    //     borderRadius: BorderRadius.circular(25), ),),
                   ),
                 ),
+                SizedBox(height: 10,),
+                // Padding(
+                //   padding: const EdgeInsets.all(20.0),
+                //   child: ElevatedButton(
+                //     child: Text('Return to Login '),
+                //     onPressed: () =>
+                //         Navigator.of(context).push(MaterialPageRoute(builder: (context)=> Login()))
+                //     ,
+                //     style: ElevatedButton.styleFrom(
+                //       padding: EdgeInsets.all(10),
+                //       primary: Theme.of(context).primaryColor,
+                //       shape: RoundedRectangleBorder(
+                //         borderRadius: BorderRadius.circular(25), ),),
+                //   ),
+                // ),
 
               ],
             ),
@@ -323,8 +318,9 @@ class _RegistartionState extends State<Registartion> {
   //DatabaseReference dbRef = FirebaseDatabase.instance.reference().child("Users");
 
 
+  // var firebaseUser = FirebaseAuth.instance.currentUser;
 
-  Future<void> signUp() async {
+  Future <void> signUp() async {
     // var formData = _formKey.currentState;
     // if(formData!.validate()){
     //هدول السطرين يكافؤ السطر الي تحت في سطر واحد
@@ -339,51 +335,7 @@ class _RegistartionState extends State<Registartion> {
     _formKey.currentState!.save();
     _createUser();
     //انشاء حساب لليوزر جديد
-
-
-    //
-    //Navigator.pushReplacementNamed(context, HomePage.routeName);
-    // addUser();
-    // Fluttertoast.showToast(msg: "Account has Successfully created ");
-
-
   }
-  //add user to collection on firebase
-  CollectionReference users = FirebaseFirestore.instance.collection("users");
-  Future addUser() async{
-    return users.add({
-      "email":_emailController.text,
-      'name': _firstNameController.text,
-      'last name': _lastNameController.text,
-      'username': _usernameController.text,
-      'password': _passwordController.text,
-    }).then((value) =>
-        print("user added!"));
-  }
-
-  // Future<UserCredential> signInWithGoogle() async {
-  // Trigger the authentication flow
-  //   final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-  //
-  //   // Obtain the auth details from the request
-  //   final GoogleSignInAuthentication? googleAuth = await googleUser
-  //       ?.authentication;
-  //
-  //
-  //   // Create a new credential
-  //   final credential = GoogleAuthProvider.credential(
-  //     accessToken: googleAuth?.accessToken,
-  //     idToken: googleAuth?.idToken,
-  //   );
-  //   //addUser();
-  //   //Fluttertoast.showToast(msg: "google account created!");
-  //
-  //
-  //   // Once signed in, return the UserCredential
-  //   return await FirebaseAuth.instance.signInWithCredential(credential);
-  //
-  // }
-  User? user = FirebaseAuth.instance.currentUser;
   Future<void> _createUser() async {
     try {
       UserCredential userCredential = await FirebaseAuth.instance
@@ -394,111 +346,83 @@ class _RegistartionState extends State<Registartion> {
       //print(userCredential.user!.uid);
       Fluttertoast.showToast(msg: "Account has Successfully created ");
       addUser();
+      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> Login()));
+
 
       // if( userCredential.user!.emailVerified ==false ) {
       //   await user!.sendEmailVerification();
       // }
 
-    } on FirebaseException catch(e){
-      if( e.code == 'weak-password') {
+    } on FirebaseException catch(e) {
+      if (e.code == 'weak-password') {
         AwesomeDialog(context: context, title: "Something wrong!",
-          body: Text("password is too weak"), )..show();
+          body: Text("password is too weak"),)
+          ..show();
         print("weak pass");
-      }else if (e.code == 'email-already-in-use'){
+      } else if (e.code == 'email-already-in-use') {
         AwesomeDialog(context: context, title: "Something wrong!",
-          body: Text("email is used by another account.."), )..show();
+          body: Text("email is used by another account.."),)
+          ..show();
         print("emaid is used ");
-        // showDialog(context: context, builder: (BuildContext context){
-        //     return AlertDialog(
-        //       title: Text("Something Wrong !"),
-        //       content:
-        //       Text(e.toString() ),
-        //       actions: [
-        //         TextButton(
-        //           child: Text("ok"),
-        //           onPressed: (){
-        //             Navigator.of(context).pop();
-        //           },
-        //         )
-        //       ],
-        //
-        //
-        //     );
-        //   });
-
       }
-      // showDialog(context: context, builder: (BuildContext context){
-      //   return AlertDialog(
-      //     title: Text("Error"),
-      //     content:
-      //     Text(e.toString() ),
-      //     actions: [
-      //       TextButton(
-      //         child: Text("ok"),
-      //         onPressed: (){
-      //           Navigator.of(context).pop();
-      //         },
-      //       )
-      //     ],
-      //
-      //
-      //   );
-      // });
-
-    }
-
-    catch(err){
+    } catch(err){
       Center(child: CircularProgressIndicator());
       print(err);
     }
+  }
+  //add user to collection on firebase
+  Future addUser() async {
+    CollectionReference usersRef =  FirebaseFirestore.instance.collection('users');
+    var firebaseUser = await FirebaseAuth.instance.currentUser;
 
+    //اضيف مع تحديد الاي دي لكل دوكيمنت
+    //خليت الاي دي هنا نفس الاي دي لليوزر الي عمل authentication
 
-    // Navigator.pushNamed(context, '/');  زبط ولكن ما يعرض لي بيانات المستخدم
+    usersRef.doc(firebaseUser!.uid).set({
+      //وضفت الاي دي  في حقل كمان
+      'uid': firebaseUser.uid,
+      'first name': _firstNameController.text,
+      'last name': _lastNameController.text,
+        "email":_emailController.text,
+         'username': _usernameController.text,
+         'password': _passwordController.text,
+
+    })
+    //اضيف بدون ما احدد الاي دي الخاص بكل دوكيمنت
+    // return usersRef.add({
+    //   'first name': _firstNameController.text,
+    //   'last name': _lastNameController.text,
+    //   "email":_emailController.text,
+    //   'username': _usernameController.text,
+    //   'password': _passwordController.text,
+    .then((value) {  print("user added!");});
 
   }
 
-//   static List categoryList =
-//   [ "Food","Drinks","Clothes","Homemade","Digital Services" ];
-// static String? categoryChoose;
-//
-//  Widget familyType() {
-//
-//   return Container(
-//     child: valueChoose == listItems[0]? null  :
-//     Container(
-//       padding: EdgeInsets.all(10),
-//       margin: EdgeInsets.all(12),
-//       decoration: BoxDecoration(
-//           borderRadius: BorderRadius.circular(20),
-//           border: Border.all(color: white,width: 2)
-//       ),
-//       child: Column(
-//         children: [
-//           DropdownButton(
-//
-//             borderRadius: BorderRadius.circular(20),
-//             hint: Text("select your Category:"),
-//             isExpanded: true,
-//             value: categoryChoose,
-//             onChanged: (newValue){
-//               setState(() {
-//                 categoryChoose = newValue as String?;
-//
-//               });
-//             },
-//             items: categoryList.map((catItem) {
-//               return DropdownMenuItem(
-//
-//                 value: catItem,
-//                 child: Text(catItem),
-//                 enabled: true,
-//               );
-//             }).toList(),
-//           ),
-//         ],
-//       ),
-//     ),
-//   );
-//  }
+  Future<UserCredential> signInWithGoogle() async {
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+    // Obtain the auth details from the request
+    final GoogleSignInAuthentication? googleAuth = await googleUser
+        ?.authentication;
+
+
+    // Create a new credential
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+    addUser();
+    Fluttertoast.showToast(msg: "google account created!");
+
+
+    // Once signed in, return the UserCredential
+    return await FirebaseAuth.instance.signInWithCredential(credential);
+
+  }
+
+
+
+
 
 }

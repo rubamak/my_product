@@ -1,6 +1,8 @@
 
+
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +10,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:my_product/color/my_colors.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:my_product/modules/category.dart';
-import 'package:my_product/modules/products.dart';
+import 'package:my_product/modules/product.dart';
 import 'package:provider/provider.dart';
 import 'package:my_product/widgets/category_item.dart';
 import 'package:select_form_field/select_form_field.dart';
@@ -55,7 +57,7 @@ class _AddFamilyStoreState extends State<AddFamilyStore> {
     );
 
   }
-  GlobalKey<FormState> _dropdownKey = GlobalKey<FormState>();
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +76,7 @@ class _AddFamilyStoreState extends State<AddFamilyStore> {
         //key: _formKey,
         child:
         Form(
-          key: _dropdownKey,
+          key: _formKey,
           child: ListView(
               children: [
                 SizedBox(height: 100,),
@@ -171,39 +173,10 @@ class _AddFamilyStoreState extends State<AddFamilyStore> {
                             ),),
                           onPressed:  () {
                             addFamilyStore();
-                            Fluttertoast.showToast(msg: "yesssss");
-
                           }
-                            
-
-                          //    if(familyStoreNameController.text==""){
-                          //     Fluttertoast.showToast(msg: "please enter family Store Name !",);}
-                          //   else if(descriptionController.text==""){
-                          //     Fluttertoast.showToast(msg: "please enter a description !",);}
-                          // else if(!_dropdownKey.currentState!.validate()){
-                          //   Fluttertoast.showToast(msg: "please choose category !",);
 
 
 
-                            //else{
-                              // try{
-                              //   value.add(
-                              //     category: categoryController.text,
-                              //     desc: descriptionController.text,
-                              //     familyName: '', title: '', price: 0.0,
-                              //   );
-
-                                //value.deleteImage();//عشان احذف الصورة المخزنة قببل اصفرهاا
-                                //await Navigator.pushReplacement(ctx, MaterialPageRoute(builder: (ctx)=> MyProductsPage()));
-                               // Fluttertoast.showToast(msg: "product added Successfully.",);
-                                //Navigator.pop(context);
-
-
-                              // }catch(e){
-                              //   Fluttertoast.showToast(msg: "please enter valid price");
-                              //   print(e);
-                              // }
-                           // }
 
 
 
@@ -217,26 +190,41 @@ class _AddFamilyStoreState extends State<AddFamilyStore> {
                         )
     );
   }
-  CollectionReference familiesStores = FirebaseFirestore.instance.collection("familiesStores");
+
   Future addFamilyStore()async {
-    if (_dropdownKey.currentState!.validate()) {
-        return familiesStores.add({
-          'family store name': familyStoreNameController.text,
-          'store description': descriptionController.text,
-          'category': categoryChoose,
-        }).then((value) =>
-            Navigator.pop(context),
+    var firebaseUser = await FirebaseAuth.instance.currentUser;
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      FirebaseFirestore.instance.collection('familiesStores')
+          .add({
+        'uid': firebaseUser!.uid,
+        'family store name': familyStoreNameController.text,
+        'category': categoryChoose,
+        'store description': descriptionController.text,
+      }).then((value) {
+        print('store added');
+        Fluttertoast.showToast(msg: 'store added');
+        Navigator.of(context).pop();
+      //return
+      });
+
+        // return familiesStores.add({
+        //   'family store name': familyStoreNameController.text,
+        //   'store description': descriptionController.text,
+        //   'category': categoryChoose,
+        // }).
+        //then((value) =>
+          //  Navigator.pop(context),
            // Fluttertoast.showToast(msg: "family store added !"),
-        );
+        //);
 
 
-        //return familiesStores.where()
-
-  } else
+  } else {
       AwesomeDialog(context: context, title: "Something wrong !",
-        body: Text("invalid data in your fields "), )..show();
-      Fluttertoast.showToast(msg: "");
+        body: Text("invalid data in your fields "),)
+        ..show();
       print(" values not valid");
+    }
   }
  static var categoryChoose ="";
  Widget familyType() {

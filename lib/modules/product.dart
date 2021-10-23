@@ -1,6 +1,7 @@
 
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -9,8 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class Product {
-    final
-    String productId;
+    final String productId;
  final String familyId;
  //final int categoryId;
    final String productName;
@@ -42,13 +42,11 @@ class Products with ChangeNotifier{
   List <Product> productsList = [];
        String image='';
 
-  // void didChangeDependencies() {
-  //
-  // }
-
-  void add ({required String  title,required String desc ,  required String category,
-    required String familyName , required double price,}  )
-        {
+  void add ({
+    required String  title,required String desc ,  required String category,
+    required String familyName , required double price,
+  } )
+         async {
       //هذه ريل تايم داتا بيز
     // DatabaseReference _ref = FirebaseDatabase.instance.reference()
     //      .child("products"); //عملت ريفرنس في مكان في الداتا بيز
@@ -67,11 +65,13 @@ class Products with ChangeNotifier{
     // })).then((res) {
     //   print( json.decode(res.body));
 
-          CollectionReference product = FirebaseFirestore.instance.collection("products");
+          CollectionReference productsRef = FirebaseFirestore.instance.collection("products");
+          var firebaseUser =  await FirebaseAuth.instance.currentUser;
+
 
           productsList.add(
           Product(
-              productId: "1",//int.parse(json.decode(res.body)['name']),
+              productId: productsRef.id,//int.parse(json.decode(res.body)['name']),
               familyId: "2",
               categoryName: category,
               familyName: familyName,
@@ -81,7 +81,8 @@ class Products with ChangeNotifier{
               description: desc
           ));
 
-     product.add({
+     productsRef.add({
+       'uid': firebaseUser!.uid,
        "product name": title ,
        "price" : price,
        "family name": familyName,

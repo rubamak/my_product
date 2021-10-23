@@ -38,6 +38,14 @@ class _LoginState extends State<Login> {
   //     print("Error : $e");
   //   }
   // }
+  saveSharedPreferences()async{
+    SharedPreferences sharedpref = await SharedPreferences.getInstance();
+    sharedpref.setString('email',_email);
+    // sharedpref.setString(,);
+    print(" shared saved");
+
+
+  }
       _loginUser() async {
     if (!_formKey.currentState!.validate()) {
       print("Not valid login");
@@ -51,6 +59,7 @@ class _LoginState extends State<Login> {
           email: _email,
           password: _password,
         );
+
         // تعجيييييللل هنا تعديل return userCredential;
           return userCredential;
       } on FirebaseAuthException catch (e) {
@@ -82,26 +91,6 @@ class _LoginState extends State<Login> {
       // print("Loggginnnnn dooooooooooonnnnnnnnnneeeeeeeeee");
     }
 
-    //to showing the details of data in firebase within console
-    // Navigator.of(context).pushNamed('/');
-
-    // showDialog(context: context, builder: (BuildContext context){
-    //   return AlertDialog(
-    //     title: Text("Error"),
-    //     content:
-    //     Text(e.toString() ),
-    //     actions: [
-    //       TextButton(
-    //         child: Text("ok"),
-    //         onPressed: (){
-    //           Navigator.of(context).pop();
-    //         },
-    //       )
-    //     ],
-    //
-    //
-    //   );
-    // });
   }
 
 /*
@@ -196,7 +185,14 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: new AppBar(
-        //elevation: 0.9,// remove the shadows
+        leading:  IconButton(
+          icon: Icon(Icons.arrow_back_ios),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          color: Colors.white,
+        ),
+        elevation: 0,// remove the shadows
         backgroundColor: basicColor,
         title: const Text(
           'Login page ',
@@ -204,165 +200,174 @@ class _LoginState extends State<Login> {
         ),
         toolbarHeight: 100,
       ),
-      body: Center(
-        child: Form(
-          key: _formKey,
-            child: Padding(
-          padding: const EdgeInsets.all(30),
-          // decoration: BoxDecoration(
-          //   image: DecorationImage(
-          //     image: NetworkImage(
-          //         "https://img.etimg.com/thumb/msid-66290834,width-300,imgsize-69978,,resizemode-4,quality-100/mobile-apps-getty.jpg"),
-          //     fit: BoxFit.cover,
-          //     colorFilter: ColorFilter.mode(Colors.black87, BlendMode.darken),
-          //   ),
-          // ),
-          child: ListView(children: <Widget>[
-            SizedBox(
-              height: 200,
-            ),
-            TextFormField(
-              keyboardType: TextInputType.emailAddress,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                labelText: "Enter Email :",
-                labelStyle: TextStyle(
-                    fontWeight: FontWeight.bold, fontStyle: FontStyle.italic),
-                prefix: Icon(
-                  Icons.email_outlined,
-                ),
-                suffixIcon: IconButton(
-                  onPressed: _controllerEmail.clear,
-                  icon: Icon(
-                    Icons.cancel,
-                    color: black,
-                  ),
-                ),
-              ),
-              onFieldSubmitted: (dynamic value) {
-                //عند ضغط الانتر
-                print("email entered is: " + value);
-              },
-              onSaved: (dynamic value) {
-                //عند التغيير في القيمة الي في النص يعمل شي
-                _email = value;
-                // print(value);
-              },
-              validator: (val) {
-                if (val == null ||
-                    !val.contains("@") ||
-                    !val.contains(".") ||
-                    val.length > 30) {
-                  return " invalid Email :(";
-                } else {
-                  print("vaild email");
-                  return null;
-                }
-                ;
-              },
-              //onChanged
-              // onTap: ,
-              // onSaved: ,
-              controller: _controllerEmail,
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            TextFormField(
-              obscureText: passwordVisible,
-              keyboardType: TextInputType.visiblePassword,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                labelText: "Enter password :",
-                labelStyle: TextStyle(
-                    fontWeight: FontWeight.bold, fontStyle: FontStyle.italic),
-                prefix: Icon(
-                  Icons.lock_outline,
-                ),
-                suffixIcon: IconButton(
-                  onPressed: () {
-                    setState(() {
-                      passwordVisible = !passwordVisible;
-                    });
-                  },
-                  icon: Icon(
-                    passwordVisible ? Icons.visibility_off : Icons.visibility,
-                    color: black,
-                  ),
-                ),
-              ),
-              onFieldSubmitted: (dynamic value) {
-                //عند ضغط الانتر
-              },
-              onSaved: (dynamic value) {
-                //عند التغيير في القيمة الي في النص يعمل شي
-                _password = value;
-              },
-              controller: _controllerPass,
-              validator: (val) {
-                if (val.toString().length < 8) {
-                  return " Too Short password:(";
-                } else if (val.toString().length > 20) {
-                  return "very long password";
-                } else {
-                  return null;
-                }
-                ;
-              },
-            ),
-            SizedBox(
-              height: 50,
-            ),
-            MaterialButton(
-              color: basicColor,
-              child: Text(
-                " login ",
-                style: TextStyle(color: Colors.white),
-              ),
-              onPressed: () async {
-                 var  userCred = await _loginUser();
-                 if(userCred != null){
-                   Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> HomePage()));
-                 }
-              },
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "Don't Have an account.",
-                  ),
-                  MaterialButton(
-                    // color: basicColor.withOpacity(0.2),
-                    child: Text(
-                      " Create new Account ",
-                      style: TextStyle(
-                          color: basicColor,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18),
+      body:Form(
+        key:_formKey,
+        child: Container(
+          color: basicColor,
+          child: ListView(
+              children: <Widget>[
+                SizedBox(height: 20,), //between them
+                Container(
+                  height: MediaQuery.of(context).size.height - 180,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(topLeft: Radius.circular(100),bottomRight:Radius.circular(150),)),
+
+                       child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 80,horizontal: 20),
+                        child: ListView(
+                          children: [
+                            SizedBox(height: 40,),
+                            TextFormField(
+                              keyboardType: TextInputType.emailAddress,
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                labelText: "Enter Email :",
+                                labelStyle: TextStyle(
+                                    fontWeight: FontWeight.bold, fontStyle: FontStyle.italic),
+                                prefix: Icon(
+                                  Icons.email_outlined,
+                                ),
+                                suffixIcon: IconButton(
+                                  onPressed: _controllerEmail.clear,
+                                  icon: Icon(
+                                    Icons.cancel,
+                                    color: black,
+                                  ),
+                                ),
+                              ),
+                              onFieldSubmitted: (dynamic value) {
+                                //عند ضغط الانتر
+                                print("email entered is: " + value);
+                              },
+                              onSaved: (dynamic value) {
+                                //عند التغيير في القيمة الي في النص يعمل شي
+                                _email = value;
+                                // print(value);
+                              },
+                              validator: (val) {
+                                if (val == null ||
+                                    !val.contains("@") ||
+                                    !val.contains(".") ||
+                                    val.length > 30) {
+                                  return " invalid Email :(";
+                                } else {
+                                  print("valid email");
+                                  return null;
+                                }
+                                ;
+                              },
+                              //onChanged
+                              // onTap: ,
+                              // onSaved: ,
+                              controller: _controllerEmail,
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                        TextFormField(
+                          obscureText: passwordVisible,
+                          keyboardType: TextInputType.visiblePassword,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            labelText: "Enter password :",
+                            labelStyle: TextStyle(
+                                fontWeight: FontWeight.bold, fontStyle: FontStyle.italic),
+                            prefix: Icon(
+                              Icons.lock_outline,
+                            ),
+                            suffixIcon: IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  passwordVisible = !passwordVisible;
+                                });
+                              },
+                              icon: Icon(
+                                passwordVisible ? Icons.visibility_off : Icons.visibility,
+                                color: black,
+                              ),
+                            ),
+                          ),
+                          onFieldSubmitted: (dynamic value) {
+                            print(value);
+                            //عند ضغط الانتر
+                          },
+                          onSaved: (dynamic value) {
+                            //عند التغيير في القيمة الي في النص يعمل شي
+                            _password = value;
+                          },
+                          controller: _controllerPass,
+                          validator: (val) {
+                            if (val.toString().length < 8) {
+                              return " Too Short password:(";
+                            } else if (val.toString().length > 20) {
+                              return "very long password";
+                            } else {
+                              return null;
+                                   }
+                              },
+                        ),
+                        SizedBox(
+                          height: 50,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(30.0),
+                          child: MaterialButton(
+                            color: basicColor,
+                            child: Text(
+                              " login ",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            onPressed: () async {
+                              var  userCred = await _loginUser();
+                              if(userCred != null){
+                                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> HomePage()));
+                                saveSharedPreferences();
+                                Fluttertoast.showToast(msg: 'you signed in ');
+                              }
+                            },
+                          ),
+                        ),
+                        SizedBox(height: 20,),
+                        Padding(
+                          padding: const EdgeInsets.all(20.0),
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row( mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Don't Have an account.",
+                                ),
+                                MaterialButton(
+                                  // color: basicColor.withOpacity(0.2),
+                                  child: Text(
+                                    " Create new Account ",
+                                    style: TextStyle(
+                                        color: basicColor,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18),
+                                  ),
+                                  onPressed: () {
+                                    Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => Registartion()));
+                                  },
+                                ),
+                            ],
+                          ),
+                      ),
+                        ),
+                    ]),
                     ),
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => Registartion()));
-                    },
-                  ),
-                ],
-              ),
-            ),
-          ]),
+                )
+                ]
+          ),
         ),
-      ),
       ),
     );
   }

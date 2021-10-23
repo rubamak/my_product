@@ -4,7 +4,7 @@ import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 
-class Family{
+class FamilyStore{
 
    final String userId ;
   final String categoryId;
@@ -16,7 +16,7 @@ class Family{
 
 
 
-    Family( {
+    FamilyStore( {
       required this.familyImage,
       required this.familyId,
       required this.description,

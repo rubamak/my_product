@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:my_product/color/my_colors.dart';
 import 'dart:io';
 import 'dart:ui';
-import 'package:my_product/modules/products.dart';
+import 'package:my_product/modules/product.dart';
 import 'package:my_product/pages/my_products_page.dart';
 import 'package:provider/provider.dart';
 

@@ -48,7 +48,7 @@ class ProductsScreen extends StatelessWidget {
           backgroundColor: Color(0xFF90A4AE),
           toolbarHeight: 80,
         ),
-        endDrawer: MainDrawer(),
+        //endDrawer: MainDrawer(),
         backgroundColor: Color(0xFF90A4AE),
       body: ListView(
           children: <Widget>[

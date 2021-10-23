@@ -11,7 +11,6 @@ class CategoryItem extends StatelessWidget {
   CategoryItem({ required this.categoryId, this.categoryName, this.image_category});
 
   void SelectCategory(BuildContext ctx){
-    
     Navigator.of(ctx).pushNamed(
       //اسم الصفحة الي رح يروحها
       FamiliesScreen.routeName,
@@ -22,7 +21,6 @@ class CategoryItem extends StatelessWidget {
         'title': categoryName,
       }
     );
-
   }
   @override
   Widget build(BuildContext context) {
@@ -48,10 +46,8 @@ class CategoryItem extends StatelessWidget {
               Text(categoryName!,
            textAlign: TextAlign.center,
            style: TextStyle(fontSize: 35,fontWeight: FontWeight.w600),),
-
             ]
          ),
-
      )
     );
   }

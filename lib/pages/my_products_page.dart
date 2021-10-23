@@ -1,8 +1,10 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:my_product/color/my_colors.dart';
-import 'package:my_product/modules/products.dart';
+import 'package:my_product/modules/product.dart';
 import 'package:my_product/pages/add_product.dart';
 import 'package:my_product/pages/drawer_section_pages/single_chat_screen.dart';
 import 'package:my_product/pages/drawer_section_pages/favorite_screen.dart';
@@ -12,6 +14,7 @@ import 'package:my_product/pages/product_details_latest_products.dart';
 import 'package:provider/provider.dart';
 class MyProductsPage extends StatelessWidget {
 
+CollectionReference collectionReference = FirebaseFirestore.instance.collection('products');
 
 
 
@@ -169,125 +172,231 @@ class MyProductsPage extends StatelessWidget {
                 )
             ),
 
-            child: ListView(
+            child:ListView.separated(
+                itemBuilder:(context,index){
+                  return TextButton(
+                                        onPressed: (){
+                                          Navigator.push(context, MaterialPageRoute(
+                                              builder: (_)=>
+                                                  ProductDetails(productList[index].description))).
+                                              // value here is item with specific desc that will delete using delete method
+                                          then((desc) => Provider.of<Products>
+                                            (context,listen: false).delete(desc));
+                                        },
+                                        child: Column(
+                                         children: [
+                                        SizedBox(height: 50,),
+                                        Card(
+                                          shape:RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.only(topLeft: Radius.circular(20))
+                                          ),
+                                        color: grey,
+                                        elevation: 0,
+                                        child: Row(
+                                          children: <Widget>[
+                                            Expanded(
+                                                flex: 2,
+                                                child: Container(
+                                                  // color: black,
+                                                  padding: EdgeInsets.only(right: 10),
+                                                  width: 130,
+                                                  child: Hero(
+                                                    tag: productList[index].productId,
+                                                    child: Image.file(File(productList[index].productImage),fit: BoxFit.cover,
+                                                     // height: MediaQuery.of(context).size.height - 800,
+                                                      // width:MediaQuery.of(context).size.width -250 ,
+                                                    ),
+                                                  ),
+                                                )
+                                            ),
 
-                //     gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                //     maxCrossAxisExtent: 500,
-                //   mainAxisSpacing: 10,
-                //   crossAxisSpacing: 10,
-                //   childAspectRatio: 2,
-                // ),
-        children: productList
-                  .map((item) => Container(
-            child: Builder(
+                                            Expanded(
 
-                // builder: (ctx)=> detailCard(  هذه الطريقة ما رضيت تتطلع لي الصورة
-                //     item.productName,item.description,
-                //     item.price, item.categoryName, item.categoryName,item.imageUrl),)
-                builder: (ctx)=>
-                      TextButton(
-                        onPressed: (){
-                          Navigator.push(context, MaterialPageRoute(
-                              builder: (_)=>
-                                  ProductDetails(item.description))).
-                              // value here is item with specific desc that will delete using delete method
-                          then((desc) => Provider.of<Products>
-                            (context,listen: false).delete(desc));
-                        },
-                        child: Column(
-                         children: [
-                        SizedBox(height: 50,),
-                        Card(
-                          shape:RoundedRectangleBorder(
-                            borderRadius: BorderRadius.only(topLeft: Radius.circular(20))
-                          ),
-                        color: grey,
-                        elevation: 0,
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                                flex: 2,
-                                child: Container(
-                                  // color: black,
-                                  padding: EdgeInsets.only(right: 10),
-                                  width: 130,
-                                  child: Hero(
-                                    tag: item.description,
-                                    child: Image.file(File(item.productImage),fit: BoxFit.cover,
-                                     // height: MediaQuery.of(context).size.height - 800,
-                                      // width:MediaQuery.of(context).size.width -250 ,
+                                              flex: 3,
+                                              child: Column(
+                                                mainAxisAlignment:MainAxisAlignment.spaceBetween,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: <Widget>[
+                                                  SizedBox(height: 10,),
+                                                  Text(
+                                                    productList[index].productName,
+                                                    style: TextStyle(
+                                                        color: white,
+                                                        fontSize: 20,
+                                                        fontWeight: FontWeight.bold),
+                                                  ),
+                                                  Divider(color: white,),
+
+                                                  Text(
+                                                    productList[index].categoryName,
+                                                    style: TextStyle(
+                                                        color: white,
+                                                        fontSize: 20,
+                                                        fontWeight: FontWeight.bold),
+                                                  ),
+
+                                                  Divider(color: white,),
+                                                  Container(
+                                                    width: 200,
+                                                    child: Text(
+                                                      productList[index].description, style: TextStyle(
+                                                        color: white,
+                                                        fontSize: 20,
+                                                        fontWeight: FontWeight.bold),
+                                                      softWrap: true,
+                                                      overflow: TextOverflow.ellipsis,
+                                                      textAlign: TextAlign.justify,
+                                                      maxLines: 2,
+                                                    ),
+                                                  ),
+
+                                                  Divider(color: white,),
+                                                  Text(
+                                                    "${productList[index].price} SR",
+                                                    style: TextStyle(
+                                                        color: white,
+                                                        fontSize: 20,
+                                                        fontWeight: FontWeight.bold),
+                                                  ),
+
+                                                  SizedBox(height: 10,),
+                                                ],
+                                              ),
+                                            ),
+                                            Expanded(flex: 2,
+
+                                              child:  Icon(Icons.arrow_forward_ios,color: white,),
+                                            )
+                                          ],
+                                        ),
                                     ),
-                                  ),
-                                )
-                            ),
+                                ]
+                                ),
+                  );
 
-                            Expanded(
+                } ,
+                separatorBuilder: (context,index) {return SizedBox(height: 10,);},
+                itemCount: productList.length)
 
-                              flex: 3,
-                              child: Column(
-                                mainAxisAlignment:MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  SizedBox(height: 10,),
-                                  Text(
-                                    item.productName,
-                                    style: TextStyle(
-                                        color: white,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  Divider(color: white,),
-
-                                  Text(
-                                    item.categoryName,
-                                    style: TextStyle(
-                                        color: white,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-
-                                  Divider(color: white,),
-                                  Container(
-                                    width: 200,
-                                    child: Text(
-                                      item.description, style: TextStyle(
-                                        color: white,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold),
-                                      softWrap: true,
-                                      overflow: TextOverflow.ellipsis,
-                                      textAlign: TextAlign.justify,
-                                      maxLines: 2,
-                                    ),
-                                  ),
-
-                                  Divider(color: white,),
-                                  Text(
-                                    "${item.price} SR",
-                                    style: TextStyle(
-                                        color: white,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-
-                                  SizedBox(height: 10,),
-                                ],
-                              ),
-                            ),
-                            Expanded(flex: 2,
-
-                              child:  Icon(Icons.arrow_forward_ios,color: white,),
-                            )
-                          ],
-                        ),
-                    ),
-                ]
-                ),
-                      )
-        ),
-                  ),
-        ).toList()
-      ),
+      //       ListView(
+      //
+      //           //     gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+      //           //     maxCrossAxisExtent: 500,
+      //           //   mainAxisSpacing: 10,
+      //           //   crossAxisSpacing: 10,
+      //           //   childAspectRatio: 2,
+      //           // ),
+      //   children: productList
+      //             .map((item) => Container(
+      //       child: Builder(
+      //
+      //           // builder: (ctx)=> detailCard(  هذه الطريقة ما رضيت تتطلع لي الصورة
+      //           //     item.productName,item.description,
+      //           //     item.price, item.categoryName, item.categoryName,item.imageUrl),)
+      //           builder: (ctx)=>
+      //                 TextButton(
+      //                   onPressed: (){
+      //                     Navigator.push(context, MaterialPageRoute(
+      //                         builder: (_)=>
+      //                             ProductDetails(item.description))).
+      //                         // value here is item with specific desc that will delete using delete method
+      //                     then((desc) => Provider.of<Products>
+      //                       (context,listen: false).delete(desc));
+      //                   },
+      //                   child: Column(
+      //                    children: [
+      //                   SizedBox(height: 50,),
+      //                   Card(
+      //                     shape:RoundedRectangleBorder(
+      //                       borderRadius: BorderRadius.only(topLeft: Radius.circular(20))
+      //                     ),
+      //                   color: grey,
+      //                   elevation: 0,
+      //                   child: Row(
+      //                     children: <Widget>[
+      //                       Expanded(
+      //                           flex: 2,
+      //                           child: Container(
+      //                             // color: black,
+      //                             padding: EdgeInsets.only(right: 10),
+      //                             width: 130,
+      //                             child: Hero(
+      //                               tag: item.description,
+      //                               child: Image.file(File(item.productImage),fit: BoxFit.cover,
+      //                                // height: MediaQuery.of(context).size.height - 800,
+      //                                 // width:MediaQuery.of(context).size.width -250 ,
+      //                               ),
+      //                             ),
+      //                           )
+      //                       ),
+      //
+      //                       Expanded(
+      //
+      //                         flex: 3,
+      //                         child: Column(
+      //                           mainAxisAlignment:MainAxisAlignment.spaceBetween,
+      //                           crossAxisAlignment: CrossAxisAlignment.start,
+      //                           children: <Widget>[
+      //                             SizedBox(height: 10,),
+      //                             Text(
+      //                               item.productName,
+      //                               style: TextStyle(
+      //                                   color: white,
+      //                                   fontSize: 20,
+      //                                   fontWeight: FontWeight.bold),
+      //                             ),
+      //                             Divider(color: white,),
+      //
+      //                             Text(
+      //                               item.categoryName,
+      //                               style: TextStyle(
+      //                                   color: white,
+      //                                   fontSize: 20,
+      //                                   fontWeight: FontWeight.bold),
+      //                             ),
+      //
+      //                             Divider(color: white,),
+      //                             Container(
+      //                               width: 200,
+      //                               child: Text(
+      //                                 item.description, style: TextStyle(
+      //                                   color: white,
+      //                                   fontSize: 20,
+      //                                   fontWeight: FontWeight.bold),
+      //                                 softWrap: true,
+      //                                 overflow: TextOverflow.ellipsis,
+      //                                 textAlign: TextAlign.justify,
+      //                                 maxLines: 2,
+      //                               ),
+      //                             ),
+      //
+      //                             Divider(color: white,),
+      //                             Text(
+      //                               "${item.price} SR",
+      //                               style: TextStyle(
+      //                                   color: white,
+      //                                   fontSize: 20,
+      //                                   fontWeight: FontWeight.bold),
+      //                             ),
+      //
+      //                             SizedBox(height: 10,),
+      //                           ],
+      //                         ),
+      //                       ),
+      //                       Expanded(flex: 2,
+      //
+      //                         child:  Icon(Icons.arrow_forward_ios,color: white,),
+      //                       )
+      //                     ],
+      //                   ),
+      //               ),
+      //           ]
+      //           ),
+      //                 )
+      //                 ),
+      //             ),
+      //   ).toList()
+      // ),
           ),
 
           ),
