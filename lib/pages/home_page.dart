@@ -19,7 +19,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 class HomePage extends StatefulWidget {
   // const HomePage({Key? key, required Object uid}) : super(key: key);
-  static const routeName = '/homepage-screen';
+ // static const routeName = '/homepage-screen';
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -30,20 +30,29 @@ class _HomePageState extends State<HomePage> {
   bool isSwitched = false;
 
   var firebaseUser = FirebaseAuth.instance.currentUser;
+  var docData;// for printing
+  var username;// for display to user
+  var useremail;
 
-  var docData;
+
   getData(String uid) async {
-    DocumentReference documentReference = FirebaseFirestore.instance
-        //اجيب بيانات دوكيمنت واحد فقط
-        .collection('users')
-        .doc(uid);
+    //اجيب بيانات دوكيمنت واحد فقط
+    DocumentReference documentReference = FirebaseFirestore.instance.collection('users').doc(uid);
     //get will return docs Query snapshot
     await documentReference.get().then((value) {
       //value.data is the full fields for this doc
       if (value.exists) {
         setState(() {
           docData = value.data();
-          print(docData);
+          print(docData['uid']);
+
+          print(docData['username']);
+
+
+          print(docData['email']);
+          print(docData['first name']);
+          useremail = docData['email'];
+          username = docData['username'];
           // print(value.id);
           print('=============');
         });
@@ -53,19 +62,22 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
+      if(firebaseUser!= null){
+        getData(firebaseUser!.uid);
+        //getCurrentUser();
+        super.initState();
+      }else{return ; }
 
-      getData(firebaseUser!.uid);
-      super.initState();
-
-  }
-   getCurrentUser(){
-    //هادا المتغير يحفظ لي معلومات اخر يوزر عمل تسجيل دخول في التطبيق
-    // عشان استخدم معلوماته دام لسه ما سوا تسجيل خروج
-    var currentUser = FirebaseAuth.instance.currentUser;
-    print(currentUser!.email);
-    return currentUser ;
 
   }
+  //  getCurrentUser(){
+  //   //هادا المتغير يحفظ لي معلومات اخر يوزر عمل تسجيل دخول في التطبيق
+  //   // عشان استخدم معلوماته دام لسه ما سوا تسجيل خروج
+  //   var currentUser = FirebaseAuth.instance.currentUser;
+  //   print(currentUser!.email);
+  //   return currentUser ;
+  //
+  // }
   // @override
   // void initState(){
   //
@@ -165,10 +177,9 @@ class _HomePageState extends State<HomePage> {
       ),
 
       endDrawer: MainDrawer(
-        username: getCurrentUser().toString().isNotEmpty?docData['username']: Text('Guest'),
-        useremail: getCurrentUser().toString().isNotEmpty?docData['email']: Text('...'),
+        username: username,//docData['username'].toString(),
+        useremail: useremail,
       ),
-
       //body of the page
       body: Container(
         height: MediaQuery.of(context).size.height - 180,

@@ -72,8 +72,6 @@ class _FamiliesScreenState extends State<FamiliesScreen> {
                 borderRadius: BorderRadius.only(topLeft: Radius.circular(100),bottomRight:Radius.circular(150),
                 )
             ),
-
-
             child: ListView(
               primary: false,
               padding: EdgeInsets.only(left: 25, right: 25),
@@ -105,7 +103,6 @@ class _FamiliesScreenState extends State<FamiliesScreen> {
           )
         ]
         ),
-
         );
   }
 }

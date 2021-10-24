@@ -39,6 +39,7 @@ class MainDrawer extends StatefulWidget {
 class _MainDrawerState extends State<MainDrawer> {
 
   bool islogin = false;
+  var firebaseUser = FirebaseAuth.instance.currentUser;
 
   bool checkLogin() {
     if (firebaseUser == null) {
@@ -48,7 +49,9 @@ class _MainDrawerState extends State<MainDrawer> {
     }
     return islogin;
   }
+
 var userEmail ;
+
   getSharedPreferences()async{
     SharedPreferences sharedpref = await SharedPreferences.getInstance();
     setState(() {
@@ -62,7 +65,6 @@ var userEmail ;
   }
 
 
-  var firebaseUser = FirebaseAuth.instance.currentUser;
 
   // var docData;
   // getData(String uid) async {
@@ -151,8 +153,8 @@ var userEmail ;
                 //بعدين حيصير ياخد الايميل من الداتا بيز لما ينضافو
 
                 accountName:
-                checkLogin()?
-                    Text(widget.username):  Text('Guest'),
+                checkLogin() ? Text(widget.username):
+                Text('Guest'),
                     // FutureBuilder(
                     //   future: getData(firebaseUser!.uid),
                     //   builder: (_,AsyncSnapshot snapshot){
@@ -165,8 +167,9 @@ var userEmail ;
                     //   },)
 
 
-                accountEmail: checkLogin()?
-                Text(widget.useremail):Text('null'),
+                accountEmail:
+                checkLogin()?
+                Text(widget.useremail):Text('Mode'),
                 //فيه ايرور انه لما يسجل خروج يصير نل هنا وصفحة حمرا(ضبطت الايرور بنجاح )
 
                 currentAccountPicture: GestureDetector(

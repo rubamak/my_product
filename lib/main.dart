@@ -118,7 +118,6 @@ class _MyAppState extends State<MyApp> {
           //FavoriteScreen.routeName: (context) => FavoriteScreen(_favoriteProducts),
 
         },
-
         );
   }
 }
