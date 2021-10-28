@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:my_product/color/my_colors.dart';
 import 'package:my_product/pages/add_product.dart';
 import 'package:my_product/pages/drawer_section_pages/add_family_store.dart';
+import 'package:get/get.dart';
 
 class MyFamilyStorePage extends StatefulWidget {
   // const MyFamilyStorePage({Key? key}) : super(key: key);
@@ -14,24 +15,26 @@ class MyFamilyStorePage extends StatefulWidget {
 class _MyFamilyStorePageState extends State<MyFamilyStorePage> {
   var firebaseUser = FirebaseAuth.instance.currentUser;
 
-  CollectionReference storesRef = FirebaseFirestore.instance.collection('familiesStores');
+  var storesRef = FirebaseFirestore.instance.collection('familiesStores');
 
-  var familyName;
+  var familyStore;
 
   var description;
 
   bool hasStore = false;
 
   checkStore()async {
-   await storesRef.where('uid',isEqualTo: firebaseUser!.uid).get().then((value) {
+   await storesRef.where('uid',isEqualTo: firebaseUser.uid).get().then((value) {
 
    setState(() {
      value.docs.forEach((element) {
-       familyName =element.data();
+       familyStore =element.data();
+       print(familyStore);
      });
      hasStore= true;
 
    });
+
    });
    return hasStore;
 
@@ -65,7 +68,7 @@ class _MyFamilyStorePageState extends State<MyFamilyStorePage> {
         centerTitle: true,
         elevation: 0,
         title: hasStore ?
-            Text(familyName)
+            Text(familyStore)
             :Text("No store"),
         backgroundColor: Theme.of(context).primaryColor,
       ),
@@ -103,14 +106,16 @@ class _MyFamilyStorePageState extends State<MyFamilyStorePage> {
               hasStore? TextButton.icon(
                 label: Text("add products",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18,color: white),),
                 icon: Icon(Icons.add,color: white,),
-                onPressed: ()=> Navigator.push(context, MaterialPageRoute(builder: (context)=> AddProduct())),
-
+                onPressed: ()=>
+                    //Navigator.push(context, MaterialPageRoute(builder: (context)=> AddProduct())),
+                    Get.to(()=> AddProduct()),
               ):
           TextButton.icon(
             label: Text("add a Store",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18,color: white),),
             icon: Icon(Icons.add,color: white,),
-            onPressed: ()=> Navigator.push(context, MaterialPageRoute(builder: (context)=> AddFamilyStore())),
-
+            onPressed: ()=>
+                //Navigator.push(context, MaterialPageRoute(builder: (context)=> AddFamilyStore())),
+                Get.to(()=> AddFamilyStore()),
           )
       ),
     );

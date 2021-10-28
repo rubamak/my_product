@@ -8,7 +8,7 @@ import 'login.dart';
 
 class LandingPage extends StatelessWidget {
   //optional parameter
-  LandingPage({Key? key}) : super(key: key);
+  LandingPage({Key key}) : super(key: key);
 
   Future<FirebaseApp> _initialization = Firebase.initializeApp();
 
@@ -40,7 +40,7 @@ class LandingPage extends StatelessWidget {
             return
 
             StreamBuilder(
-              stream: Stream.periodic(Duration(seconds: 1)),
+              stream: Stream.periodic(Duration(seconds: 2)),
               //FirebaseAuth.instance.authStateChanges(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.active) {
@@ -49,18 +49,20 @@ class LandingPage extends StatelessWidget {
                 }
                 return Scaffold(
                   backgroundColor: Colors.white,
-                  body: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset('images/logo.png'),
-                        Text("Welcome",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 35,
-                                color: Colors.grey)),
-                        CircularProgressIndicator(),
-                      ]),
+                  body: Center(
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset('images/logo.png'),
+                          Text("Welcome",
+                              //textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 35,
+                                  color: Colors.grey)),
+                          CircularProgressIndicator(),
+                        ]),
+                  ),
                 );
               },
             );
@@ -68,7 +70,7 @@ class LandingPage extends StatelessWidget {
           return Scaffold(
             backgroundColor: Colors.grey,
             body: Column(children: [
-              CircularProgressIndicator(),
+             const CircularProgressIndicator(),
               Center(
                   child: Text(
                 "initializing the App ",

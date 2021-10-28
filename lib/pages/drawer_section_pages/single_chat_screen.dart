@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 class SingleChatScreen extends StatelessWidget {
-  const SingleChatScreen({Key? key}) : super(key: key);
+  const SingleChatScreen({Key key}) : super(key: key);
 
   static const routeName = '/chatScreen';
 
@@ -11,7 +11,7 @@ class SingleChatScreen extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final routeArg = ModalRoute
-        .of(context)!
+        .of(context)
         .settings
         .arguments as Map<String, Object>;
     final familyId = routeArg['id'];

@@ -33,7 +33,7 @@ class _RegistartionState extends State<Registartion> {
   var myEmail ,firstName, lastName, username, myPassword;
 
 
-  static String? valueChoose;
+  static String valueChoose;
   static List  listItems = ["User","productive Family"];
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
@@ -71,7 +71,7 @@ class _RegistartionState extends State<Registartion> {
                     cursorColor: basicColor,
                     controller: _firstNameController,
                     validator: (val){
-                      if(val!.isEmpty|| val.length < 2) {
+                      if(val.isEmpty|| val.length < 2) {
                         return " Short name :(";
                       }   else{
                         return null;} ;
@@ -105,7 +105,7 @@ class _RegistartionState extends State<Registartion> {
                     cursorColor: basicColor,
                     controller:   _lastNameController,
                     validator: (val){
-                      if(val!.isEmpty ) {
+                      if(val.isEmpty ) {
                         return " invalid Entry:(";
                       }else if(val.length < 2){
                         return "short last name ";
@@ -141,7 +141,7 @@ class _RegistartionState extends State<Registartion> {
                     cursorColor: basicColor,
                     controller:   _usernameController,
                     validator: (val){
-                      if(val!.isEmpty ) {
+                      if(val.isEmpty ) {
                         return " invalid Entry:(";
                       }else if (val.length<4){
                         return"short username";
@@ -326,13 +326,13 @@ class _RegistartionState extends State<Registartion> {
     //هدول السطرين يكافؤ السطر الي تحت في سطر واحد
     // }
     //يتاكد من الاشياء الي داخل الفورم يتحقق منها عشان بعدها يخزنها
-    if(!_formKey.currentState!.validate()){
+    if(!_formKey.currentState.validate()){
       //return ;
       print("not valid");
     }else
       print("vaild");
     // حفظ الداتا الي تحقق منها داخل الفورم
-    _formKey.currentState!.save();
+    _formKey.currentState.save();
     _createUser();
     //انشاء حساب لليوزر جديد
   }
@@ -340,7 +340,7 @@ class _RegistartionState extends State<Registartion> {
     try {
       UserCredential userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: myEmail, password: myPassword);
-      print(userCredential.user!.email);
+      print(userCredential.user.email);
       print("===================================");
       //print(userCredential.user!.displayName);
       //print(userCredential.user!.uid);
@@ -378,7 +378,7 @@ class _RegistartionState extends State<Registartion> {
     //اضيف مع تحديد الاي دي لكل دوكيمنت
     //خليت الاي دي هنا نفس الاي دي لليوزر الي عمل authentication
 
-    usersRef.doc(firebaseUser!.uid).set({
+    usersRef.doc(firebaseUser.uid).set({
       //وضفت الاي دي  في حقل كمان
       'uid': firebaseUser.uid,
       'first name': _firstNameController.text,
@@ -400,16 +400,15 @@ class _RegistartionState extends State<Registartion> {
   }
 
   Future<UserCredential> signInWithGoogle() async {
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+    final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
 
     // Obtain the auth details from the request
-    final GoogleSignInAuthentication? googleAuth = await googleUser
-        ?.authentication;
+    final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
 
 
     // Create a new credential
     final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
+      accessToken: googleAuth.accessToken,
       idToken: googleAuth?.idToken,
     );
     addUser();

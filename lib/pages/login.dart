@@ -9,6 +9,7 @@ import 'package:flutter/widgets.dart';
 import 'package:my_product/color/my_colors.dart';
 import 'package:my_product/pages/Registration_page.dart';
 import 'package:my_product/pages/home_page.dart';
+import 'package:get/get.dart';
 
 // ===the packages the packages that added in pubspec.yaml==
 
@@ -19,7 +20,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Login extends StatefulWidget {
-  const Login({Key? key}) : super(key: key);
+  const Login({Key key}) : super(key: key);
 
   @override
   _LoginState createState() => _LoginState();
@@ -47,11 +48,11 @@ class _LoginState extends State<Login> {
 
   }
       _loginUser() async {
-    if (!_formKey.currentState!.validate()) {
+    if (!_formKey.currentState.validate()) {
       print("Not valid login");
 
     } else {
-      _formKey.currentState!.save();
+      _formKey.currentState.save();
       print(" valid login ");
       // print
       try {
@@ -325,7 +326,8 @@ class _LoginState extends State<Login> {
                             onPressed: () async {
                               var  userCred = await _loginUser();
                               if(userCred != null){
-                                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> HomePage()));
+                                //Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> HomePage()));
+                                Get.off(()=> HomePage());
                                 saveSharedPreferences();
                                 Fluttertoast.showToast(msg: 'you signed in ');
                               }

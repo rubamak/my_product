@@ -2,17 +2,16 @@
 import 'dart:core';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:my_product/color/my_colors.dart';
 import 'package:my_product/pages/Registration_page.dart';
 import 'package:my_product/pages/add_product.dart';
-import 'package:my_product/pages/cart.dart';
+import 'package:my_product/pages/categories_pages/accessories.dart';
 import 'package:my_product/pages/category_screen.dart';
-
-
+import 'package:my_product/pages/drawer_section_pages/settings_page.dart';
 import 'package:my_product/pages/drawer_section_pages/single_chat_screen.dart';
 import 'package:my_product/pages/drawer_section_pages/favorite_screen.dart';
 import 'package:my_product/pages/drawer_section_pages/helping_section.dart';
@@ -26,8 +25,8 @@ class MainDrawer extends StatefulWidget {
   @override
   _MainDrawerState createState() => _MainDrawerState();
   MainDrawer({
-     required this.username,
-     required this.useremail,
+      this.username,
+      this.useremail,
 });
 
   String   username = '';
@@ -187,10 +186,15 @@ var userEmail ;
 
           //body-----------------------------------------
 
-          buildListTile("Home Page", Icons.home_outlined,(){Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> HomePage()));} ),
+          buildListTile("Home Page", Icons.home_outlined,(){
+           // Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> HomePage()));
+            Get.off(()=> HomePage());
+            } ),
           checkLogin() ? buildListTile("My Profile", Icons.person_outline_sharp,(){}): SizedBox(height: 0,),
-          buildListTile('Categories & Favorites', Icons.dashboard_outlined,(){Navigator.pushNamed(context, TapsScreen.routeName);}),
-          buildListTile('My Orders', Icons.shopping_cart_outlined,(){}),
+          buildListTile('Categories & Favorites', Icons.dashboard_outlined,(){
+            //Navigator.pushNamed(context, TapsScreen.routeName);
+            Get.toNamed(TapsScreen.routeName);
+            }),
           // buildListTile('Favourites Products', Icons.favorite_outline,(){Navigator.pushNamed(context, FavoriteScreen.routeName);}),
           buildListTile('My Chats', Icons.chat_outlined,(){  }),
           const Divider(color: Colors.black54),//0xffFFBCBC الللون القديم لو تبيه ياربا
@@ -198,14 +202,24 @@ var userEmail ;
           checkLogin() ?
 
 
-          buildListTile('Own Store',Icons.add,(){Navigator.push(context,MaterialPageRoute(builder: (context)=> MyFamilyStorePage()));}):SizedBox(height: 0,),
-          buildListTile('Settings', Icons.settings,(){}),
-          buildListTile('Enjoy to Help you', Icons.help_outline_outlined,(){Navigator.push(context, MaterialPageRoute(builder: (context)=> HelpingSection()));}),
+          buildListTile('Own Store',Icons.add,(){
+            Get.to(()=>MyFamilyStorePage());
+            //Navigator.push(context,MaterialPageRoute(builder: (context)=> MyFamilyStorePage()));
+            }):SizedBox(height: 0,),
+          buildListTile('Settings', Icons.settings,(){ Get.to(()=> Accessories());}),
+          buildListTile('Enjoy to Help you', Icons.help_outline_outlined,(){
+                Get.to(()=> HelpingSection());
+           // Navigator.push(context, MaterialPageRoute(builder: (context)=> HelpingSection()));
+            }),
           const Divider(color: Colors.black54),//0xffFFBCBC الللون القديم لو تبيه ياربا
            checkLogin()? SizedBox(height: 0,): Padding(
              padding: const EdgeInsets.all(20.0),
              child: MaterialButton(
-              onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));},
+              onPressed: () {
+               // Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
+               //Get.to(Login());
+               Get.to(()=> Login());
+                },
               child: const Text("Login", style: TextStyle(color: Colors.white),),
               color: Color(0xFF90A4AE),
           ),
@@ -216,7 +230,8 @@ var userEmail ;
               onPressed: () async {
                 await FirebaseAuth.instance.signOut();
                 Fluttertoast.showToast(msg: 'you signed out!');
-                Navigator.of(context).pop();
+                //Navigator.of(context).pop();
+                Get.back();
               },
               color: Color(0xFF90A4AE),
               child: const Text(

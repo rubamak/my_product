@@ -28,7 +28,7 @@ class TapsScreen extends StatefulWidget {
 class _TapsScreenState extends State<TapsScreen> {
 
 
-   late List<Map<String, Object>> _pages ;
+    List<Map<String, Object>> _pages ;
 
   int _selectedPageIndex =0;
 
@@ -51,7 +51,7 @@ class _TapsScreenState extends State<TapsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final routeArg = ModalRoute.of(context)!.settings.arguments;
+    final routeArg = ModalRoute.of(context).settings.arguments;
 
 
     return Scaffold(
@@ -80,7 +80,7 @@ class _TapsScreenState extends State<TapsScreen> {
         backgroundColor: Color(0xFF90A4AE),
         toolbarHeight: 80,
       ),
-     // endDrawer: MainDrawer(),
+     //endDrawer: MainDrawer(),
 
       backgroundColor: Color(0xFF90A4AE),
 

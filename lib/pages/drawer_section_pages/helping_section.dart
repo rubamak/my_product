@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_product/widgets/custom_text.dart';
 
 class HelpingSection extends StatelessWidget {
-  const HelpingSection({Key? key}) : super(key: key);
+  const HelpingSection({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -1,25 +1,24 @@
 
 
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:my_product/pages/categories_pages/Beverages.dart';
 import 'package:my_product/pages/categories_pages/accessories.dart';
-import 'package:my_product/pages/categories_pages/clothes.dart';
-import 'package:my_product/pages/categories_pages/digital_services.dart';
-import 'package:my_product/pages/categories_pages/handmade.dart';
 import 'package:my_product/modules/category.dart';
 import 'package:my_product/pages/families_screen.dart';
 import 'package:my_product/pages/home_page.dart';
 import 'package:my_product/widgets/category_item.dart';
 
 class HorizontelList extends StatelessWidget {
-  const HorizontelList({Key? key}) : super(key: key);
+  const HorizontelList({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return
+      Container(
       height: 300,
-      child: ListView(
+      child:
+      ListView(
         scrollDirection: Axis.horizontal,
         children: [
 
@@ -40,12 +39,7 @@ class HorizontelList extends StatelessWidget {
             image_location: 'images/categories/dress.jpeg',
             image_caption: 'Clothes',
           ),
-          /* Category(
-            image_location: 'images/categories/assecc.png',
-            image_caption: 'Accessories',
 
-
-          ),*/
           CategoryHere(
             id: "4",
             image_location: 'images/categories/h.png',
@@ -63,28 +57,22 @@ class HorizontelList extends StatelessWidget {
   }
 }
 
-class CategoryHere extends StatelessWidget {
+class CategoryHere extends StatefulWidget {
   final String id;
   final String image_location;
   final String image_caption;
 
-   CategoryHere({
-    required this.image_location,
-    required this.image_caption,
-    required this.id,
+  CategoryHere({
+     this.image_location,
+     this.image_caption,
+     this.id,
   });
 
+  @override
+  State<CategoryHere> createState() => _CategoryHereState();
+}
 
-
-//لازم اعمل هنا انه يعرض الاسر الخاصة في نوع الاكل والاسر الخاصة بنوع اللبس  بناء انه الاسرة تحمل نفس الاي ري الخاص ب النوع
-
-    // final List horizontalcategory =[
-    //   {
-    //     'page':FamiliesScreen.routeName,
-    //     'name':FamiliesScreen.routeName,
-    //   },
-    //   {},{},
-    // ];
+class _CategoryHereState extends State<CategoryHere> {
   void SelectCategory(BuildContext ctx){
 
     Navigator.of(ctx).pushNamed(
@@ -93,13 +81,58 @@ class CategoryHere extends StatelessWidget {
         //take this data with
         //عشان يفرق
         arguments: {
-          'id': id,
-          'title': image_caption,
+          'id': widget.id,
+          'title': widget.image_caption,
         }
     );
 
 
 
+  }
+
+  CollectionReference categoryRef = FirebaseFirestore.instance.collection("categories");
+
+  List categoriesNamesList = [];
+
+  getCategory()async{
+    var category = await categoryRef.get();
+    category.docs.forEach((element) {
+      setState(() {
+        categoriesNamesList.add(element.data());
+
+      });
+      //print(categoriesNamesList[0]['name']);
+
+
+    });
+  }
+  @override
+  void initState() {
+    getCategory();
+    super.initState();
+  }
+  Widget buildCat(){
+    return Padding(
+        padding: const EdgeInsets.all(5.0),
+        child: InkWell(
+
+        //this tap is for going to produtsList class another page
+        onTap: () => SelectCategory(context),
+    child: Container(
+    height: 150,
+    width: 180,
+    child:
+    ListView.builder(
+
+    itemBuilder: (context,index)=>
+    CategoryItem(
+    categoryName: categoriesNamesList[index]['name'],
+    categoryId: categoriesNamesList[index]['id'] ,
+    image_category: categoriesNamesList[index]['image'],
+
+    ),
+    itemCount: categoriesNamesList.length,
+    ))));
   }
   @override
   Widget build(BuildContext context) {
@@ -107,23 +140,36 @@ class CategoryHere extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(5.0),
       child: InkWell(
+
         //this tap is for going to produtsList class another page
         onTap: () => SelectCategory(context),
         child: Container(
-          height: 150,
-          width: 180,
-          child: ListTile(
-              title: Image.asset(
-                image_location,
-                height: 200,
-                width: 200,
-              ),
-              subtitle: Container(
-                alignment: Alignment.topCenter,
-                child: Text(image_caption,
-                    style:
-                        TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold)),
-              )),
+            height: 150,
+            width: 180,
+            child:
+            ListView.builder(
+
+              itemBuilder: (context,index)=>
+                  CategoryItem(
+                    categoryName: categoriesNamesList[index]['name'],
+                    categoryId: categoriesNamesList[index]['id'] ,
+                    image_category: categoriesNamesList[index]['image'],
+
+                  ),
+              itemCount: categoriesNamesList.length,
+            )
+          // ListTile(
+          //     title: Image.asset(
+          //       widget.image_location,
+          //       height: 200,
+          //       width: 200,
+          //     ),
+          //     subtitle: Container(
+          //       alignment: Alignment.topCenter,
+          //       child: Text(widget.image_caption,
+          //           style:
+          //               TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold)),
+          //     )),
         ),
       ),
     );

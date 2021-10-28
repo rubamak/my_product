@@ -24,30 +24,29 @@ class Product {
 
 
   Product({
-    required this.productId,
-     required this.familyId,
+     this.productId,
+      this.familyId,
     //required this.categoryId,
-     required this.categoryName,
+      this.categoryName,
 
-     required this.productName,
-     required this.familyName,
-        required this.price,
-       required this.productImage,
+      this.productName,
+      this.familyName,
+         this.price,
+        this.productImage,
 
-       required this.description,});
+        this.description,});
 
 }
 //name of provider is Products
-class Products with ChangeNotifier{
+class Products with ChangeNotifier {
   List <Product> productsList = [];
-       String image='';
+  String image = '';
 
-  void add ({
-    required String  title,required String desc ,  required String category,
-    required String familyName , required double price,
-  } )
-         async {
-      //هذه ريل تايم داتا بيز
+  void add({
+     String title,  String desc,  String category,
+     String familyName,  double price,
+  }) async {
+    //هذه ريل تايم داتا بيز
     // DatabaseReference _ref = FirebaseDatabase.instance.reference()
     //      .child("products"); //عملت ريفرنس في مكان في الداتا بيز
     //
@@ -65,55 +64,60 @@ class Products with ChangeNotifier{
     // })).then((res) {
     //   print( json.decode(res.body));
 
-          CollectionReference productsRef = FirebaseFirestore.instance.collection("products");
-          var firebaseUser =  await FirebaseAuth.instance.currentUser;
-
-
-          productsList.add(
-          Product(
-              productId: productsRef.id,//int.parse(json.decode(res.body)['name']),
-              familyId: "2",
-              categoryName: category,
-              familyName: familyName,
-              productName: title,
-              price: price,
-              productImage: image,
-              description: desc
-          ));
-
-     productsRef.add({
-       'uid': firebaseUser!.uid,
-       "product name": title ,
-       "price" : price,
-       "family name": familyName,
-       "description": desc,
-       "category": category
-
-
-
-     });
-      notifyListeners();
+    CollectionReference productsRef = FirebaseFirestore.instance.collection(
+        "products");
+    // CollectionReference familyStoreRef = FirebaseFirestore.instance.collection("familiesStores");
+    // await familyStoreRef.get().then((value) {
+    //
     // });
-    }
+    var firebaseUser = await FirebaseAuth.instance.currentUser;
 
-  void delete (String desc){
+
+    productsList.add(
+        Product(
+            productId: productsRef.id,
+            //int.parse(json.decode(res.body)['name']),
+            familyId: "2",
+            categoryName: category,
+            familyName: familyName,
+            productName: title,
+            price: price,
+            productImage: image,
+            description: desc
+        ));
+
+    productsRef.add({
+      'family store id ': '',
+      "product name": title,
+      "price": price,
+      // "family name": familyName,
+      "description": desc,
+      "category": category
+    });
+    notifyListeners();
+    // });
+  }
+
+  void delete(String desc) {
     productsList.removeWhere((element) => element.description == desc);
 
     print("item deleted");
     notifyListeners();
   }
-  void deleteImage(){
-    image= '';
+
+  void deleteImage() {
+    image = '';
   }
 
   Future getImage(ImageSource src) async {
     //final picker = ImagePicker();
-    final pickedImage = await ImagePicker().pickImage(source: src);// pickImage(source:src) == getImage(source:src)
-    if(pickedImage!= null){
-        image = pickedImage.path;
-        notifyListeners();
-        print("image select");
-    }else{
+    final pickedImage = await ImagePicker().pickImage(
+        source: src); // pickImage(source:src) == getImage(source:src)
+    if (pickedImage != null) {
+      image = pickedImage.path;
+      notifyListeners();
+      print("image select");
+    } else {
       print("no image selected");
     }
   }

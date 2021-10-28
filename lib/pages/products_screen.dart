@@ -13,15 +13,16 @@ class ProductsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final routeArg = ModalRoute
-        .of(context)!
+        .of(context)
         .settings
         .arguments as Map<String, Object>;
     final familyId = routeArg['id'];
     final familyName = routeArg['name'];
 
-    final products = DUMMY_PRODUCTS.where((product) {
-      return product.familyId == familyId;
-    }).toList();
+    final products = DUMMY_PRODUCTS;
+    //     .where((product) {
+    //   return product.familyId == familyId;
+    // }).toList();
 
 
     return Scaffold(
@@ -59,7 +60,6 @@ class ProductsScreen extends StatelessWidget {
                   color: Colors.white,
                   borderRadius: BorderRadius.only(topLeft: Radius.circular(100),bottomRight:Radius.circular(150),)),
 
-
               child: ListView(
                 primary: false,
                 padding: EdgeInsets.only(left: 25, right: 25),
@@ -67,11 +67,13 @@ class ProductsScreen extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.only(top: 45),
                     child: Container(
+
                       height: MediaQuery
                           .of(context)
                           .size
                           .height - 300,
-                      child: ListView(
+                      child:
+                      ListView(
                         children: products.map((productItem) =>
                             ProductItem(
                                 productId: productItem.productId,

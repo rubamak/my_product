@@ -8,9 +8,9 @@ class Category {
      final String image_location;
 
     Category( {
-      required this.categoryId,
-       required this.categoryName,
-       required this.image_location,
+       this.categoryId,
+        this.categoryName,
+        this.image_location,
 
     } );
 

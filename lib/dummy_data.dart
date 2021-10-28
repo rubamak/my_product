@@ -1,11 +1,17 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:my_product/modules/category.dart';
 import 'package:my_product/modules/family_store.dart';
 import 'package:my_product/modules/product.dart';
 import 'dart:io';
 
+import 'package:my_product/modules/users.dart';
+
 //داتا مبدأية افتراضية اشتخدم منها
 //سموحه التحتوتحه
+
+
+
 List<Category> DUMMY_CATEGORY = [
   Category(categoryId: "1", categoryName: 'Food', image_location: 'images/categories/food.png'),
   Category(categoryId: "2", categoryName: 'Beverages', image_location: 'images/categories/drinks.jpeg'),
@@ -13,6 +19,19 @@ List<Category> DUMMY_CATEGORY = [
   Category(categoryId: "4", categoryName: 'Handmade',image_location: 'images/categories/h.png'),
   Category(categoryId: "5", categoryName: 'Digital Services',image_location: 'images/categories/servoces.jpeg'),
 ];
+
+List<Users> DUMMY_USERS = [
+  Users(
+      lastName: '',
+      username: '',
+      password: '',
+      firstName: '',
+      email: '',
+      userUid: '')
+
+
+];
+
 
 List<FamilyStore> DUMMY_FAMILIES_STORES = [
   FamilyStore(

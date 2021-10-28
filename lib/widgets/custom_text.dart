@@ -4,18 +4,19 @@ import 'package:flutter/material.dart';
 
 class CustomText extends StatelessWidget {
 
-  late final String text ;
-  late final double size ;
-  late final Color colors;
-  late final FontWeight weightFont;
+   final String text ;
+   final double size ;
+   final Color colors;
+   final FontWeight weightFont;
 
-  CustomText({required this.text, required this.size,required this.colors,required this.weightFont});
+  CustomText({ this.text,  this.size, this.colors, this.weightFont});
 
 
   @override
   Widget build(BuildContext context) {
     // if size is null it be 16 as default
-    return Text(text ,style: TextStyle(
+    return
+      Text(text ,style: TextStyle(
         fontSize: size  ,color: colors , fontWeight: weightFont )
     );
 

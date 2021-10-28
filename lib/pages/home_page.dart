@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/rendering.dart';
@@ -12,7 +11,6 @@ import 'package:my_product/color/my_colors.dart';
 import 'package:my_product/components/horizontel_listview.dart';
 import 'package:my_product/components/latest_products.dart';
 import 'package:my_product/modules/product.dart';
-import 'package:my_product/pages/cart_screen.dart';
 import 'package:my_product/widgets/main_drawer.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -30,46 +28,46 @@ class _HomePageState extends State<HomePage> {
   bool isSwitched = false;
 
   var firebaseUser = FirebaseAuth.instance.currentUser;
-  var docData;// for printing
-  var username;// for display to user
+  var docData; // for printing
+  var username; // for display to user
   var useremail;
 
 
-  getData(String uid) async {
+  getUserData(String uid) async {
     //اجيب بيانات دوكيمنت واحد فقط
-    DocumentReference documentReference = FirebaseFirestore.instance.collection('users').doc(uid);
+    DocumentReference documentReference = FirebaseFirestore.instance.collection(
+        'users').doc(uid);
     //get will return docs Query snapshot
     await documentReference.get().then((value) {
       //value.data is the full fields for this doc
       if (value.exists) {
         setState(() {
           docData = value.data();
-          print(docData['uid']);
 
-          print(docData['username']);
-
-
-          print(docData['email']);
-          print(docData['first name']);
           useremail = docData['email'];
           username = docData['username'];
           // print(value.id);
-          print('=============');
         });
+        print(docData['uid']);
+        print(docData['username']);
+        print(docData['email']);
+        // print(docData['first name']);
+        print('=============');
       } else {}
     });
   }
 
   @override
   void initState() {
-      if(firebaseUser!= null){
-        getData(firebaseUser!.uid);
-        //getCurrentUser();
-        super.initState();
-      }else{return ; }
-
-
+    if (firebaseUser != null) {
+      getUserData(firebaseUser.uid);
+      //getCurrentUser();
+      super.initState();
+    } else {
+      return;
+    }
   }
+
   //  getCurrentUser(){
   //   //هادا المتغير يحفظ لي معلومات اخر يوزر عمل تسجيل دخول في التطبيق
   //   // عشان استخدم معلوماته دام لسه ما سوا تسجيل خروج
@@ -85,11 +83,12 @@ class _HomePageState extends State<HomePage> {
   //     super.initState();
   //
   // }
-
   @override
   Widget build(BuildContext context) {
     //this the size of the screen
-    Size size = MediaQuery.of(context).size;
+    Size size = MediaQuery
+        .of(context)
+        .size;
 
     Widget imageCarousal = Container(
       margin: const EdgeInsets.only(top: 20.0),
@@ -120,16 +119,14 @@ class _HomePageState extends State<HomePage> {
     );
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-            icon: Icon(Icons.search, color: white),
-            onPressed: () {
-              // Navigator.push(context,
-              //     MaterialPageRoute(builder: (context) => CartScreen()));
-              showSearch(context: context, delegate: DataSearch());
-            }),
-
+        // leading: IconButton(
+        //     icon: Icon(Icons.search, color: white),
+        //     onPressed: () {
+        //       // Navigator.push(context,
+        //       //     MaterialPageRoute(builder: (context) => CartScreen()));
+        //       showSearch(context: context, delegate: DataSearch());
+        //     }),
         //shape:,
-
         // elevation: 0,
         toolbarHeight: 110,
         backgroundColor: basicColor,
@@ -140,15 +137,7 @@ class _HomePageState extends State<HomePage> {
         centerTitle: true,
 
         //actions: <Widget>[
-        //   IconButton(
-        //       icon: Icon(Icons.shopping_cart_outlined, color: white),
-        //       onPressed: () {
-        //         Navigator.push(context,
-        //             MaterialPageRoute(builder: (context) => CartScreen()));
-        //       }),
-        //   IconButton(
-        //       icon: Icon(Icons.notifications, color: white),
-        //       onPressed: () {}),
+        //
         //   Switch(
         //     value: isSwitched,
         //     onChanged: (value) {
@@ -177,12 +166,14 @@ class _HomePageState extends State<HomePage> {
       ),
 
       endDrawer: MainDrawer(
-        username: username,//docData['username'].toString(),
-        useremail: useremail,
-      ),
+        username: username,
+        useremail: useremail,),
       //body of the page
       body: Container(
-        height: MediaQuery.of(context).size.height - 180,
+        height: MediaQuery
+            .of(context)
+            .size
+            .height - 180,
         width: double.infinity,
         //color: white,
         child: SingleChildScrollView(
@@ -195,40 +186,39 @@ class _HomePageState extends State<HomePage> {
               SizedBox(
                 height: 5,
               ),
-              // Padding(
-              //   padding: const EdgeInsets.all(8.0),
-              //   child: Container(
-              //     margin: EdgeInsets.all(5),
-              //     height: 50,
-              //     decoration: BoxDecoration(color: white, boxShadow: [
-              //       BoxShadow(
-              //         color: Color(0xFF90A4AE),
-              //         offset: Offset(5, 10),
-              //         blurRadius: 8,
-              //       )
-              //     ]),
-              //     child: ListTile(
-              //       leading: Icon(
-              //         Icons.search,
-              //         size: 50,
-              //         color:Color(0xFF90A4AE),
-              //
-              //       ),
-              //       title: TextField(
-              //         decoration: InputDecoration(
-              //           hintText: "Find what you want..",
-              //           hintStyle: TextStyle(
-              //               color:Color(0xFF90A4AE),
-              //               fontWeight: FontWeight.bold),
-              //           border: InputBorder.none,
-              //         ),
-              //         onTap: () {
-              //
-              //         },
-              //       ),
-              //     ),
-              //   ),
-              // ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  margin: EdgeInsets.all(5),
+                  height: 50,
+                  decoration: BoxDecoration(color: white, boxShadow: [
+                    BoxShadow(
+                      color: Color(0xFF90A4AE),
+                      offset: Offset(5, 10),
+                      blurRadius: 8,
+                    )
+                  ]),
+                  child: ListTile(
+                    leading: const Icon(
+                      Icons.search,
+                      size: 50,
+                      color: Color(0xFF90A4AE),
+
+                    ),
+                    title: TextField(
+                      decoration: const InputDecoration(
+                        hintText: "Find what you want..",
+                        hintStyle: TextStyle(
+                            color: Color(0xFF90A4AE),
+                            fontWeight: FontWeight.bold),
+                        border: InputBorder.none,
+                      ),
+                      onTap: (){}
+            
+                         ),
+                  ),
+                ),
+              ),
               //use the carousal
               imageCarousal,
 
@@ -238,9 +228,9 @@ class _HomePageState extends State<HomePage> {
                     padding: EdgeInsets.all(10.0),
                     child: Text('Our Categories',
                         style: TextStyle(
-                            fontSize: 30.0, fontWeight: FontWeight.w800))),
+                          //color: ,
+                            fontSize: 30.0, fontWeight: FontWeight.w800,))),
               ),
-
               //horizontal listview hereeee:
               HorizontelList(),
               SizedBox(
@@ -261,6 +251,7 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
+        heroTag: "floatButton",
         onPressed: () => bottomSheet(context),
         /* async{
             try{
@@ -289,67 +280,9 @@ class _HomePageState extends State<HomePage> {
           return LatestProducts();
         });
   }
+
+  
+     
+  
 }
 
-class DataSearch extends SearchDelegate {
-  @override
-  List<Widget> buildActions(BuildContext context) {
-    return [
-      IconButton(
-        icon: Icon(Icons.cancel_outlined),
-        //محتوى الكلام الي كتبته ف البحث بينحفظ في متغير اسمه كويري معرف مسبقا داخل هذا الكلاس
-        onPressed: () {
-          //when clicked it will be empty again.
-          query = "";
-        },
-      )
-    ];
-  }
-
-  @override
-  Widget buildLeading(BuildContext context) {
-    return IconButton(
-      icon: Icon(Icons.arrow_back),
-      onPressed: () {
-        // Navigator.of(context).pop();  نفس الي تحتها
-        close(context, null);
-      },
-    );
-  }
-
-  @override
-  Widget buildResults(BuildContext context) {
-    return Text("$query");
-  }
-
-  @override
-  Widget buildSuggestions(BuildContext context) {
-    List filtirnames = names
-        .where(
-          (element) => element.contains(query),
-        )
-        .toList();
-    //الاقتراحات الي تظهر تحت محل البحث
-    return ListView.builder(
-        itemCount: query == "" ? names.length : filtirnames.length,
-        itemBuilder: (context, i) {
-          return InkWell(
-            onTap: () {
-              query = query == "" ? names[i] : filtirnames[i];
-              showResults(context);
-            },
-            child: Container(
-                padding: EdgeInsets.all(20),
-                child: query == ""
-                    ? Text(
-                        '${names[i]}',
-                        style: TextStyle(fontSize: 20),
-                      )
-                    : Text('${filtirnames[i]}',
-                        style: TextStyle(fontSize: 20))),
-          );
-        });
-  }
-
-  List names = ['moham', 'basel', 'ruba', 'batool'];
-}

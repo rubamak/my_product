@@ -50,9 +50,7 @@ class AddProduct extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String _image = Provider
-        .of<Products>(context, listen: true)
-        .image;
+    String _image = Provider.of<Products>(context, listen: true).image;
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -255,7 +253,6 @@ class AddProduct extends StatelessWidget {
                           else {
                             try {
                               value.add(
-
                                 title: productController.text,
                                 category: categoryController.text,
                                 familyName: familyNameController.text,
@@ -287,6 +284,4 @@ class AddProduct extends StatelessWidget {
 
 
   }
-
-
 }

@@ -1,0 +1,7 @@
+{
+    "search.quickOpen.includeSymbols": true,
+    "dart.enableCompletionCommitCharacters": true,
+    "workbench.editor.autoLockGroups": {
+        "interactive": true
+    }
+}

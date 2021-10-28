@@ -15,8 +15,8 @@ class ProductItem extends StatelessWidget {
   final String description;
   final String productName;
 
-  ProductItem( { required this.productId,   required this.productName,   required this.productImage, required this.price,
-        required this.description});
+  ProductItem( {  this.productId,    this.productName,    this.productImage,  this.price,
+         this.description});
 
   void selectProductItem(BuildContext ctx) {
     Navigator.of(ctx).pushNamed(

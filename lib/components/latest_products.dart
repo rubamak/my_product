@@ -1,9 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_product/pages/product_details_latest_products.dart';
 
 class LatestProducts extends StatefulWidget {
-  const LatestProducts({Key? key}) : super(key: key);
+  const LatestProducts({Key key}) : super(key: key);
 
   @override
   _LatestProductsState createState() => _LatestProductsState();

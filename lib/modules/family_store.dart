@@ -17,11 +17,11 @@ class FamilyStore{
 
 
     FamilyStore( {
-      required this.familyImage,
-      required this.familyId,
-      required this.description,
-      required this.familyName,
-      required this.categoryId,
-      required this.userId,
+       this.familyImage,
+       this.familyId,
+       this.description,
+       this.familyName,
+       this.categoryId,
+       this.userId,
     });
 }

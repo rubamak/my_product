@@ -19,7 +19,7 @@ class ProductDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final productId = ModalRoute.of(context)!.settings.arguments as Object;
+    final productId = ModalRoute.of(context).settings.arguments as Object;
 
     //هنا ليس لست كاملة وانما عنصر واحد فقط لانه فيرست وير
     final selectedProduct =
