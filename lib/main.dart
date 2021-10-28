@@ -1,4 +1,4 @@
-//ربا مرت من هناا
+//ربا مرت من هناا وسماحه كمان
 import 'dart:isolate';
 
 //ruba love samaha
@@ -12,6 +12,7 @@ import 'package:flutter/foundation.dart';
 import 'package:my_product/dummy_data.dart';
 import 'package:my_product/pages/Registration_page.dart';
 import 'package:my_product/pages/add_product.dart';
+import 'package:my_product/pages/categories_pages/accessories.dart';
 import 'package:my_product/pages/drawer_section_pages/add_family_store.dart';
 import 'package:my_product/pages/drawer_section_pages/single_chat_screen.dart';
 import 'package:my_product/pages/drawer_section_pages/favorite_screen.dart';
@@ -27,6 +28,7 @@ import 'package:my_product/pages/products_screen.dart';
 import 'package:my_product/pages/taps_screen.dart';
 
 import 'color/my_colors.dart';
+import 'components/horizontel_listview.dart';
 import 'modules/product.dart';
 import '../pages/category_screen.dart';
 import 'package:provider/provider.dart';
@@ -100,7 +102,7 @@ class _MyAppState extends State<MyApp> {
           //home:
         initialRoute:'/' ,
         getPages: [
-          GetPage(name: '/', page:()=> HomePage()),
+          GetPage(name: '/', page:()=> AddFamilyStore()),
           GetPage(name: TapsScreen.routeName,  page:()=> TapsScreen(_favoriteProducts)),
           GetPage(name: CategoryScreen.routeName,  page:()=> CategoryScreen()),
           GetPage(name: FamiliesScreen.routeName, page: ()=>FamiliesScreen()),

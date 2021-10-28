@@ -309,7 +309,7 @@ class _AddFamilyStoreState extends State<AddFamilyStore> {
         'image family store': imageUrl,
       }).then((value) {
         print('${value} store added');
-        Fluttertoast.showToast(msg: 'store added');
+        Fluttertoast.showToast(msg: 'store added',textColor: black);
         Get.back();
         //Navigator.of(context).pop();
       });
@@ -317,9 +317,9 @@ class _AddFamilyStoreState extends State<AddFamilyStore> {
 
   } else {
       AwesomeDialog(context: context, title: "Something wrong !",
-        body: Text("invalid data in your fields"),)
+        body: Text("invalid data in your fields",style: TextStyle(color: black),),)
         ..show();
-      print(" values not valid");
+      print(" values not valid" );
     }
   }
   
@@ -330,7 +330,7 @@ class _AddFamilyStoreState extends State<AddFamilyStore> {
                   stream: FirebaseFirestore.instance.collection('categories').snapshots(),
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) {
-                      return Text("Loading..");
+                      return Text("Loading..",style: TextStyle(color: black));
                     } else {
                       List<DropdownMenuItem<String>> productsToList = [];
                       for (int i = 0; i < snapshot.data.docs.length; i++) {
@@ -344,8 +344,8 @@ class _AddFamilyStoreState extends State<AddFamilyStore> {
                         ));
                       }
                       return DropdownButton<String>(
-                        iconEnabledColor: Colors.white,
-                        iconDisabledColor: Colors.white,
+                        iconEnabledColor: black,
+                        iconDisabledColor: black,
                         iconSize: 5.0,
                         items: productsToList,
                         onChanged: (val) async{
@@ -359,7 +359,7 @@ class _AddFamilyStoreState extends State<AddFamilyStore> {
                         
                         isDense: false,
                         isExpanded: false,
-                        hint:Text("choose your store category"),
+                        hint:Text("choose your store category",style: TextStyle(color: black),),
                        
                       );
                     }

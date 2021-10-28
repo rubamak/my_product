@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
+import 'package:my_product/color/my_colors.dart';
 import 'package:my_product/pages/drawer_section_pages/single_chat_screen.dart';
 
 class Cart_products extends StatefulWidget {
@@ -76,7 +77,7 @@ class Single_cart_products extends StatelessWidget {
           cart_product_picture,width: 30, height: 50,),
 
         // title section
-        title: new Text(cart_product_name,style: TextStyle(fontWeight: FontWeight.w600),),
+        title: new Text(cart_product_name,style: TextStyle(fontWeight: FontWeight.w600, color:black),),
         // subtitle section
         subtitle: new Column(
           children: <Widget>[
@@ -87,27 +88,27 @@ class Single_cart_products extends StatelessWidget {
                 //this is for quantity of product
                 Padding(
                   padding: const EdgeInsets.all(3.0),
-                  child: new Text('Quantity: '),
+                  child: new Text('Quantity: ',style:TextStyle(color:black)),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(3.0),
-                  child: new Text('$cart_product_quantity'),
+                  child: new Text('$cart_product_quantity',style: TextStyle(color:black)),
                 ),
 
                 // ===this is for owner of the product===
                 Padding(
                   padding: const EdgeInsets.fromLTRB(20, 10, 8,8),
-                  child: new Text('Owner:'),
+                  child: new Text('Owner:',style: TextStyle(color:black),),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(6.0),
-                  child: new Text(cart_product_owner),
+                  child: new Text(cart_product_owner,style: TextStyle(color:black),),
                 ),
                 new IconButton(
                   onPressed: (){
                     Navigator.push(context, MaterialPageRoute(builder: (context) => SingleChatScreen()));
                   },
-                  icon: Icon(Icons.chat_outlined),),
+                  icon: Icon(Icons.chat_outlined,color: black,),),
 
               ],
             ),

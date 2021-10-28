@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
+import 'package:my_product/color/my_colors.dart';
 import '../pages/families_screen.dart';
 
 class CategoryItem extends StatelessWidget {
@@ -38,7 +39,7 @@ class CategoryItem extends StatelessWidget {
 
      child: Card(
 
-      // color:  grey,
+       color: Colors.grey[300],
          child: Column(
            children:[
              Container(
@@ -54,7 +55,7 @@ class CategoryItem extends StatelessWidget {
              ),
               Text(categoryName,
            textAlign: TextAlign.center,
-           style: TextStyle(fontSize: 35,fontWeight: FontWeight.w600),),
+           style: TextStyle(fontSize: 35,fontWeight: FontWeight.w600,color:black),),
             ]
          ),
      )

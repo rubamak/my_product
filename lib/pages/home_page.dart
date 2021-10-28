@@ -33,6 +33,7 @@ class _HomePageState extends State<HomePage> {
   var useremail;
 
 
+
   getUserData(String uid) async {
     //اجيب بيانات دوكيمنت واحد فقط
     DocumentReference documentReference = FirebaseFirestore.instance.collection(
@@ -119,6 +120,7 @@ class _HomePageState extends State<HomePage> {
     );
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(color: black),
         // leading: IconButton(
         //     icon: Icon(Icons.search, color: white),
         //     onPressed: () {
