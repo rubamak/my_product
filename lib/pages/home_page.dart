@@ -119,6 +119,8 @@ class _HomePageState extends State<HomePage> {
     );
     return Scaffold(
       appBar: AppBar(
+        //color: Color(0xFF90A4AE),
+
         // leading: IconButton(
         //     icon: Icon(Icons.search, color: white),
         //     onPressed: () {
@@ -232,7 +234,7 @@ class _HomePageState extends State<HomePage> {
                             fontSize: 30.0, fontWeight: FontWeight.w800,))),
               ),
               //horizontal listview hereeee:
-              HorizontelList(),
+              //HorizontelList(),
               SizedBox(
                 height: 20,
               ),

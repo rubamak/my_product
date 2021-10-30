@@ -114,15 +114,7 @@ var userEmail ;
       });
     });
   }*/
-  // @override
-  // void initState() {
-  //       if(firebaseUser!=null) {
-  //         getData(firebaseUser!.uid);
-  //         //getData2();
-  //         super.initState();
-  //       }
-  //
-  // }
+
 
   @override
 

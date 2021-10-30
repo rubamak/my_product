@@ -75,8 +75,10 @@ class _AddFamilyStoreState extends State<AddFamilyStore> {
     });
   }
 
-  var categoryChooseId ;
-  var categoryChooseName;
+
+  var categoryChooseId;
+  var categoryName;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -162,66 +164,48 @@ class _AddFamilyStoreState extends State<AddFamilyStore> {
                 ),
                 SizedBox(height: 20,),
                  // familyType(),
-          StreamBuilder<QuerySnapshot< Map<String, dynamic>>>(
-            stream: FirebaseFirestore.instance.collection('categories').snapshots(),
-                  //هادا الشرط زبط .where('name',isEqualTo: "Food")
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) {
-                return Text("Loading..");
-              } else {
-                List<DropdownMenuItem<String>> categoryList = [];
-                for (int i = 0; i < snapshot.data.docs.length; i++) {
-                  DocumentSnapshot<Map<String, dynamic>> snap = snapshot.data.docs[i];
+                StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                  stream: FirebaseFirestore.instance.collection("categories").snapshots(),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return Text("Loading..");
+                    } else {
+                      List<DropdownMenuItem> categoryList = [];
+                      for (int i = 0; i < snapshot.data.docs.length; i++) {
+                        DocumentSnapshot<Map<String, dynamic>> snap = snapshot.data.docs[i];
+                        categoryList.add(
+                            DropdownMenuItem<String>(
+                          child: Text(snap.data()['name'].toString(),
+                               ),
+                          value: "${snap.id}",
 
-                  categoryList.add(
-                      DropdownMenuItem(
-                    child: Text(snap.data()['name'].toString(),
-                    ),
-                    value:  "${snap.id}",
-                  ));
-                }
-                return DropdownButton<String>(
-                  //icon: Icon(Icons.arrow_drop_down_rounded),
-                  iconEnabledColor: Colors.black,
-                  iconDisabledColor: Colors.grey,
-                  iconSize: 5.0,
-                  items: categoryList,
-                  onChanged: (val) async{
+                        ));
+                      }
+                      return DropdownButton(
+                        iconEnabledColor: Colors.white,
+                        iconDisabledColor: Colors.white,
+                        iconSize: 5,
+                        items: categoryList,
+                        onChanged: (value) async{
+                          categoryChooseId = value;
+                          await FirebaseFirestore.instance.collection('categories').doc(categoryChooseId)
+                              .get().then((value) {
+                            categoryName = value['name'];
+                          });
+                          setState(() {
 
-                    setState(() async{
-
-                      var zg = await FirebaseFirestore.instance
-                          .collection("categories").doc(categoryChooseId).get();
-                      categoryChooseId = val ;
-
-                        print(zg['name']);
-                        categoryChooseName= zg['name'];
-                          //categoryChooseId = zg['id'];
-
-
-                    });
-
-
-
-
-                     // categoryChooseName= snap.data()['name'];
-                     //   print(categoryChooseId);
-                     //  print(categoryChooseName);
-                    print("==============================");
-
-                    },
-
-                  value: categoryChooseId , // Selected Value From DropDownMenu Is Stored Here
-                  isDense: false,
-                  isExpanded: false,
-                  hint:Text("choose your store category"),
-
-                );
-              }
-            },
-
-          ),
-
+                          });
+                          print(categoryName);
+                          print(categoryChooseId);
+                        },
+                        value: categoryChooseId, // Selected Value From DropDownMenu Is Stored Here
+                        isDense: false,
+                        isExpanded: false,
+                        hint: new Text("Choose your category"),
+                      );
+                    }
+                  },
+                ),
                 SizedBox(height: 20,),
                 // Container(
                 //   width: double.infinity,
@@ -253,9 +237,6 @@ class _AddFamilyStoreState extends State<AddFamilyStore> {
                 //     },
                 //   ),
                 // ),
-                SizedBox(
-                  height: 10,
-                ),
                       Container(
                         width: double.infinity,
                         child:ElevatedButton(
@@ -282,9 +263,10 @@ class _AddFamilyStoreState extends State<AddFamilyStore> {
 
 
   Future addFamilyStore()async {
+
     var firebaseUser = await FirebaseAuth.instance.currentUser;
     var categoryRef = await FirebaseFirestore.instance.collection('categories');
-    var familiesstores = await FirebaseFirestore.instance.collection('familiesStores');
+    var familiesStoresRef = await FirebaseFirestore.instance.collection('familiesStores');
 
     if (_formKey.currentState.validate() && image !=null) {
       _formKey.currentState.save();
@@ -296,13 +278,11 @@ class _AddFamilyStoreState extends State<AddFamilyStore> {
      imageUrl = await (await task.whenComplete(() => null)).ref.getDownloadURL();
      //========end image section
 
-     // if(firebaseUser!.uid == familiesstoresRef){}
-      ///////////////////////////
-      //print(familiesstores.doc().id);
-          familiesstores.add({
+      print(familiesStoresRef.doc().id);
+          familiesStoresRef.add({
         'uid': firebaseUser.uid,
-            'family id':familiesstores.id,
-        'category name':categoryChooseName,
+            'family id': familiesStoresRef ,
+        'category name':categoryName,
         'family store name': familyStoreNameController.text,
         'category id': categoryChooseId,
         'store description': descriptionController.text,
@@ -350,12 +330,12 @@ class _AddFamilyStoreState extends State<AddFamilyStore> {
                         items: productsToList,
                         onChanged: (val) async{
                           setState(() {
-                            categoryChooseId = val ;
+                            categoryChooseId= val ;
                             //categoryChooseName = snapshot.data.docs;
                           });
                           print(categoryChooseId);
                         },
-                        value: categoryChooseId , // Selected Value From DropDownMenu Is Stored Here
+                        value: categoryChooseId, // Selected Value From DropDownMenu Is Stored Here
                         
                         isDense: false,
                         isExpanded: false,
