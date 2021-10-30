@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_product/color/my_colors.dart';
 import 'package:my_product/widgets/main_drawer.dart';
@@ -15,28 +16,29 @@ class _AccessoriesState extends State<Accessories> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(color: black),
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios),
+          icon: Icon(Icons.arrow_back_ios,color: black,),
           onPressed: () {
             Navigator.of(context).pop();
           },
-          color: Colors.white,
+          color: white,
         ),
 
         title: Padding(
           padding: EdgeInsets.only(top: 1),
           child: Text("settings",
             style: TextStyle(
-              color: Colors.white,
+              color: black,
               fontWeight: FontWeight.bold,
               fontSize: 20,
             ),),
         ),
-        backgroundColor: Color(0xFF90A4AE),
+        backgroundColor: basicColor,
         toolbarHeight: 80,
       ),
-      backgroundColor: Color(0xFF90A4AE),
+      backgroundColor: basicColor,
       //endDrawer: MainDrawer(),
 
       body: ListView(
@@ -45,7 +47,7 @@ class _AccessoriesState extends State<Accessories> {
             Container(
               height: MediaQuery.of(context).size.height - 180,
               decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: white,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(100),
                     bottomRight: Radius.circular(150),
@@ -58,14 +60,14 @@ class _AccessoriesState extends State<Accessories> {
                   Padding(
                       padding: EdgeInsets.only(top: 45),
                       child: Container(
-                        height: MediaQuery
+                        width: MediaQuery
                             .of(context)
                             .size
-                            .height - 300,
+                            .width - 300,
 
                         child: ListTile(
-                          leading:
-                          Switch(
+                          leading: Image.asset('images/categories/darkMode.png',alignment: Alignment.topLeft,),
+                          subtitle: Switch(
                                 value: isSwitched,
                                 onChanged: (value) {
                                  setState(() {
@@ -83,8 +85,8 @@ class _AccessoriesState extends State<Accessories> {
                                  });
                                 },
                               activeColor: Colors.white,
-                              inactiveThumbColor: Colors.black,
-                              inactiveTrackColor: Colors.red,
+                              inactiveThumbColor: Colors.grey[700],
+                              inactiveTrackColor: Colors.grey,
 
                               ),
                         ) ,

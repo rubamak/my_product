@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:my_product/color/my_colors.dart';
 import 'package:my_product/pages/product_details_latest_products.dart';
+
 
 class LatestProducts extends StatefulWidget {
   const LatestProducts({Key key}) : super(key: key);
@@ -147,24 +149,24 @@ class Single_prod extends StatelessWidget {
                 ),//push
 
                 child: GridTile(
-
                   footer: Container(
                     height:90,
-                    color: Colors.white54,
+                    color: white,
                     child: ListTile(
 
                       leading: Text(product_name,
-                          style: TextStyle(fontWeight: FontWeight.bold)),
+                          style: TextStyle(fontWeight: FontWeight.bold,color:black)),
                       title: Text(
                         "SR $product_price",
                         style: TextStyle(
-                            color: Colors.pink.shade200,
+                            color: black,
                             fontWeight: FontWeight.w800),
                       ),
                       subtitle: Text(
                         "Account Name : $product_owner",
-                        style: const TextStyle(
-                            color: Colors.black87, fontWeight: FontWeight.w800, fontSize: 12),
+                        //ربا هنا قبل التيكست ستايل كان في const شلتها لانو اللون مارضي يتغير الا هنا
+                        style: TextStyle(
+                             fontWeight: FontWeight.w800, fontSize: 12,color:black,),
                       ),
                     ),
                   ),
