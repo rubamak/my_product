@@ -44,7 +44,7 @@ class _SettingsPageState extends State<SettingsPage> {
         backgroundColor: basicColor,
         toolbarHeight: 80,
       ),
-      backgroundColor: basicColor,
+      backgroundColor: white,
       //endDrawer: MainDrawer(),
 
       body: ListView(
@@ -86,11 +86,16 @@ class _SettingsPageState extends State<SettingsPage> {
 
                               if (isSwitched == true) {
                                 black = Colors.white;
-                                white = Colors.black;
+                                white = Colors.black38;
+
+
                               }
                               if (isSwitched == false) {
                                 black = Colors.black;
                                 white = Colors.white;
+
+
+
                               }
                             });
                           },

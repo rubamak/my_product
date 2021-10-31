@@ -42,7 +42,7 @@ class ProductItem extends StatelessWidget {
               child: Row(
                 children: <Widget>[
                   Hero(
-                      tag: productId  ,
+                      tag:productId,
                       child: Image(
                     image: AssetImage(productImage),
                     fit: BoxFit.cover,
@@ -58,8 +58,8 @@ class ProductItem extends StatelessWidget {
                       Text(productName,
                         softWrap: true,
                         textAlign: TextAlign.justify,
-                        style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold),),
-                      Text("${price} SR", style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold,color: grey),),
+                        style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold,color: black),),
+                      Text("${price} SR", style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold,color: black),),
 
                     ],
                   )

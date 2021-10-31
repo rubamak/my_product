@@ -27,6 +27,7 @@ class ProductDetailScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(color: black),
         toolbarHeight: 100,
         elevation: 0,
         backgroundColor: basicColor,
@@ -34,13 +35,13 @@ class ProductDetailScreen extends StatelessWidget {
         title: Text(
           "${selectedProduct.productName} Information",
           style: TextStyle(
-            color: Colors.white,
+            color: black,
             fontWeight: FontWeight.bold,
             fontSize: 23,
           ),
         ),
       ),
-      backgroundColor: Color(0xFF90A4AE),
+      backgroundColor: basicColor,
       body: ListView(children: [
         Stack(
             children:
@@ -57,7 +58,7 @@ class ProductDetailScreen extends StatelessWidget {
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(45),
                         topRight: Radius.circular(45)),
-                    color: Colors.white,
+                    color: white,
                   ),
                   height: MediaQuery.of(context).size.height - 100,
                   width: MediaQuery.of(context).size.width,
@@ -93,7 +94,7 @@ class ProductDetailScreen extends StatelessWidget {
                     Text(" Name:  ${selectedProduct.productName} ",
                       style: TextStyle(
                           fontSize: 22,
-                          fontWeight: FontWeight.bold
+                          fontWeight: FontWeight.bold,color:black
                       ),
                     ),
                     SizedBox(height: 15),
@@ -102,7 +103,7 @@ class ProductDetailScreen extends StatelessWidget {
                     Text( "price: ${selectedProduct.price} ",
                       style: TextStyle(
                         fontSize: 20,
-                        color: Colors.grey,
+                        color: black,
                       ),
                     ),
                     SizedBox(height: 15),
@@ -110,7 +111,7 @@ class ProductDetailScreen extends StatelessWidget {
                     Text(" description: ${selectedProduct.description} ",
                       style: TextStyle(
                         fontSize: 20,
-                        color: Colors.grey,
+                        color: black,
                       ),
                       textAlign: TextAlign.center,
                     ),
@@ -118,14 +119,14 @@ class ProductDetailScreen extends StatelessWidget {
                     Text(" Owner Name: ${selectedProduct.familyName} ",
                       style: TextStyle(
                         fontSize: 20,
-                        color: Colors.grey,
+                        color: black,
                       ),
                     ),
                     SizedBox(height: 5),
                     Text(" Category: ${selectedProduct.categoryName} ",
                       style: TextStyle(
                         fontSize: 20,
-                        color: Colors.grey,
+                        color: black,
 
                       ),
 

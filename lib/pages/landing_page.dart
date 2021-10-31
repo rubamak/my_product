@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:my_product/color/my_colors.dart';
 
 import 'home_page.dart';
 import 'login.dart';
@@ -59,7 +60,7 @@ class LandingPage extends StatelessWidget {
                               style: TextStyle(
                                   fontWeight: FontWeight.w600,
                                   fontSize: 35,
-                                  color: Colors.grey)),
+                                  color: black)),
                           CircularProgressIndicator(),
                         ]),
                   ),
@@ -74,7 +75,7 @@ class LandingPage extends StatelessWidget {
               Center(
                   child: Text(
                 "initializing the App ",
-                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 30),
+                style: TextStyle(color: black,fontWeight: FontWeight.w600, fontSize: 30),
                 textAlign: TextAlign.center,
               )),
             ]),

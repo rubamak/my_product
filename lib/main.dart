@@ -19,6 +19,10 @@ import 'package:my_product/pages/drawer_section_pages/settings_page.dart';
 import 'package:my_product/pages/drawer_section_pages/single_chat_screen.dart';
 import 'package:my_product/pages/drawer_section_pages/favorite_screen.dart';
 import 'package:my_product/pages/my_family_store_page.dart';
+import 'package:my_product/widgets/category_item.dart';
+import 'package:my_product/widgets/family_item.dart';
+import 'package:my_product/widgets/main_drawer.dart';
+import 'package:my_product/widgets/product_item.dart';
 import '../pages/families_screen.dart';
 import 'package:my_product/pages/home_page.dart';
 import 'package:my_product/pages/landing_page.dart';
@@ -33,6 +37,7 @@ import 'color/my_colors.dart';
 import 'components/cart_products.dart';
 import 'components/horizontel_listview.dart';
 import 'components/latest_products.dart';
+import 'json_test.dart';
 import 'modules/product.dart';
 import '../pages/category_screen.dart';
 import 'package:provider/provider.dart';
@@ -93,7 +98,8 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
 
-    return GetMaterialApp(  //MaterialApp
+    return GetMaterialApp(
+      //MaterialApp
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primaryColor:basicColor,
@@ -106,7 +112,7 @@ class _MyAppState extends State<MyApp> {
           //home:
         initialRoute:'/' ,
         getPages: [
-          GetPage(name: '/', page:()=> CategoryScreen()),
+          GetPage(name: '/', page:()=> HomePage()),
           GetPage(name: TapsScreen.routeName,  page:()=> TapsScreen(_favoriteProducts)),
           GetPage(name: CategoryScreen.routeName,  page:()=> CategoryScreen()),
           GetPage(name: FamiliesScreen.routeName, page: ()=>FamiliesScreen()),

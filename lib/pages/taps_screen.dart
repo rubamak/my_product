@@ -56,6 +56,7 @@ class _TapsScreenState extends State<TapsScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(color: black),
         elevation: 0,
         leading: IconButton(
           onPressed: ()=> Navigator.of(context).pop() ,
@@ -70,19 +71,19 @@ class _TapsScreenState extends State<TapsScreen> {
 
 
       style: TextStyle(
-              color: Colors.white,
+              color: black,
               fontWeight: FontWeight.bold,
               fontSize: 23,
             ),
 
           ),
         ),
-        backgroundColor: Color(0xFF90A4AE),
+        backgroundColor: basicColor,
         toolbarHeight: 80,
       ),
      //endDrawer: MainDrawer(),
 
-      backgroundColor: Color(0xFF90A4AE),
+      backgroundColor: basicColor,
 
       body:ListView(
           children: <Widget>[
@@ -90,8 +91,10 @@ class _TapsScreenState extends State<TapsScreen> {
             Container(
               height: MediaQuery.of(context).size.height - 180,
               decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(topLeft: Radius.circular(100),bottomRight:Radius.circular(150),)),
+                  color: white,
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(100),
+                    //bottomRight:Radius.circular(150),
+                  )),
 
 
               child: ListView(
@@ -106,7 +109,9 @@ class _TapsScreenState extends State<TapsScreen> {
                           .size
                           .height - 300,
                       child: Container(decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(topLeft: Radius.circular(200),bottomRight:Radius.circular(150),)),
+                          borderRadius: BorderRadius.only(topLeft: Radius.circular(200)
+                            //,bottomRight:Radius.circular(150),
+                            )),
                           child: (_pages[_selectedPageIndex]['page']) as Widget,
 
                       ),
@@ -133,16 +138,17 @@ class _TapsScreenState extends State<TapsScreen> {
         unselectedItemColor: black,
         currentIndex: _selectedPageIndex,
         onTap: _selectSection,
-        backgroundColor: Color(0xFF90A4AE),
-        items: const [
+        backgroundColor: basicColor,
+        //هنا برضو كان في كونست قبل اللست
+        items: [
           BottomNavigationBarItem(
-              icon: Icon(Icons.dashboard_outlined),
-              title:Text( "Categories")
+              icon: Icon(Icons.dashboard_outlined,color:black),
+              title:Text( "Categories",style: TextStyle(color:black),)
 
           ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.star_border_outlined),
-              title: Text("Favorites")
+              icon: Icon(Icons.star_border_outlined,color:black),
+              title: Text("Favorites",style: TextStyle(color:black),)
 
           ),
         ],

@@ -27,38 +27,41 @@ class ProductsScreen extends StatelessWidget {
 
     return Scaffold(
         appBar: AppBar(
+          iconTheme: IconThemeData(color:black),
           elevation: 0,
           leading:  IconButton(
             icon: Icon(Icons.arrow_back_ios),
             onPressed: () {
               Navigator.of(context).pop(familyName);
             },
-            color: Colors.white,
+            color: white,
           ),
 
           title: Padding(
             padding: EdgeInsets.only(top: 1),
             child: Text("Products of ${familyName.toString()}",
               style: TextStyle(
-                color: Colors.white,
+                color: black,
                 fontWeight: FontWeight.bold,
                 fontSize: 23,
               ),
             ),
           ),
-          backgroundColor: Color(0xFF90A4AE),
+          backgroundColor: basicColor,
           toolbarHeight: 80,
         ),
         //endDrawer: MainDrawer(),
-        backgroundColor: Color(0xFF90A4AE),
+        backgroundColor: basicColor,
       body: ListView(
           children: <Widget>[
             SizedBox(height: 20,), //between them
             Container(
               height: MediaQuery.of(context).size.height - 180,
               decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(topLeft: Radius.circular(100),bottomRight:Radius.circular(150),)),
+                  color: white,
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(100),
+                    //bottomRight:Radius.circular(150)
+                    )),
 
               child: ListView(
                 primary: false,

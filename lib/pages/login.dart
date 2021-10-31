@@ -69,7 +69,7 @@ class _LoginState extends State<Login> {
               context: context,
               title: "Error",
               showCloseIcon: true,
-              body: Text("user not registered !"))
+              body: Text("user not registered !",style: TextStyle(color: black),))
             ..show();
 
           print('No user found for that email.');
@@ -79,7 +79,7 @@ class _LoginState extends State<Login> {
               context: context,
               title: "Error",
               showCloseIcon: true,
-              body: Text("wrong password"))..show();
+              body: Text("wrong password",style: TextStyle(color: black),))..show();
         }
       }
       // }catch(e){
@@ -185,19 +185,22 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: white,
       appBar: new AppBar(
+        iconTheme: IconThemeData(color: black),
         leading:  IconButton(
           icon: Icon(Icons.arrow_back_ios),
           onPressed: () {
             Navigator.of(context).pop();
           },
-          color: Colors.white,
+          color: black,
         ),
         elevation: 0,// remove the shadows
         backgroundColor: basicColor,
-        title: const Text(
-          'Login page ',
-          style: TextStyle(fontSize: 30),
+        //كان هنا في كونست وشلتها ياربا عطلتني عن شغله :قبل التكست
+        title: Text(
+          "Login page ",
+          style: TextStyle(fontSize: 30,color: black ),
         ),
         toolbarHeight: 100,
       ),
@@ -212,7 +215,9 @@ class _LoginState extends State<Login> {
                   height: MediaQuery.of(context).size.height - 180,
                   decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.only(topLeft: Radius.circular(100),bottomRight:Radius.circular(150),)),
+                      borderRadius: BorderRadius.only(topLeft: Radius.circular(100),
+                       // bottomRight:Radius.circular(150),
+                      )),
 
                        child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 80,horizontal: 20),
@@ -223,11 +228,12 @@ class _LoginState extends State<Login> {
                               keyboardType: TextInputType.emailAddress,
                               decoration: InputDecoration(
                                 border: OutlineInputBorder(
+                                  borderSide: BorderSide(width: 2,color:basicColor),
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                                 labelText: "Enter Email :",
                                 labelStyle: TextStyle(
-                                    fontWeight: FontWeight.bold, fontStyle: FontStyle.italic),
+                                    fontWeight: FontWeight.w400, fontStyle: FontStyle.italic,color:black),
                                 prefix: Icon(
                                   Icons.email_outlined,
                                 ),
@@ -273,11 +279,12 @@ class _LoginState extends State<Login> {
                           keyboardType: TextInputType.visiblePassword,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
+                              borderSide: BorderSide(width: 2,color:basicColor),
                               borderRadius: BorderRadius.circular(20),
                             ),
                             labelText: "Enter password :",
                             labelStyle: TextStyle(
-                                fontWeight: FontWeight.bold, fontStyle: FontStyle.italic),
+                                fontWeight: FontWeight.w400, fontStyle: FontStyle.italic,color: black),
                             prefix: Icon(
                               Icons.lock_outline,
                             ),
@@ -321,7 +328,7 @@ class _LoginState extends State<Login> {
                             color: basicColor,
                             child: Text(
                               " login ",
-                              style: TextStyle(color: Colors.white),
+                              style: TextStyle(color: black),
                             ),
                             onPressed: () async {
                               var  userCred = await _loginUser();
@@ -343,6 +350,7 @@ class _LoginState extends State<Login> {
                               children: [
                                 Text(
                                   "Don't Have an account.",
+                                  style: TextStyle(color: black),
                                 ),
                                 MaterialButton(
                                   // color: basicColor.withOpacity(0.2),

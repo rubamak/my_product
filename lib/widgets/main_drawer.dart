@@ -58,9 +58,6 @@ var userEmail ;
       // sharedpref.setString('email',);
       print(" shared get it ");
     });
-
-
-
   }
 
 
@@ -120,6 +117,9 @@ var userEmail ;
 
   Widget build(BuildContext context) {
     return Drawer(
+      child:Container(
+        color: white,
+
       child: ListView(
         children: <Widget>[
           //header
@@ -127,6 +127,7 @@ var userEmail ;
             children: [
              // SizedBox(height: 100,child: Image.asset('images/logo.png'),),
               Padding(
+
                 padding: const EdgeInsets.all(10.0),
                 child: InkWell(
                     onTap: () async {
@@ -135,17 +136,17 @@ var userEmail ;
               ),
 
               UserAccountsDrawerHeader(
-                decoration: const BoxDecoration(
+                decoration:  BoxDecoration(
                   borderRadius: BorderRadius.only(topLeft: Radius.circular(50),bottomRight:Radius.circular(50),),
-                  color: Color(0xFF90A4AE),
+                  color: basicColor,
 
                 ),
 
                 //بعدين حيصير ياخد الايميل من الداتا بيز لما ينضافو
 
                 accountName:
-                checkLogin() ? Text(widget.username):
-                Text('Guest'),
+                checkLogin() ? Text(widget.username,style: TextStyle(color:black)):
+                Text('Guest',style: TextStyle(color:black),),
                     // FutureBuilder(
                     //   future: getData(firebaseUser!.uid),
                     //   builder: (_,AsyncSnapshot snapshot){
@@ -160,14 +161,15 @@ var userEmail ;
 
                 accountEmail:
                 checkLogin()?
-                Text(widget.useremail):Text('Mode'),
+                Text(widget.useremail):Text('Mode',style: TextStyle(color: black),),
                 //فيه ايرور انه لما يسجل خروج يصير نل هنا وصفحة حمرا(ضبطت الايرور بنجاح )
 
                 currentAccountPicture: GestureDetector(
                   child:
-                    const CircleAvatar(
-                      backgroundColor: Colors.white,
-                      child: Icon(Icons.person, color: Colors.grey),
+                      //هنا كان في كمان كونست
+                     CircleAvatar(
+                      backgroundColor: white,
+                      child: Icon(Icons.person, color: black),
                     ),
 
 
@@ -212,8 +214,9 @@ var userEmail ;
                //Get.to(Login());
                Get.to(()=> Login());
                 },
-              child: const Text("Login", style: TextStyle(color: Colors.white),),
-              color: Color(0xFF90A4AE),
+               //هنا كمان شلت كونست
+              child:  Text("Login", style: TextStyle(color: black),),
+              color:basicColor,
           ),
            ),
            checkLogin() ? Padding(
@@ -225,24 +228,25 @@ var userEmail ;
                 //Navigator.of(context).pop();
                 Get.back();
               },
-              color: Color(0xFF90A4AE),
-              child: const Text(
+              color: basicColor,
+               //هنا كمان حذن كونست
+              child: Text(
                 " Sign Out",
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: black),
               ),),
-           ) : Text("Login to gain more features",textAlign: TextAlign.center,),
+           ) : Text("Login to gain more features",textAlign: TextAlign.center,style: TextStyle(color: black),),
         ],
       ),
-    );
+      ));
 
   }
   // use voidCallback for use void method that not using ()=>
   Widget buildListTile(String title, IconData icon ,VoidCallback onTapHandler, ){
     return ListTile(
       onTap: onTapHandler,
-      title: Text(title, style: TextStyle(color: basicColor),
+      title: Text(title, style: TextStyle(color: black),
       ),
-      leading: Icon(icon, color: grey),
+      leading: Icon(icon, color: black),
     );
   }
 

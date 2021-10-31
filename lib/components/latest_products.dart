@@ -160,7 +160,7 @@ class Single_prod extends StatelessWidget {
                         "SR $product_price",
                         style: TextStyle(
                             color: black,
-                            fontWeight: FontWeight.w800),
+                            fontWeight: FontWeight.w300 ,),
                       ),
                       subtitle: Text(
                         "Account Name : $product_owner",

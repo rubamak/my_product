@@ -48,6 +48,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: white,
       body: Container(
         child: categoriesFlowList(context),
       ),
@@ -65,7 +66,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
         itemBuilder: (context, i) {
           return InkWell(
               borderRadius: BorderRadius.circular(50),
-              splashColor: Colors.black,
+              splashColor: black,
               child: Card(
                 child: Column(children: [
                   Container(
@@ -87,14 +88,9 @@ class _CategoryScreenState extends State<CategoryScreen> {
                 ]),
               ),
             onTap: (){
-              Navigator.of(context).push(new MaterialPageRoute(
-                  builder: (BuildContext context) => FamiliesScreen(
-                    //ikhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
-                    //hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
-                    //hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
-                    //hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
-                    //selectedCategory: categoryList.docs[i],
-                  )));
+               Navigator.of(context).push(new MaterialPageRoute(
+                   builder: (BuildContext context) =>
+                       FamiliesScreen( selectedCategory: categoryList.docs[i],)));
             },
           );
         },

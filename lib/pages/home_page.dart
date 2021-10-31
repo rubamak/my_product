@@ -119,6 +119,7 @@ class _HomePageState extends State<HomePage> {
       ),
     );
     return Scaffold(
+      backgroundColor: white,
       appBar: AppBar(
         iconTheme: IconThemeData(color: black),
         // leading: IconButton(
@@ -134,7 +135,7 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: basicColor,
         title: Text(
           'Home Page',
-          style: TextStyle(color: white, fontSize: 30),
+          style: TextStyle(color: black, fontSize: 30),
         ),
         centerTitle: true,
 
@@ -195,23 +196,25 @@ class _HomePageState extends State<HomePage> {
                   height: 50,
                   decoration: BoxDecoration(color: white, boxShadow: [
                     BoxShadow(
-                      color: Color(0xFF90A4AE),
+                      color: basicColor,
                       offset: Offset(5, 10),
                       blurRadius: 8,
                     )
                   ]),
+                  //هنا كان في كونست وشلتها برضو لانها برضو عطلتني ياربا
                   child: ListTile(
-                    leading: const Icon(
+                    leading:  Icon(
                       Icons.search,
                       size: 50,
-                      color: Color(0xFF90A4AE),
+                      color: basicColor,
+                      //وهنا كمان نفس الكومنت اللي فوق
 
                     ),
                     title: TextField(
-                      decoration: const InputDecoration(
+                      decoration:  InputDecoration(
                         hintText: "Find what you want..",
                         hintStyle: TextStyle(
-                            color: Color(0xFF90A4AE),
+                            color: basicColor,
                             fontWeight: FontWeight.bold),
                         border: InputBorder.none,
                       ),
@@ -243,7 +246,7 @@ class _HomePageState extends State<HomePage> {
                   padding: EdgeInsets.all(10.0),
                   child: Text('Press below for Latest Products! ',
                       style: TextStyle(
-                          fontSize: 25.0, fontWeight: FontWeight.w800))),
+                          fontSize: 25.0, fontWeight: FontWeight.w800,color: black))),
 
               //make it flexible with any screen to avoid problem
               //Flexible(child: Products()) ,
@@ -270,6 +273,7 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: basicColor,
         child: Icon(
           Icons.new_label_outlined,
+          color: black,
         ),
       ),
     );

@@ -62,7 +62,7 @@ List<FamilyStore> DUMMY_FAMILIES_STORES = [
   FamilyStore(
     familyId: "4",
       familyName: 'Little Service ',
-      description: 'small descriptionssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss',
+      description: 'small descriptionssss',
       userId: "4",
       categoryId: "5",
     familyImage: 'images/family.jpg',

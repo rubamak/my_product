@@ -141,10 +141,11 @@ CollectionReference collectionReference = FirebaseFirestore.instance.collection(
 
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(color: black),
         toolbarHeight: 100,
         centerTitle: true,
         elevation: 0,
-        title: Text("My Products "),
+        title: Text("My Products ",style: TextStyle(color: black),),
         backgroundColor: Theme.of(context).primaryColor,
       ),
       body: productList.isEmpty ?
@@ -159,7 +160,7 @@ CollectionReference collectionReference = FirebaseFirestore.instance.collection(
               ),
 
               child: Center(
-                child: Text("No Products added,",style: TextStyle(fontSize: 40),),),
+                child: Text("No Products added,",style: TextStyle(fontSize: 40,color:black),),),
             ),
           )
           :Container(
@@ -221,7 +222,7 @@ CollectionReference collectionReference = FirebaseFirestore.instance.collection(
                                                   Text(
                                                     productList[index].productName,
                                                     style: TextStyle(
-                                                        color: white,
+                                                        color: black,
                                                         fontSize: 20,
                                                         fontWeight: FontWeight.bold),
                                                   ),
@@ -230,7 +231,7 @@ CollectionReference collectionReference = FirebaseFirestore.instance.collection(
                                                   Text(
                                                     productList[index].categoryName,
                                                     style: TextStyle(
-                                                        color: white,
+                                                        color: black,
                                                         fontSize: 20,
                                                         fontWeight: FontWeight.bold),
                                                   ),
@@ -240,7 +241,7 @@ CollectionReference collectionReference = FirebaseFirestore.instance.collection(
                                                     width: 200,
                                                     child: Text(
                                                       productList[index].description, style: TextStyle(
-                                                        color: white,
+                                                        color: black,
                                                         fontSize: 20,
                                                         fontWeight: FontWeight.bold),
                                                       softWrap: true,
@@ -254,7 +255,7 @@ CollectionReference collectionReference = FirebaseFirestore.instance.collection(
                                                   Text(
                                                     "${productList[index].price} SR",
                                                     style: TextStyle(
-                                                        color: white,
+                                                        color: black,
                                                         fontSize: 20,
                                                         fontWeight: FontWeight.bold),
                                                   ),
@@ -265,7 +266,7 @@ CollectionReference collectionReference = FirebaseFirestore.instance.collection(
                                             ),
                                             Expanded(flex: 2,
 
-                                              child:  Icon(Icons.arrow_forward_ios,color: white,),
+                                              child:  Icon(Icons.arrow_forward_ios,color: black,),
                                             )
                                           ],
                                         ),
@@ -412,8 +413,8 @@ CollectionReference collectionReference = FirebaseFirestore.instance.collection(
           color: basicColor,
         ),
         child: TextButton.icon(
-              label: Text("add product",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,color: white),),
-              icon: Icon(Icons.add,color: white,),
+              label: Text("add product",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,color: black),),
+              icon: Icon(Icons.add,color: black,),
                 onPressed: ()=> Navigator.push(context, MaterialPageRoute(builder: (context)=> AddProduct())),
 
             )

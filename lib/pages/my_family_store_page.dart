@@ -64,12 +64,13 @@ class _MyFamilyStorePageState extends State<MyFamilyStorePage> {
     return
       Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(color: black),
         toolbarHeight: 100,
         centerTitle: true,
         elevation: 0,
         title: hasStore ?
             Text(familyStore)
-            :Text("No store"),
+            :Text("No store",style: TextStyle(color: black),),
         backgroundColor: Theme.of(context).primaryColor,
       ),
       body: Container(
@@ -85,7 +86,7 @@ class _MyFamilyStorePageState extends State<MyFamilyStorePage> {
           child:
 
           Center(
-            child: Text("No Store Added,",style: TextStyle(fontSize: 40),),)
+            child: Text("No Store Added,",style: TextStyle(fontSize: 40,color:black,fontWeight: FontWeight.w300),),)
 
 
         ),
@@ -104,15 +105,15 @@ class _MyFamilyStorePageState extends State<MyFamilyStorePage> {
           ),
           child:
               hasStore? TextButton.icon(
-                label: Text("add products",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18,color: white),),
-                icon: Icon(Icons.add,color: white,),
+                label: Text("add products",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 18,color: black),),
+                icon: Icon(Icons.add,color: black,),
                 onPressed: ()=>
                     //Navigator.push(context, MaterialPageRoute(builder: (context)=> AddProduct())),
                     Get.to(()=> AddProduct()),
               ):
           TextButton.icon(
-            label: Text("add a Store",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18,color: white),),
-            icon: Icon(Icons.add,color: white,),
+            label: Text("add a Store",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18,color: black),),
+            icon: Icon(Icons.add,color: black,),
             onPressed: ()=>
                 //Navigator.push(context, MaterialPageRoute(builder: (context)=> AddFamilyStore())),
                 Get.to(()=> AddFamilyStore()),

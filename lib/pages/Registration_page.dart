@@ -39,7 +39,7 @@ class _RegistartionState extends State<Registartion> {
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
-      backgroundColor: Colors.grey[200],
+      backgroundColor: white,
       body:Center(
         child: Form(
           key: _formKey,
@@ -47,7 +47,9 @@ class _RegistartionState extends State<Registartion> {
             padding: const EdgeInsets.only(top: 50),
             child: ListView(
               children: [
-                Container(child: Text("Sign up Form ",textAlign: TextAlign.center,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 30,backgroundColor: Colors.grey[200]),),),
+                Container(child: Text("Sign up Form ",textAlign: TextAlign.center,
+                  style: TextStyle(fontWeight: FontWeight.bold,fontSize: 30,
+                    backgroundColor: white,color:black),),),
                 Container(
                   padding: EdgeInsets.all(20),
                   child: TextFormField(
@@ -59,16 +61,16 @@ class _RegistartionState extends State<Registartion> {
                         borderSide: BorderSide(width: 2, color: basicColor),
                         borderRadius: BorderRadius.circular(20.0),
                       ),
-                      labelStyle: TextStyle(color: Colors.black54),
+                      labelStyle: TextStyle(color: black),
                       //hintText: "Ruba..",
                       hintStyle: TextStyle(
                           fontWeight: FontWeight.w900,
-                          color: Colors.white,
+                          color: white,
                           fontStyle: FontStyle.italic),
-                      prefixIcon: IconButton( icon: Icon(Icons.person_pin_outlined, color: Colors.black54,), onPressed: () {  },),
+                      prefixIcon: IconButton( icon: Icon(Icons.person_pin_outlined, color:black,), onPressed: () {  },),
                     ),
                     keyboardType: TextInputType.name,
-                    cursorColor: basicColor,
+                    cursorColor: black,
                     controller: _firstNameController,
                     validator: (val){
                       if(val.isEmpty|| val.length < 2) {
@@ -87,22 +89,22 @@ class _RegistartionState extends State<Registartion> {
                 Container(
                   padding: EdgeInsets.all(20),
                   child: TextFormField(
-                    style: TextStyle(color: Colors.black54),
+                    style: TextStyle(color:black),
                     decoration: InputDecoration(labelText: "Enter Your Last Name:",
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(width: 2, color: basicColor),
                         borderRadius: BorderRadius.circular(20.0),
                       ),
-                      labelStyle: TextStyle(color: Colors.black54),
+                      labelStyle: TextStyle(color: black),
                       //hintText: "Almakkawi",
                       hintStyle: TextStyle(
                           fontWeight: FontWeight.w900,
-                          color: Colors.black54,
+                          color: black,
                           fontStyle: FontStyle.italic),
-                      prefixIcon: IconButton( icon: Icon(Icons.people_alt_outlined, color: Colors.black54,), onPressed: () {  },),
+                      prefixIcon: IconButton( icon: Icon(Icons.people_alt_outlined, color: black,), onPressed: () {  },),
                     ),
                     keyboardType: TextInputType.name,
-                    cursorColor: basicColor,
+                    cursorColor: black,
                     controller:   _lastNameController,
                     validator: (val){
                       if(val.isEmpty ) {
@@ -123,22 +125,22 @@ class _RegistartionState extends State<Registartion> {
 
                     //type of text
                     //keyboardType: TextInputType.,
-                    style: TextStyle(color: Colors.black54),
+                    style: TextStyle(color: black),
                     decoration: InputDecoration(labelText: "Enter username :",
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(width: 2, color: basicColor),
                         borderRadius: BorderRadius.circular(20.0),
                       ),
-                      labelStyle: TextStyle(color: Colors.black54),
+                      labelStyle: TextStyle(color: black),
                       hintText: "roro store/ roro_99",
                       hintStyle: TextStyle(
                           fontWeight: FontWeight.w900,
-                          color: Colors.black54,
+                          color: black,
                           fontStyle: FontStyle.italic),
-                      prefixIcon: IconButton( icon: Icon(Icons.people_alt_outlined, color: Colors.black54,), onPressed: () {  },),
+                      prefixIcon: IconButton( icon: Icon(Icons.people_alt_outlined, color: black,), onPressed: () {  },),
                     ),
                     keyboardType: TextInputType.name,
-                    cursorColor: basicColor,
+                    cursorColor: black,
                     controller:   _usernameController,
                     validator: (val){
                       if(val.isEmpty ) {
@@ -165,22 +167,22 @@ class _RegistartionState extends State<Registartion> {
                 Container(
                   padding: EdgeInsets.all(20),
                   child: TextFormField(
-                    style: TextStyle(color: Colors.black54),
+                    style: TextStyle(color: black),
                     decoration: InputDecoration(labelText: "Enter Email:",
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(width: 2, color: basicColor),
                         borderRadius: BorderRadius.circular(20.0),
                       ),
-                      labelStyle: TextStyle(color: Colors.black54),
+                      labelStyle: TextStyle(color: black),
                       hintText: "example@gmail.com",
                       hintStyle: TextStyle(
                           fontWeight: FontWeight.w900,
-                          color: Colors.black54,
+                          color: black,
                           fontStyle: FontStyle.italic),
-                      suffixIcon: IconButton(onPressed: _emailController.clear, icon: Icon(Icons.cancel, color: Colors.black54,),),
+                      suffixIcon: IconButton(onPressed: _emailController.clear, icon: Icon(Icons.cancel, color: black,),),
                     ),
                     keyboardType: TextInputType.emailAddress,
-                    cursorColor: basicColor,
+                    cursorColor: black,
                     controller: _emailController,
                     validator: (val) {
                       if(val== null || !val.contains("@")|| !val.contains(".")) {
@@ -195,8 +197,8 @@ class _RegistartionState extends State<Registartion> {
                 Container(
                   padding: EdgeInsets.all(20),
                   child: TextFormField(
-                    style: TextStyle(color: Colors.black54),
-                    decoration: InputDecoration(labelText: "Enter Password:", labelStyle: TextStyle(color: Colors.black54),
+                    style: TextStyle(color: black),
+                    decoration: InputDecoration(labelText: "Enter Password:", labelStyle: TextStyle(color: black),
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(width: 2, color:basicColor),
                         borderRadius: BorderRadius.circular(20.0),
@@ -208,13 +210,13 @@ class _RegistartionState extends State<Registartion> {
                         icon: Icon(
                           passwordVisible ? Icons.visibility_off : Icons
                               .visibility,
-                          color: Colors.black54,
+                          color: black,
                         ),
                       ),
                     ),
                     obscureText: passwordVisible,
                     keyboardType: TextInputType.visiblePassword,
-                    cursorColor: basicColor,
+                    cursorColor: black,
                     controller: _passwordController,
                     validator: (val) {
                       if(val.toString().length < 8 || val == null) {
@@ -229,8 +231,8 @@ class _RegistartionState extends State<Registartion> {
                 Container(
                   padding: EdgeInsets.all(20),
                   child: TextFormField(
-                    style: TextStyle(color: Colors.black54),
-                    decoration: InputDecoration(labelText: "Confirm Password", labelStyle: TextStyle(color: Colors.black54),
+                    style: TextStyle(color: black),
+                    decoration: InputDecoration(labelText: "Confirm Password", labelStyle: TextStyle(color: black),
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(width: 2, color: basicColor),
                         borderRadius: BorderRadius.circular(20.0),
@@ -242,7 +244,7 @@ class _RegistartionState extends State<Registartion> {
                         icon: Icon(
                           passwordVisible2 ? Icons.visibility_off : Icons
                               .visibility,
-                          color: Colors.black54,
+                          color: black,
                         ),
                       ),
                     ),
@@ -263,7 +265,7 @@ class _RegistartionState extends State<Registartion> {
                 Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: ElevatedButton(
-                    child: Text('Sign Up'),
+                    child: Text('Sign Up',style: TextStyle(color:black),),
                     onPressed:
                       signUp,
                     style: ElevatedButton.styleFrom(
@@ -277,7 +279,7 @@ class _RegistartionState extends State<Registartion> {
                 Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: MaterialButton(
-                    child: Text('Sign with google'),
+                    child: Text('Sign with google',style:TextStyle(color:black)),
                     onPressed: signInWithGoogle,
                     // style: ElevatedButton.styleFrom(
                     //   padding: EdgeInsets.all(10),
@@ -356,12 +358,12 @@ class _RegistartionState extends State<Registartion> {
     } on FirebaseException catch(e) {
       if (e.code == 'weak-password') {
         AwesomeDialog(context: context, title: "Something wrong!",
-          body: Text("password is too weak"),)
+          body: Text("password is too weak",style: TextStyle(color:black),),)
           ..show();
         print("weak pass");
       } else if (e.code == 'email-already-in-use') {
         AwesomeDialog(context: context, title: "Something wrong!",
-          body: Text("email is used by another account.."),)
+          body: Text("email is used by another account..",style: TextStyle(color:black)),)
           ..show();
         print("emaid is used ");
       }
@@ -412,7 +414,7 @@ class _RegistartionState extends State<Registartion> {
       idToken: googleAuth?.idToken,
     );
     addUser();
-    Fluttertoast.showToast(msg: "google account created!");
+    Fluttertoast.showToast(msg: "google account created!",textColor: black);
 
 
     // Once signed in, return the UserCredential

@@ -80,7 +80,7 @@ class FamilyItem extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
 
-                         Text(familyName??"none",style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold),),
+                         Text(familyName??"none",style: TextStyle(color:black,fontSize: 17,fontWeight: FontWeight.bold),),
                          SizedBox(height: 5,),
 
                       Container(
@@ -89,10 +89,10 @@ class FamilyItem extends StatelessWidget {
                               Text(description??"none",
                               softWrap: true,
                                overflow: TextOverflow.fade,
-                                style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold,color: grey),)
+                                style: TextStyle(fontSize: 17,fontWeight: FontWeight.normal,color: grey),)
 
                       ),
-                        Text("${categoryName} Store" ??"none",),
+                        Text("${categoryName} Store" ??"none",style: TextStyle(color:black),),
                       ],
                     )
                 ],
@@ -102,7 +102,7 @@ class FamilyItem extends StatelessWidget {
               IconButton(
                 onPressed: ()=> chatWithFamily(context),
                  // Navigator.of(context).pushNamed(ChatScreen.routeName);
-                icon: Icon(Icons.chat_outlined),
+                icon: Icon(Icons.chat_outlined,color: black,),
                 color: black,
               )
             ],

@@ -1,6 +1,7 @@
 
 
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_product/color/my_colors.dart';
 import 'dart:io';
@@ -25,6 +26,7 @@ class ProductDetails extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(color: black),
         elevation: 0,
         // leading:  IconButton(
         //   icon: Icon(Icons.arrow_back_ios),
@@ -39,13 +41,13 @@ class ProductDetails extends StatelessWidget {
           padding: EdgeInsets.only(top: 1),
           child: Text(filteredItem.productName ,
             style: TextStyle(
-              color: Colors.white,
+              color: black,
               fontWeight: FontWeight.bold,
               fontSize: 23,
             ),
           ),
         ),
-        backgroundColor: Color(0xFF90A4AE),
+        backgroundColor: basicColor,
         toolbarHeight: 80,
 
       ),
@@ -57,7 +59,7 @@ class ProductDetails extends StatelessWidget {
         height: MediaQuery.of(context).size.height - 180,
         width:75 ,
         decoration: BoxDecoration(
-            color: Colors.white,
+            color: white,
             borderRadius: BorderRadius.only(topLeft: Radius.circular(100),bottomRight:Radius.circular(150),)),
 
         child: Column(
@@ -92,7 +94,7 @@ class ProductDetails extends StatelessWidget {
           Navigator.pop(context,filteredItem.description);
         },
         backgroundColor: basicColor,
-        child: Icon(Icons.delete),
+        child: Icon(Icons.delete,color: black,),
       ),
 
 
@@ -127,13 +129,13 @@ class ProductDetails extends StatelessWidget {
               title,
               style: TextStyle(
                   fontSize: 20,
-                  fontWeight: FontWeight.bold),
+                  fontWeight: FontWeight.bold,color:black),
             ),
             Divider(color: black,),
             Text(
               desc, style: TextStyle(
                 fontSize: 20,
-                fontWeight: FontWeight.bold),
+                fontWeight: FontWeight.bold,color:black),
               textAlign: TextAlign.justify,
             ),
             Divider(color: black,),
@@ -141,7 +143,7 @@ class ProductDetails extends StatelessWidget {
               "$price SR",
               style: TextStyle(
 
-                  fontSize: 20,
+                  fontSize: 20,color:black,
                   fontWeight: FontWeight.bold),
             ),
             Divider(color: black,),
@@ -149,14 +151,14 @@ class ProductDetails extends StatelessWidget {
               familyName,
               style: TextStyle(
                   fontSize: 20,
-                  fontWeight: FontWeight.bold),
+                  fontWeight: FontWeight.bold,color:black),
             ),
             Divider(color: black,),
             Text(
               category,
               style: TextStyle(
                   fontSize: 20,
-                  fontWeight: FontWeight.bold),
+                  fontWeight: FontWeight.bold,color:black),
             ),
             Divider(color: black,),
 

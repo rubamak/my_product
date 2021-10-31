@@ -48,7 +48,11 @@ class _JsonTestState extends State<JsonTest> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("test",)),
+      appBar: AppBar(
+        backgroundColor: basicColor,
+        title: Text("test",style: TextStyle(color:black),),
+      iconTheme: IconThemeData(color: black),
+      ),
       body: FutureBuilder <dynamic> (  // make it dynamic for accept any type of data comes from Future
           future: fetchData(),
           builder:(BuildContext context, AsyncSnapshot<dynamic>snapshot) {// for more sure but here async dynamic
@@ -60,9 +64,9 @@ class _JsonTestState extends State<JsonTest> {
                   itemBuilder: (context, index) {
                     return ListTile(
 
-                      title: Text(snapshot.data[index]['title']),
+                      title: Text(snapshot.data[index]['title'],style: TextStyle(color: black),),
                       leading: CircleAvatar(backgroundImage: NetworkImage(snapshot.data[index]['thumbnailUrl']),),
-                      subtitle: Text("${snapshot.data[index]["id"]}"),
+                      subtitle: Text("${snapshot.data[index]["id"]}",style: TextStyle(color: black),),
                     );
                   }
 
