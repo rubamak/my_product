@@ -18,43 +18,45 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   bool isSwitched = false;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-
+        iconTheme: IconThemeData(color: black),
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios),
+          icon: Icon(Icons.arrow_back_ios, color: black,),
           onPressed: () {
-            //Navigator.of(context).push(MaterialPageRoute(builder: (context)=> HomePage()));
-            Get.back();
+            Navigator.of(context).pop();
           },
-          color: Colors.white,
+          color: white,
         ),
+
         title: Padding(
           padding: EdgeInsets.only(top: 1),
           child: Text("settings",
             style: TextStyle(
-              color: Colors.white,
+              color: black,
               fontWeight: FontWeight.bold,
               fontSize: 20,
             ),),
         ),
-        backgroundColor: Color(0xFF90A4AE),
+        backgroundColor: basicColor,
         toolbarHeight: 80,
       ),
-      backgroundColor: Color(0xFF90A4AE),
+      backgroundColor: basicColor,
       //endDrawer: MainDrawer(),
 
       body: ListView(
           children: <Widget>[
             SizedBox(height: 20,), //between them
             Container(
-              height: MediaQuery.of(context).size.height - 180,
+              height: MediaQuery
+                  .of(context)
+                  .size
+                  .height - 180,
               decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: white,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(100),
                     bottomRight: Radius.circular(150),
@@ -67,39 +69,37 @@ class _SettingsPageState extends State<SettingsPage> {
                   Padding(
                     padding: EdgeInsets.only(top: 45),
                     child: Container(
-                      height: MediaQuery
+                      width: MediaQuery
                           .of(context)
                           .size
-                          .height - 300,
+                          .width - 300,
 
                       child: ListTile(
-                        leading:
-                        Switch(
+                        leading: Image.asset('images/categories/darkMode.png',
+                          alignment: Alignment.topLeft,),
+                        subtitle: Switch(
                           value: isSwitched,
                           onChanged: (value) {
                             setState(() {
                               isSwitched = value;
                               print(isSwitched);
 
-                              if(isSwitched== true){
+                              if (isSwitched == true) {
                                 black = Colors.white;
                                 white = Colors.black;
-                                basicColor= Colors.grey;
                               }
-                              if(isSwitched== false) {
+                              if (isSwitched == false) {
                                 black = Colors.black;
-                                white =  Colors.white;
-
+                                white = Colors.white;
                               }
                             });
                           },
-                          activeColor: Colors.black,
-                          inactiveThumbColor: Colors.white,
-                          inactiveTrackColor: basicColor,
-                          activeTrackColor: basicColor,
+                          activeColor: Colors.white,
+                          inactiveThumbColor: Colors.grey[700],
+                          inactiveTrackColor: Colors.grey,
 
                         ),
-                      ) ,
+                      ),
                     ),
                   )
                 ],

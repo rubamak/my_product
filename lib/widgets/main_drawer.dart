@@ -198,7 +198,7 @@ var userEmail ;
             Get.to(()=>MyFamilyStorePage());
             //Navigator.push(context,MaterialPageRoute(builder: (context)=> MyFamilyStorePage()));
             }):SizedBox(height: 0,),
-          buildListTile('Settings', Icons.settings,(){ Get.to(()=> Accessories());}),
+          buildListTile('Settings', Icons.settings,(){ Get.to(()=> SettingsPage());}),
           buildListTile('Enjoy to Help you', Icons.help_outline_outlined,(){
                 Get.to(()=> HelpingSection());
            // Navigator.push(context, MaterialPageRoute(builder: (context)=> HelpingSection()));

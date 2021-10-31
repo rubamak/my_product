@@ -82,14 +82,18 @@ class _CategoryScreenState extends State<CategoryScreen> {
                   Text(
                     categoryList.docs[i].data()['name'].toString(),
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 35, fontWeight: FontWeight.w600),
+                    style: TextStyle(fontSize: 35, fontWeight: FontWeight.w600,color:black),
                   ),
                 ]),
               ),
             onTap: (){
               Navigator.of(context).push(new MaterialPageRoute(
                   builder: (BuildContext context) => FamiliesScreen(
-                    selectedCategory: categoryList.docs[i],
+                    //ikhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
+                    //hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
+                    //hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
+                    //hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
+                    //selectedCategory: categoryList.docs[i],
                   )));
             },
           );

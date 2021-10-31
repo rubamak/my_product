@@ -1,6 +1,10 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:my_product/color/my_colors.dart';
+
+
+
 class SingleChatScreen extends StatelessWidget {
   const SingleChatScreen({Key key}) : super(key: key);
 
@@ -20,19 +24,20 @@ class SingleChatScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFF90A4AE),
+        iconTheme: IconThemeData(color: black),
+        backgroundColor: basicColor,
         elevation: 0,
         leading:  IconButton(
           icon: Icon(Icons.arrow_back_ios),
           onPressed: () {
             Navigator.of(context).pop(familyName);
           },
-          color: Colors.white,
+          color: white,
         ),
 
         title:
           //Image.asset('images/myLogo.png' ,height: 30),
-              Text("Chat with $familyName Owner"),
+              Text("Chat with $familyName Owner",style: TextStyle(color: black),),
         actions:[
         IconButton(
           onPressed: (){
@@ -55,7 +60,7 @@ class SingleChatScreen extends StatelessWidget {
               decoration: BoxDecoration(
                 border: Border(
                   top: BorderSide(
-                    color: Colors.pink.shade100,
+                    color: basicColor,
                     width: 2,
 
                   )
@@ -87,7 +92,7 @@ class SingleChatScreen extends StatelessWidget {
                         onPressed: (){
 
                         },
-                        child: Text("Send",style: TextStyle(color: Colors.black54,fontWeight: FontWeight.bold),
+                        child: Text("Send",style: TextStyle(color: black,fontWeight: FontWeight.bold),
 
 
                         )

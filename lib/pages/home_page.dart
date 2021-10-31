@@ -216,7 +216,7 @@ class _HomePageState extends State<HomePage> {
                         border: InputBorder.none,
                       ),
                       onTap: (){}
-            
+
                          ),
                   ),
                 ),
@@ -234,7 +234,7 @@ class _HomePageState extends State<HomePage> {
                             fontSize: 30.0, fontWeight: FontWeight.w800,))),
               ),
               //horizontal listview hereeee:
-              HorizontelList(),
+              //HorizontelList(),
               SizedBox(
                 height: 20,
               ),
@@ -283,8 +283,8 @@ class _HomePageState extends State<HomePage> {
         });
   }
 
-  
-     
-  
+
+
+
 }
 

@@ -16,7 +16,7 @@ class FavoriteScreen extends StatelessWidget {
     if (favoriteProducts.isEmpty) {
       return Scaffold(
           body: Center(
-            child: Text("no items yet"),
+            child: Text("no items yet",style: TextStyle(color:black ),),
           )
       );
     } else {

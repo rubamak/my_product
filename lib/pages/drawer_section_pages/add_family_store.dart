@@ -83,9 +83,10 @@ class _AddFamilyStoreState extends State<AddFamilyStore> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(color: black),
         title: Text(
           "Add new productive family store",
-          style: TextStyle(color: white, fontSize: 13),
+          style: TextStyle(color: black, fontSize: 13),
         ),
         backgroundColor: Theme.of(context).primaryColor,
       ),
@@ -126,7 +127,7 @@ class _AddFamilyStoreState extends State<AddFamilyStore> {
                       borderSide: BorderSide(width: 2,color: basicColor),
                       borderRadius: BorderRadius.circular(20.0),
                     ),
-                    labelStyle: TextStyle(fontWeight: FontWeight.bold),
+                    labelStyle: TextStyle(fontWeight: FontWeight.bold,color: black),
                   ),
                   controller: familyStoreNameController,
                   validator: (val){
@@ -144,7 +145,7 @@ class _AddFamilyStoreState extends State<AddFamilyStore> {
                   style: TextStyle(fontWeight: FontWeight.bold,),
                   decoration: InputDecoration(
                     labelText: "add description of your family",
-                    labelStyle: TextStyle(fontWeight: FontWeight.bold),
+                    labelStyle: TextStyle(fontWeight: FontWeight.bold,color:black),
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(width: 2,color: basicColor),
                       borderRadius: BorderRadius.circular(20.0),
@@ -168,7 +169,7 @@ class _AddFamilyStoreState extends State<AddFamilyStore> {
                   stream: FirebaseFirestore.instance.collection("categories").snapshots(),
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) {
-                      return Text("Loading..");
+                      return Text("Loading..",style: TextStyle(color:black),);
                     } else {
                       List<DropdownMenuItem> categoryList = [];
                       for (int i = 0; i < snapshot.data.docs.length; i++) {
@@ -182,8 +183,8 @@ class _AddFamilyStoreState extends State<AddFamilyStore> {
                         ));
                       }
                       return DropdownButton(
-                        iconEnabledColor: Colors.white,
-                        iconDisabledColor: Colors.white,
+                        iconEnabledColor: black,
+                        iconDisabledColor: black,
                         iconSize: 5,
                         items: categoryList,
                         onChanged: (value) async{
@@ -201,7 +202,7 @@ class _AddFamilyStoreState extends State<AddFamilyStore> {
                         value: categoryChooseId, // Selected Value From DropDownMenu Is Stored Here
                         isDense: false,
                         isExpanded: false,
-                        hint: new Text("Choose your category"),
+                        hint: new Text("Choose your category",style:TextStyle(color:black)),
                       );
                     }
                   },
@@ -240,7 +241,7 @@ class _AddFamilyStoreState extends State<AddFamilyStore> {
                       Container(
                         width: double.infinity,
                         child:ElevatedButton(
-                          child: Text("Add Your Store"),
+                          child: Text("Add Your Store",style: TextStyle(color:black),),
                           style: ElevatedButton.styleFrom(
                             padding: EdgeInsets.all(10),
                             primary: Theme.of(context).primaryColor,

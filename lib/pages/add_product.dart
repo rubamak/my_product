@@ -9,6 +9,8 @@ import 'package:my_product/pages/home_page.dart';
 import 'package:my_product/pages/my_products_page.dart';
 import 'package:provider/provider.dart';
 
+
+
 class AddProduct extends StatelessWidget {
   var productController = TextEditingController()
     ..text = "";
@@ -35,8 +37,8 @@ class AddProduct extends StatelessWidget {
               borderRadius: BorderRadius.circular(15),
             ),
             child: ListTile(
-              leading: Icon(icon, color: white,),
-              title: Text(text),
+              leading: Icon(icon, color: black,),
+              title: Text(text,style: TextStyle(color:black),),
               onTap: () {
                 context.read<Products>().getImage(src);
                 //البوب هادي رح تحذف مربع الدايالوج فقط لانه كونتيمست مخصص
@@ -53,9 +55,10 @@ class AddProduct extends StatelessWidget {
     String _image = Provider.of<Products>(context, listen: true).image;
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(color: black),
         title: Text(
           "Add Product",
-          style: TextStyle(color: white, fontSize: 15),
+          style: TextStyle(color: black, fontSize: 15),
         ),
         backgroundColor: Theme
             .of(context)
@@ -71,14 +74,14 @@ class AddProduct extends StatelessWidget {
         ListView(
             children: [
               TextField(
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: TextStyle(fontWeight: FontWeight.bold,color: black),
                 decoration: InputDecoration(
                   labelText: "Enter product Name:",
                   enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(width: 2),
+                    borderSide: BorderSide(width: 2,color: basicColor),
                     borderRadius: BorderRadius.circular(20.0),
                   ),
-                  labelStyle: TextStyle(fontWeight: FontWeight.bold),
+                  labelStyle: TextStyle(fontWeight: FontWeight.normal,color: black),
                 ),
                 controller: productController,
                 keyboardType: TextInputType.text,
@@ -86,12 +89,12 @@ class AddProduct extends StatelessWidget {
               ),
               SizedBox(height: 20,),
               TextField(
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: TextStyle(fontWeight: FontWeight.bold,color: black),
                 decoration: InputDecoration(
                   labelText: "add description",
-                  labelStyle: TextStyle(fontWeight: FontWeight.bold),
+                  labelStyle: TextStyle(fontWeight: FontWeight.normal,color:black),
                   enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(width: 2,),
+                    borderSide: BorderSide(width: 2,color:basicColor),
                     borderRadius: BorderRadius.circular(20.0),
                   ),
                 ),
@@ -116,10 +119,10 @@ class AddProduct extends StatelessWidget {
 
                 decoration: InputDecoration(
                   labelText: "Enter Price",
-                  labelStyle: TextStyle(fontWeight: FontWeight.bold),
+                  labelStyle: TextStyle(fontWeight: FontWeight.normal,color:black),
 
                   enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(width: 2),
+                    borderSide: BorderSide(width: 2,color:basicColor),
                     borderRadius: BorderRadius.circular(20.0),
                   ),
                 ),
@@ -142,9 +145,9 @@ class AddProduct extends StatelessWidget {
                 decoration: InputDecoration(
                   labelText: "what your category:",
                   hintText: "Food,Drinks..",
-                  labelStyle: TextStyle(fontWeight: FontWeight.bold),
+                  labelStyle: TextStyle(fontWeight: FontWeight.normal,color: black),
                   enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(width: 2),
+                    borderSide: BorderSide(width: 2,color: basicColor),
                     borderRadius: BorderRadius.circular(20.0),
                   ),
                 ),
@@ -165,10 +168,10 @@ class AddProduct extends StatelessWidget {
                 decoration: InputDecoration(
                   labelText: "Enter family Name:",
                   enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(width: 2),
+                    borderSide: BorderSide(width: 2,color:basicColor),
                     borderRadius: BorderRadius.circular(20.0),
                   ),
-                  labelStyle: TextStyle(fontWeight: FontWeight.bold),
+                  labelStyle: TextStyle(fontWeight: FontWeight.normal,color: black),
                 ),
                 controller: familyNameController,
                 keyboardType: TextInputType.text,
@@ -186,7 +189,7 @@ class AddProduct extends StatelessWidget {
                 //
                 // ),
                 child: ElevatedButton(
-                  child: Text("Choose Product Image"),
+                  child: Text("Choose Product Image",style: TextStyle(color:black),),
                   style: ElevatedButton.styleFrom(
                     padding: EdgeInsets.all(10),
                     primary: Theme
@@ -198,7 +201,7 @@ class AddProduct extends StatelessWidget {
                   ),
                   onPressed: () {
                     var alertDialog = AlertDialog(
-                      title: Text("Choose picture from:"),
+                      title: Text("Choose picture from:",style: TextStyle(color:black),),
                       content: Container(
                         height: 150,
                         child: Column(
@@ -229,7 +232,7 @@ class AddProduct extends StatelessWidget {
                     Container(
                       width: double.infinity,
                       child: ElevatedButton(
-                        child: Text("Add Product"),
+                        child: Text("Add Product",style: TextStyle(color:black),),
                         style: ElevatedButton.styleFrom(
                           padding: EdgeInsets.all(10),
                           primary: Theme
@@ -285,3 +288,5 @@ class AddProduct extends StatelessWidget {
 
   }
 }
+
+
