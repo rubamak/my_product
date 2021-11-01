@@ -31,7 +31,6 @@ import '../pages/product_details_latest_products.dart';
 import '../pages/product_detail_screen.dart';
 import 'package:my_product/pages/products_screen.dart';
 import 'package:my_product/pages/taps_screen.dart';
-
 import 'color/my_colors.dart';
 import 'components/cart_products.dart';
 import 'components/horizontel_listview.dart';
