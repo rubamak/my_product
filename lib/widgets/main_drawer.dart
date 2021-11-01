@@ -29,8 +29,8 @@ class MainDrawer extends StatefulWidget {
       this.useremail,
 });
 
-  String   username = '';
-  String  useremail = '';
+  String   username;
+  String  useremail ;
 
 }
 

@@ -47,6 +47,12 @@ class _LoginState extends State<Login> {
 
 
   }
+  void initState(){
+    var userCred = FirebaseAuth.instance.currentUser;
+    print(userCred);
+    super.initState();
+
+  }
       _loginUser() async {
     if (!_formKey.currentState.validate()) {
       print("Not valid login");
@@ -191,7 +197,7 @@ class _LoginState extends State<Login> {
         leading:  IconButton(
           icon: Icon(Icons.arrow_back_ios),
           onPressed: () {
-            Navigator.of(context).pop();
+           Get.back();
           },
           color: black,
         ),
@@ -334,6 +340,7 @@ class _LoginState extends State<Login> {
                               var  userCred = await _loginUser();
                               if(userCred != null){
                                 //Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> HomePage()));
+                               // Get.back();
                                 Get.off(()=> HomePage());
                                 saveSharedPreferences();
                                 Fluttertoast.showToast(msg: 'you signed in ');

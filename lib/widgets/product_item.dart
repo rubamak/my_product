@@ -9,14 +9,26 @@ import 'package:my_product/pages/product_details_latest_products.dart';
 import 'package:my_product/pages/product_detail_screen.dart';
 
 class ProductItem extends StatelessWidget {
-   var  productId;
-  final double price;
-  final String productImage;
-  final String description;
-  final String productName;
+  String categoryId;
+  String categoryName;
+  String familyId;
+   String uid;
+   double price;
+   String productImage;
+   String description;
+   String productName;
+  String  productId;
 
-  ProductItem( {  this.productId,    this.productName,    this.productImage,  this.price,
-         this.description});
+  ProductItem( {
+    this.productId,
+    this.categoryId,
+    this.familyId,
+    this.uid,
+    this.categoryName,
+    this.productName,
+    this.productImage,  this.price,
+         this.description
+  });
 
   void selectProductItem(BuildContext ctx) {
     Navigator.of(ctx).pushNamed(

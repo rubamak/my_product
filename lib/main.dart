@@ -7,7 +7,6 @@ import 'package:flutter/material.dart'; //for design
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/foundation.dart';
 import 'package:my_product/dummy_data.dart';
 import 'package:my_product/pages/Registration_page.dart';

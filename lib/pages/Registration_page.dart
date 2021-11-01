@@ -4,7 +4,6 @@ import 'dart:ui';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -375,7 +374,7 @@ class _RegistartionState extends State<Registartion> {
   //add user to collection on firebase
   Future addUser() async {
     CollectionReference usersRef =  FirebaseFirestore.instance.collection('users');
-    var firebaseUser = await FirebaseAuth.instance.currentUser;
+    User firebaseUser = await FirebaseAuth.instance.currentUser;
 
     //اضيف مع تحديد الاي دي لكل دوكيمنت
     //خليت الاي دي هنا نفس الاي دي لليوزر الي عمل authentication
