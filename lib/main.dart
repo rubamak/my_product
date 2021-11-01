@@ -111,7 +111,6 @@ class _MyAppState extends State<MyApp> {
           GetPage(name: ProductDetailScreen.routeName, page: ()=>  ProductDetailScreen(_toggleFavorites,_isProductFavorite)),
 
 
-
         ],
         // routes: {
 

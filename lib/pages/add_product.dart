@@ -61,9 +61,9 @@ class _AddProductState extends State<AddProduct> {
 
   Future getImage(src) async {
     var img = await ImagePicker().pickImage(source: src);
-    // setState(() {
+     setState(() {
     image = File(img.path);
-    // });
+     });
   }
 
   @override

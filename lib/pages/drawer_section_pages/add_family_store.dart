@@ -209,32 +209,34 @@ class _AddFamilyStoreState extends State<AddFamilyStore> {
       var task = storageImage.putFile(image);
       // take image url to put it in fire store
       //مو راضي يزبط معايا اني اخد الصورة من الستورج واحطها ف الفاير ستور
-     imageUrl = await (await task.whenComplete(() => null)).ref.getDownloadURL();
-     //========end image section
+      imageUrl = await (await task.whenComplete(() => null)).ref.getDownloadURL();
+      //========end image section
+      try {
+        familiesStoresRef.doc(familyId).set({
+          'uid': firebaseUser.uid,
+          'family id': familyId,
+          'category name': categoryName,
+          'family store name': familyStoreNameController.text,
+          'category id': categoryChooseId,
+          'store description': descriptionController.text,
+          'image family store': imageUrl,
+        }).then((value) {
+          print(' store added');
+          Fluttertoast.showToast(msg: 'store added',);
+          Get.off(() => HomePage());
+          //Navigator.of(context).pop();
+        });
+      } catch (e) {
 
-          familiesStoresRef.doc(familyId).set({
-        'uid': firebaseUser.uid,
-            'family id': familyId,
-        'category name':categoryName,
-        'family store name': familyStoreNameController.text,
-        'category id': categoryChooseId,
-        'store description': descriptionController.text,
-        'image family store': imageUrl,
-      }).then((value) {
-        print(' store added');
-        Fluttertoast.showToast(msg: 'store added',);
-        Get.off(()=> HomePage());
-        //Navigator.of(context).pop();
-      });
-
-
-  } else {
+      }
+    } else {
       AwesomeDialog(context: context, title: "Something wrong !",
-        body: Text("invalid data in your fields",style: TextStyle(color: black),),)
+        body: Text("invalid data in your fields", style: TextStyle(color: black),),)
         ..show();
-      print(" values not valid" );
+      print(" values not valid");
     }
   }
+
   
  
 

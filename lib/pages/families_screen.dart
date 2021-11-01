@@ -75,7 +75,7 @@ class _FamiliesScreenState extends State<FamiliesScreen> {
       }
     }
     else {
-      print(" no its null");
+      print(" user null");
       try {
         await FirebaseFirestore.instance.collection('familiesStores')
             .where('category id', isEqualTo: widget.selectedCategory.id).get().then((specifiedDoc) async {
@@ -102,7 +102,7 @@ class _FamiliesScreenState extends State<FamiliesScreen> {
       getUserData(firebaseUser.uid);
       }else {
       fetchSpecifiedFamilyStore();
-      print("this is id for category choosen${widget.selectedCategory.id}");
+      print("this is id for category choose n${widget.selectedCategory.id}");
       print( " user is null ");
 
     }
@@ -202,7 +202,7 @@ class _FamiliesScreenState extends State<FamiliesScreen> {
                     bottomRight: Radius.circular(150),
                   )),
           child:
-              Center(child: CircularProgressIndicator(),),
+              Center(child: Text("No Families Stores"),),
 
 
 

@@ -183,9 +183,7 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             //child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            //gridDelegate:  new SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount:2),
             children: <Widget>[
-              // CustomText(text: "hello", size: 20.0, colors: Colors.black, weightFont: FontWeight.w400),
               SizedBox(
                 height: 5,
               ),
@@ -217,7 +215,7 @@ class _HomePageState extends State<HomePage> {
                         border: InputBorder.none,
                       ),
                       onTap: (){}
-            
+
                          ),
                   ),
                 ),
@@ -234,7 +232,7 @@ class _HomePageState extends State<HomePage> {
                           //color: ,
                             fontSize: 30.0, fontWeight: FontWeight.w800,))),
               ),
-              //horizontal listview hereeee:
+              //horizontal listview here:
               HorizontelList(),
               SizedBox(
                 height: 20,
@@ -284,8 +282,8 @@ class _HomePageState extends State<HomePage> {
         });
   }
 
-  
-     
-  
+
+
+
 }
 

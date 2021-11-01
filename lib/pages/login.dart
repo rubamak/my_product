@@ -47,6 +47,12 @@ class _LoginState extends State<Login> {
 
 
   }
+  void initState(){
+    var userCred = FirebaseAuth.instance.currentUser;
+    print(userCred);
+    super.initState();
+
+  }
       _loginUser() async {
     if (!_formKey.currentState.validate()) {
       print("Not valid login");
