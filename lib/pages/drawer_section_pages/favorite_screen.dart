@@ -14,7 +14,7 @@ class FavoriteScreen extends StatelessWidget {
   FavoriteScreen(this.favoriteProducts);
 
   //static const routeName = '/favorite-screen';
-
+//
   @override
   Widget build(BuildContext context) {
     if (favoriteProducts.isEmpty) {
