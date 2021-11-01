@@ -7,7 +7,6 @@ import 'package:flutter/material.dart'; //for design
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/foundation.dart';
 import 'package:my_product/dummy_data.dart';
 import 'package:my_product/pages/Registration_page.dart';
@@ -91,6 +90,7 @@ class _MyAppState extends State<MyApp> {
 
     return GetMaterialApp(  //MaterialApp
         debugShowCheckedModeBanner: false,
+
         theme: ThemeData(
           primaryColor:basicColor,
           // primaryColorDark: ,
@@ -102,14 +102,13 @@ class _MyAppState extends State<MyApp> {
           //home:
         initialRoute:'/' ,
         getPages: [
-          GetPage(name: '/', page:()=> AddFamilyStore()),
+          GetPage(name: '/', page:()=> LandingPage()),
           GetPage(name: TapsScreen.routeName,  page:()=> TapsScreen(_favoriteProducts)),
           GetPage(name: CategoryScreen.routeName,  page:()=> CategoryScreen()),
           GetPage(name: FamiliesScreen.routeName, page: ()=>FamiliesScreen()),
           GetPage(name: ProductsScreen.routeName, page: ()=>ProductsScreen()),
-          GetPage(name: SingleChatScreen.routeName, page: ()=> const SingleChatScreen()),
+          GetPage(name: SingleChatScreen.routeName, page: ()=>  SingleChatScreen()),
           GetPage(name: ProductDetailScreen.routeName, page: ()=>  ProductDetailScreen(_toggleFavorites,_isProductFavorite)),
-          //GetPage(name: FavoriteScreen.routeName, page: FamiliesScreen(_favoriteProducts))
 
 
 

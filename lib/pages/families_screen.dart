@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -24,7 +25,7 @@ class FamiliesScreen extends StatefulWidget {
 }
 
 class _FamiliesScreenState extends State<FamiliesScreen> {
-  var firebaseUser = FirebaseAuth.instance.currentUser;
+  User firebaseUser = FirebaseAuth.instance.currentUser;
   QuerySnapshot<Map<String, dynamic>> familiesStoresList;
   DocumentSnapshot<Map<String, dynamic>> docData; // for printing
   var username; // for display to user
@@ -33,93 +34,99 @@ class _FamiliesScreenState extends State<FamiliesScreen> {
   getUserData(String uid) async {
     //اجيب بيانات دوكيمنت واحد فقط
     //get will return docs Query snapshot
-    await FirebaseFirestore.instance.collection('users').doc(uid).get().then((value) async {
+    await FirebaseFirestore.instance.collection('users').doc(uid).get().then((value) async{
       //value.data is the full fields for this doc
       if (value.exists) {
         setState(() {
           docData = value;
           useremail = docData['email'];
           username = docData['username'];
-          // print(value.id);
         });
-        print(docData['uid']);
-        print(docData['username']);
-        print(docData['email']);
-        // print(docData['first name']);
-        print('======================');
-      } else {}
+
+      } else {
+        //fetchSpecifiedFamilyStore();
+      }
     });
-    fetchSpecifiedFamilyStore();
+   fetchSpecifiedFamilyStore();
+
   }
 
   Future fetchSpecifiedFamilyStore() async {
-    print('Inside Fetching Data UID=${docData.id}');
+   // print('Inside Fetching Data UID=${docData.id}');
     print('Inside Fetching Data CatID=${widget.selectedCategory.id}');
-    try {
-      await FirebaseFirestore.instance.collection('familiesStores').where('category id', isEqualTo: widget.selectedCategory.id).where('uid', isNotEqualTo: docData.id).get().then((specifiedDoc) async {
-        if (specifiedDoc != null && specifiedDoc.docs.isEmpty == false) {
-          setState(() {
-            familiesStoresList = specifiedDoc;
-          });
-        } else {
-          print('No Docs Found');
-          try {
-            await FirebaseFirestore.instance.collection('familiesStores').where('category id', isEqualTo: widget.selectedCategory.id).get().then((specifiedDoc) async {
-              if (specifiedDoc != null && specifiedDoc.docs.isEmpty == false) {
-                setState(() {
-                  familiesStoresList = specifiedDoc;
-                });
-              } else {
-                print('No Docs Found');
-              }
-            });
-          } catch (e) {
-            print('Error Fetching Data');
-          }
-        }
-      });
-    } catch (e) {
-      print('Error Fetching Data');
-      try {
-        await FirebaseFirestore.instance.collection('familiesStores').where('category id', isEqualTo: widget.selectedCategory.id).get().then((specifiedDoc) async {
+     if(firebaseUser!= null  ){
+    //   print("uhuigiugiugohyesssssssssssssssssssssssssssssssssss");
+     try  {
+        await FirebaseFirestore.instance.collection('familiesStores')
+            .where('category id', isEqualTo: widget.selectedCategory.id)
+            .where('uid', isNotEqualTo: docData.id)
+            .get().then((specifiedDoc) async {
           if (specifiedDoc != null && specifiedDoc.docs.isEmpty == false) {
             setState(() {
-              familiesStoresList = specifiedDoc;
+
+              familiesStoresList=specifiedDoc;
             });
           } else {
             print('No Docs Found');
           }
         });
       } catch (e) {
-        print('Error Fetching Data');
+        print('Error Fetching Data$e');
       }
     }
-  }
+    else {
+      print(" no its null");
+      try {
+        await FirebaseFirestore.instance.collection('familiesStores')
+            .where('category id', isEqualTo: widget.selectedCategory.id).get().then((specifiedDoc) async {
+          if (specifiedDoc != null && specifiedDoc.docs.isEmpty == false) {
+            setState(() {
+              familiesStoresList = specifiedDoc;
+              print("stores added to map");
+             //familiesStoresList.docs.clear();
+            });
+          } else {
+            print('No Docs Found');
 
+          }
+        });
+      } catch (e) {
+        print('Error Fetching Data $e');
+      }
+   }
+  }
   @override
   void initState() {
-    if (firebaseUser != null) getUserData(firebaseUser.uid);
-    super.initState();
-  }
+    if (firebaseUser != null && firebaseUser.uid.isNotEmpty){
+      print( "user not null=================");
+      getUserData(firebaseUser.uid);
+      }else {
+      fetchSpecifiedFamilyStore();
+      print("this is id for category choosen${widget.selectedCategory.id}");
+      print( " user is null ");
 
+    }
+      super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(color: black),
         elevation: 0,
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios),
           onPressed: () {
-            Navigator.of(context).pop();
+           Get.back();
           },
-          color: Colors.white,
+         // color: black,
         ),
         title: Padding(
           padding: EdgeInsets.only(top: 1),
           child: Text(
             "${widget.selectedCategory.data()['name'].toString()}  Families Stores",
             style: TextStyle(
-              color: Colors.white,
+              color: black,
               fontWeight: FontWeight.bold,
               fontSize: 20,
             ),
@@ -128,20 +135,17 @@ class _FamiliesScreenState extends State<FamiliesScreen> {
         backgroundColor: Color(0xFF90A4AE),
         toolbarHeight: 80,
       ),
-      endDrawer: MainDrawer(
-        username: username,
-        useremail: useremail,
-      ),
-      backgroundColor: Color(0xFF90A4AE),
-      body: ListView(children: <Widget>[
-        SizedBox(
-          height: 20,
-        ), //between them
+      endDrawer: MainDrawer(username: username, useremail: useremail,),
+      backgroundColor: basicColor,
+      body: ListView(
+          children: <Widget>[
+        SizedBox(height: 20,),
+            //Text(familiesStoresList!= null ? familiesStoresList.docs[0].data()['family store name']: " null"),
         familyStoreFlowList(context),
-      ]),
+         ]),
     );
   }
-
+//================================== في خلل في عرض كل العناصر مع بعض
   Widget familyStoreFlowList(BuildContext context) {
     if (familiesStoresList != null) {
       return Container(
@@ -163,32 +167,48 @@ class _FamiliesScreenState extends State<FamiliesScreen> {
                   height: MediaQuery.of(context).size.height - 300,
                   child: familiesStoresList.docs.isEmpty
                       ? Center(
-                          child: Text("no elements"),
-                        )
+                    child: Text("no elements"),
+                  )
                       : ListView.separated(
-                          itemCount: familiesStoresList.docs.length,
-                          separatorBuilder: (context, i) => Container(
-                            height: 1,
-                            color: grey,
-                          ),
-                          itemBuilder: (context, i) {
-                            return FamilyItem(
-                              familyStoreId: familiesStoresList.docs[i].data()['family id'].toString(),
-                              familyName: familiesStoresList.docs[i].data()['family store name'].toString(),
-                              description: familiesStoresList.docs[i].data()['store description'].toString(),
-                              categoryName: familiesStoresList.docs[i].data()['category name'].toString(),
-                              userId: firebaseUser.uid,
-                              familyImage: familiesStoresList.docs[i].data()['image family store'].toString(),
-                              categoryId: familiesStoresList.docs[i].data()['category id'].toString(),
-                            );
-                          },
-                        ),
+                    itemCount: familiesStoresList.docs.length,
+                    separatorBuilder: (context, i) => Container(
+                      height: 1,
+                      color: grey,
+                    ),
+                    itemBuilder: (context, i) {
+                      return FamilyItem(
+                        familyStoreId: familiesStoresList.docs[i].data()['family id'].toString(),
+                        familyName: familiesStoresList.docs[i].data()['family store name'].toString(),
+                        description: familiesStoresList.docs[i].data()['store description'].toString(),
+                        categoryName: familiesStoresList.docs[i].data()['category name'].toString(),
+                        userId: firebaseUser == null ? " no user": firebaseUser.uid.toString(),
+                        familyImage: familiesStoresList.docs[i].data()['image family store'].toString(),
+                        categoryId: familiesStoresList.docs[i].data()['category id'].toString(),
+                      );
+                    },
+                  ),
                 ))
           ],
         ),
       );
     } else {
-      return Center(child: CircularProgressIndicator());
+
+      return Container(
+              height: MediaQuery.of(context).size.height - 180,
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(100),
+                    bottomRight: Radius.circular(150),
+                  )),
+          child:
+              Center(child: CircularProgressIndicator(),),
+
+
+
+
+
+          );
     }
   }
 }

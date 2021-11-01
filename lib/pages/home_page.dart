@@ -7,7 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:my_product/color/my_colors.dart';
 
 //my imports
-
+import 'dart:async';
 import 'package:my_product/components/horizontel_listview.dart';
 import 'package:my_product/components/latest_products.dart';
 import 'package:my_product/modules/product.dart';
@@ -122,13 +122,14 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         iconTheme: IconThemeData(color: black),
         // leading: IconButton(
-        //     icon: Icon(Icons.search, color: white),
-        //     onPressed: () {
+        //     icon: Icon(Icons.outbond_outlined, color: white),
+        //     onPressed: () async{
         //       // Navigator.push(context,
         //       //     MaterialPageRoute(builder: (context) => CartScreen()));
-        //       showSearch(context: context, delegate: DataSearch());
+        //       await FirebaseAuth.instance.signOut();
+        //       Fluttertoast.showToast(msg: 'you signed out!');
         //     }),
-        //shape:,
+
         // elevation: 0,
         toolbarHeight: 110,
         backgroundColor: basicColor,

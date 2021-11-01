@@ -9,170 +9,96 @@ import 'package:my_product/modules/category.dart';
 import 'package:my_product/pages/families_screen.dart';
 import 'package:my_product/pages/home_page.dart';
 import 'package:my_product/widgets/category_item.dart';
+import 'package:get/get.dart';
 
-class HorizontelList extends StatelessWidget {
+
+class HorizontelList extends StatefulWidget {
   const HorizontelList({Key key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return
-      Container(
-      height: 300,
-      child:
-      ListView(
-        scrollDirection: Axis.horizontal,
-        children: [
-
-
-
-          CategoryHere(
-            id: "1",
-            image_location: 'images/categories/food.png',
-            image_caption: 'Food',
-          ),
-          CategoryHere(
-            id: "2",
-            image_location: 'images/categories/drinks.jpeg',
-            image_caption: 'Beverages',
-          ),
-          CategoryHere(
-            id: "3",
-            image_location: 'images/categories/dress.jpeg',
-            image_caption: 'Clothes',
-          ),
-
-          CategoryHere(
-            id: "4",
-            image_location: 'images/categories/h.png',
-            image_caption: 'Handmade',
-          ),
-          CategoryHere(
-            id: "5",
-            image_location: 'images/categories/servoces.jpeg',
-            image_caption: 'Digital Services',
-          ),
-          //كان(وتم حله من خلال الطول) خلل في ظهور الكلام تحت كل قسم لما ازودهم عشان كدا خليتهم كومنت*/
-        ],
-      ),
-    );
-  }
+  State<HorizontelList> createState() => _HorizontelListState();
 }
 
-class CategoryHere extends StatefulWidget {
-  final String id;
-  final String image_location;
-  final String image_caption;
+class _HorizontelListState extends State<HorizontelList> {
 
-  CategoryHere({
-     this.image_location,
-     this.image_caption,
-     this.id,
-  });
+  QuerySnapshot<Map <String, dynamic>> categoryList;
 
-  @override
-  State<CategoryHere> createState() => _CategoryHereState();
-}
-
-class _CategoryHereState extends State<CategoryHere> {
-  void SelectCategory(BuildContext ctx){
-
-    Navigator.of(ctx).pushNamed(
-      //اسم الصفحة الي رح يروحها
-        FamiliesScreen.routeName,
-        //take this data with
-        //عشان يفرق
-        arguments: {
-          'id': widget.id,
-          'title': widget.image_caption,
-        }
-    );
-
-
-
-  }
-
-  CollectionReference categoryRef = FirebaseFirestore.instance.collection("categories",);
-
-  List categoriesNamesList = [];
-
-  getCategory()async{
-    var category = await categoryRef.get();
-    category.docs.forEach((element) {
-      setState(() {
-        categoriesNamesList.add(element.data());
-
-      });
-      //print(categoriesNamesList[0]['name']);
-
-
-    });
-  }
   @override
   void initState() {
-    getCategory();
+    getCategories();
     super.initState();
   }
-  Widget buildCat(){
-    return Padding(
-        padding: const EdgeInsets.all(5.0),
-        child: InkWell(
 
-        //this tap is for going to produtsList class another page
-        onTap: () => SelectCategory(context),
-    child: Container(
-    height: 150,
-    width: 180,
-    child:
-    ListView.builder(
-
-    itemBuilder: (context,index)=>
-    CategoryItem(
-    categoryName: categoriesNamesList[index]['name'],
-    categoryId: categoriesNamesList[index]['id'] ,
-    image_category: categoriesNamesList[index]['image'],
-
-    ),
-    itemCount: categoriesNamesList.length,
-    ))));
+  Future getCategories() async {
+    try {
+      await FirebaseFirestore.instance.collection('categories').get().then((catDocs) async {
+        if (catDocs != null && catDocs.docs.isEmpty == false) {
+          setState(() {
+            // put each doc in the map categoryList..
+            categoryList = catDocs;});
+        } else {
+          print('No Docs Found');
+        }
+      });
+    } catch (e) {
+      print('Error Fetching Data is: $e');
+    }
   }
   @override
   Widget build(BuildContext context) {
-
-    return Padding(
-      padding: const EdgeInsets.all(5.0),
-      child: InkWell(
-
-        //this tap is for going to produtsList class another page
-        onTap: () => SelectCategory(context),
-        child: Container(
-            height: 150,
-            width: 180,
-            child:
-            ListView.builder(
-
-              itemBuilder: (context,index)=>
-                  CategoryItem(
-                    categoryName: categoriesNamesList[index]['name'],
-                    categoryId: categoriesNamesList[index]['id'] ,
-                    image_category: categoriesNamesList[index]['image'],
-
-                  ),
-              itemCount: categoriesNamesList.length,
-            )
-          // ListTile(
-          //     title: Image.asset(
-          //       widget.image_location,
-          //       height: 200,
-          //       width: 200,
-          //     ),
-          //     subtitle: Container(
-          //       alignment: Alignment.topCenter,
-          //       child: Text(widget.image_caption,
-          //           style:
-          //               TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold)),
-          //     )),
-        ),
-      ),
+    return Container(
+      width: double.infinity,
+      height: MediaQuery.of(context).size.height * 0.3,
+      child: categoriesFlowList(context),
     );
   }
+  Widget categoriesFlowList(BuildContext context){
+    if(categoryList!=null && categoryList.docs.isEmpty==false){
+      return ListView.builder(
+        scrollDirection: Axis.horizontal,
+        physics: AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+        itemCount: categoryList.docs.length,
+        itemBuilder: (context, i) {
+          return InkWell(
+            borderRadius: BorderRadius.circular(50),
+            splashColor: grey,
+            child: Card(
+              child: Column(children: [
+                Container(
+                  padding: EdgeInsets.all(30),
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Image.network(
+                        categoryList.docs[i].data()['image'].toString(),
+                       //width: 100,
+                        height: 100,//MediaQuery.of(context).size.height * 0.2,
+                      )),
+                  margin: EdgeInsets.all(20),
+                ),
+                Text(
+                  categoryList.docs[i].data()['name'].toString(),
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+                ),
+              ]),
+            ),
+            onTap: (){
+              Get.to(()=> FamiliesScreen(selectedCategory: categoryList.docs[i] ) );
+              // Navigator.of(context).push(new MaterialPageRoute(
+              //     builder: (BuildContext context) =>
+              //         FamiliesScreen( selectedCategory: categoryList.docs[i],)))
+
+            },
+          );
+        },
+      );
+    }else{
+      return Container(child: Center(child: CircularProgressIndicator()));
+    }
+  }
+
+
 }
+
+
+

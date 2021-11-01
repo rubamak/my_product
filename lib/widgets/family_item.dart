@@ -1,4 +1,5 @@
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_product/color/my_colors.dart';
@@ -44,6 +45,7 @@ class FamilyItem extends StatelessWidget {
 
     );
   }
+  var user = FirebaseAuth.instance.currentUser;
 
   @override
   Widget build(BuildContext context) {
@@ -99,12 +101,12 @@ class FamilyItem extends StatelessWidget {
                 ),
               ),
 
-              IconButton(
+              user != null? IconButton(
                 onPressed: ()=> chatWithFamily(context),
                  // Navigator.of(context).pushNamed(ChatScreen.routeName);
                 icon: Icon(Icons.chat_outlined),
                 color: black,
-              )
+              ): SizedBox(height: 1,)
             ],
             ),
           ),

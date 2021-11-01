@@ -1,5 +1,6 @@
 
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_product/color/my_colors.dart';
@@ -39,6 +40,10 @@ class _TapsScreenState extends State<TapsScreen> {
       },
       {'page': FavoriteScreen(widget.favoriteProducts),
         'title': 'Favorites List',}];
+
+    if (firebaseUser != null && firebaseUser.uid.isNotEmpty){
+      print( "user not null=================");
+      getUserData(firebaseUser.uid);}
     super.initState();
 
 
@@ -48,6 +53,32 @@ class _TapsScreenState extends State<TapsScreen> {
       _selectedPageIndex = value;
     });
   }
+    User firebaseUser = FirebaseAuth.instance.currentUser;
+
+    DocumentSnapshot<Map<String, dynamic>> docData;
+    var username; // for display to user
+    var useremail;
+
+    getUserData(String uid) async {
+      //اجيب بيانات دوكيمنت واحد فقط
+      //get will return docs Query snapshot
+      await FirebaseFirestore.instance.collection('users').doc(uid).get().then((value) async {
+        //value.data is the full fields for this doc
+        if (value.exists) {
+          setState(() {
+            docData = value;
+            useremail = docData['email'];
+            username = docData['username'];
+          });
+          print(docData['uid']);
+          print(docData['username']);
+          print(docData['email']);
+          print('======================');
+        } else {
+          //fetchSpecifiedFamilyStore();
+        }
+      });
+    }
 
   @override
   Widget build(BuildContext context) {
@@ -56,6 +87,7 @@ class _TapsScreenState extends State<TapsScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(color: black),
         elevation: 0,
         leading: IconButton(
           onPressed: ()=> Navigator.of(context).pop() ,
@@ -70,7 +102,7 @@ class _TapsScreenState extends State<TapsScreen> {
 
 
       style: TextStyle(
-              color: Colors.white,
+              color: black,
               fontWeight: FontWeight.bold,
               fontSize: 23,
             ),
@@ -83,6 +115,7 @@ class _TapsScreenState extends State<TapsScreen> {
      //endDrawer: MainDrawer(),
 
       backgroundColor: Color(0xFF90A4AE),
+      endDrawer: MainDrawer(username: username, useremail: useremail,),
 
       body:ListView(
           children: <Widget>[
@@ -129,20 +162,21 @@ class _TapsScreenState extends State<TapsScreen> {
       bottomNavigationBar: BottomNavigationBar(
 
         elevation: 0,
-        selectedItemColor: white ,
-        unselectedItemColor: black,
+        selectedFontSize: 20,
+        selectedItemColor: black ,
+       selectedLabelStyle: TextStyle(fontWeight: FontWeight.w900),
+       // unselectedItemColor: white,
         currentIndex: _selectedPageIndex,
         onTap: _selectSection,
         backgroundColor: Color(0xFF90A4AE),
         items: const [
           BottomNavigationBarItem(
               icon: Icon(Icons.dashboard_outlined),
-              title:Text( "Categories")
-
+              label: "Categories"
           ),
           BottomNavigationBarItem(
               icon: Icon(Icons.star_border_outlined),
-              title: Text("Favorites")
+              label: "Favorites"
 
           ),
         ],
