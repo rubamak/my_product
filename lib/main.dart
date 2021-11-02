@@ -29,16 +29,10 @@ import '../pages/product_detail_screen.dart';
 import 'package:my_product/pages/products_screen.dart';
 import 'package:my_product/pages/taps_screen.dart';
 import 'color/my_colors.dart';
-import 'components/latest_products.dart';
-import 'json_test.dart';
-import 'modules/product.dart';
 import '../pages/category_screen.dart';
-import 'package:provider/provider.dart';
-
 
 // runApp is library function
 // here where program start
-
 
  void main()  async {
   //يتاكد من عملية التهيئة تمت عشان يشغل البرنلمج
@@ -68,7 +62,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   final Future<FirebaseApp> _firebaseApp = Firebase.initializeApp();
 
- // List <Product> _favoriteProducts = [];
+  List <String> _favoriteProducts = [];
 
   //void _toggleFavorites (int productId){
      // final productExistingIndex = _favoriteProducts.indexWhere((product){

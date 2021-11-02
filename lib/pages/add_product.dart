@@ -70,13 +70,14 @@ class _AddProductState extends State<AddProduct> {
   Widget build(BuildContext context) {
     //String _image = Provider.of<Products>(context, listen: true).image;
     return Scaffold(
+      backgroundColor: white,
         appBar: AppBar(
           iconTheme: IconThemeData(color: black),
           toolbarHeight: 100,
           centerTitle: true,
           elevation: 0,
           leading: IconButton(
-            icon: Icon(Icons.arrow_back_ios),
+            icon: Icon(Icons.arrow_back_ios,color:black),
             onPressed: () {
               Get.back();
             },
@@ -135,7 +136,7 @@ class _AddProductState extends State<AddProduct> {
                               showDialog(context: context, builder: (BuildContext ctx) => alertDialog);
                             },
                             child: CircleAvatar(
-                              backgroundColor: Colors.white38,
+                              backgroundColor: white,
                               radius: 90,
                               child: ClipRRect(
                                 clipBehavior: Clip.antiAlias,

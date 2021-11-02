@@ -161,7 +161,7 @@ var userEmail ;
 
                 accountEmail:
                 checkLogin()?
-                Text(widget.useremail):Text('Mode',style: TextStyle(color: black),),
+                Text(widget.useremail,style: TextStyle(color: black),):Text('Mode',style: TextStyle(color: black),),
                 //فيه ايرور انه لما يسجل خروج يصير نل هنا وصفحة حمرا(ضبطت الايرور بنجاح )
 
                 currentAccountPicture: GestureDetector(

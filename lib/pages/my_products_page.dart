@@ -293,9 +293,9 @@ CollectionReference collectionReference = FirebaseFirestore.instance.collection(
       //             .map((item) => Container(
       //       child: Builder(
       //
-      //           // builder: (ctx)=> detailCard(  هذه الطريقة ما رضيت تتطلع لي الصورة
-      //           //     item.productName,item.description,
-      //           //     item.price, item.categoryName, item.categoryName,item.imageUrl),)
+      //           builder: (ctx)=> detailCard(  هذه الطريقة ما رضيت تتطلع لي الصورة
+      //               item.productName,item.description,
+      //               item.price, item.categoryName, item.categoryName,item.imageUrl),)
       //           builder: (ctx)=>
       //                 TextButton(
       //                   onPressed: (){

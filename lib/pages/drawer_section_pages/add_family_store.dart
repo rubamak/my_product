@@ -81,13 +81,15 @@ class _AddFamilyStoreState extends State<AddFamilyStore> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(color: black),
         title: Text(
           "Add new productive family store",
-          style: TextStyle(color: white, fontSize: 13),
+          style: TextStyle(color: black, fontSize: 13),
         ),
         backgroundColor: Theme.of(context).primaryColor,
       ),
       body: Container(
+        color: white,
 
         alignment: Alignment.center,
         padding: EdgeInsets.all(30),
@@ -102,7 +104,7 @@ class _AddFamilyStoreState extends State<AddFamilyStore> {
                 child: InkWell(
                   onTap: getImage,
                   child: CircleAvatar(
-                    backgroundColor: Colors.white38,
+                    backgroundColor: Colors.white,
                       radius: 90,
                     child: ClipRRect(
                       clipBehavior: Clip.antiAlias,
@@ -115,10 +117,10 @@ class _AddFamilyStoreState extends State<AddFamilyStore> {
                 ),
                 Padding(
                   padding:  EdgeInsetsDirectional.only(start: 100,top: 0,bottom: 20),
-                  child: Text("Choose your store image"),
+                  child: Text("Choose your store image",style: TextStyle(color: black),),
                 ),
                 TextFormField(
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: TextStyle(color:black,fontWeight: FontWeight.bold),
                   decoration: InputDecoration(
                     labelText: "Enter family Store Name:",
                     enabledBorder: OutlineInputBorder(
@@ -140,7 +142,7 @@ class _AddFamilyStoreState extends State<AddFamilyStore> {
                 ),
                 SizedBox(height: 20,),
                 TextFormField(
-                  style: TextStyle(fontWeight: FontWeight.bold,),
+                  style: TextStyle(fontWeight: FontWeight.bold,color: black),
                   decoration: InputDecoration(
                     labelText: "add description of your family",
                     labelStyle: TextStyle(fontWeight: FontWeight.bold),
@@ -169,7 +171,7 @@ class _AddFamilyStoreState extends State<AddFamilyStore> {
                       Container(
                         width: double.infinity,
                         child:ElevatedButton(
-                          child: Text("Add Your Store"),
+                          child: Text("Add Your Store",style: TextStyle(color: black)),
                           style: ElevatedButton.styleFrom(
                             padding: EdgeInsets.all(10),
                             primary: Theme.of(context).primaryColor,
@@ -256,8 +258,8 @@ class _AddFamilyStoreState extends State<AddFamilyStore> {
                 ));
           }
           return DropdownButton(
-            iconEnabledColor: Colors.white,
-            iconDisabledColor: Colors.white,
+            iconEnabledColor: black,
+            iconDisabledColor: black,
             iconSize: 5,
             items: categoryList,
             onChanged: (value) async{
@@ -275,7 +277,7 @@ class _AddFamilyStoreState extends State<AddFamilyStore> {
             value: categoryChooseId, // Selected Value From DropDownMenu Is Stored Here
             isDense: false,
             isExpanded: false,
-            hint: new Text("Choose your category"),
+            hint: new Text("Choose your category",style: TextStyle(color: black)),
           );
         }
       },
