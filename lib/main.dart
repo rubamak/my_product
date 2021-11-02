@@ -18,7 +18,6 @@ import 'package:my_product/pages/drawer_section_pages/settings_page.dart';
 import 'package:my_product/pages/drawer_section_pages/single_chat_screen.dart';
 import 'package:my_product/pages/drawer_section_pages/favorite_screen.dart';
 import 'package:my_product/pages/my_family_store_page.dart';
-import 'package:my_product/widgets/category_item.dart';
 import 'package:my_product/widgets/family_item.dart';
 import 'package:my_product/widgets/main_drawer.dart';
 import 'package:my_product/widgets/product_item.dart';

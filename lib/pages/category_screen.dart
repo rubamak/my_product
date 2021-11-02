@@ -6,9 +6,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:my_product/color/my_colors.dart';
 import 'package:my_product/pages/families_screen.dart';
-import 'package:my_product/widgets/category_item.dart';
-// ignore: unused_import
 import 'package:my_product/widgets/main_drawer.dart';
+import 'package:get/get.dart';
 
 // ignore: unused_import
 import '../dummy_data.dart';
@@ -88,9 +87,11 @@ class _CategoryScreenState extends State<CategoryScreen> {
                 ]),
               ),
             onTap: (){
-               Navigator.of(context).push(new MaterialPageRoute(
-                   builder: (BuildContext context) =>
-                       FamiliesScreen( selectedCategory: categoryList.docs[i],)));
+               // Navigator.of(context).push(new MaterialPageRoute(
+               //     builder: (BuildContext context) =>
+               //         FamiliesScreen( selectedCategory: categoryList.docs[i],)));
+              Get.to(()=> FamiliesScreen(selectedCategory: categoryList.docs[i],));
+
             },
           );
         },

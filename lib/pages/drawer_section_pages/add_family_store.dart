@@ -20,7 +20,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:my_product/modules/category.dart';
 import 'package:my_product/modules/product.dart';
 import 'package:provider/provider.dart';
-import 'package:my_product/widgets/category_item.dart';
 import 'dart:io';
 import 'package:get/get.dart';
 
@@ -112,7 +111,7 @@ class _AddFamilyStoreState extends State<AddFamilyStore> {
                       clipBehavior: Clip.antiAlias,
                       child: (image != null)
                           ? Image.file(image)
-                          : Image.network('https://previews.123rf.com/images/thesomeday123/thesomeday1231712/thesomeday123171200009/91087331-default-avatar-profile-icon-for-male-grey-photo-placeholder-illustrations-vector.jpg'),
+                          : Image.asset("images/noFamily.jpg"),
                     ),
                     ),
                 ),

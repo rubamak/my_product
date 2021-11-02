@@ -29,12 +29,13 @@ class FavoriteScreen extends StatelessWidget {
             itemBuilder: (context, index) {
               return ListView.builder(
                 itemBuilder: (context, index) {
-                  return ProductItem(
-                      productId: favoriteProducts[index].productId,
-                      productName: favoriteProducts[index].productName,
-                      productImage: favoriteProducts[index].productImage,
-                      price: favoriteProducts[index].price,
-                      description: favoriteProducts[index].description);
+                  return null;
+                    // ProductItem(
+                    //   productId: favoriteProducts[index].productId,
+                    //   productName: favoriteProducts[index].productName,
+                    //   productImage: favoriteProducts[index].productImage,
+                    //   price: favoriteProducts[index].price,
+                    //   description: favoriteProducts[index].description);
 
 
                 },

@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:my_product/color/my_colors.dart';
-import 'package:my_product/widgets/category_item.dart';
 import 'package:select_form_field/select_form_field.dart';
 
 import 'login.dart';
@@ -142,17 +141,17 @@ class _RegistartionState extends State<Registartion> {
                     cursorColor: black,
                     controller:   _usernameController,
                     validator: (val){
-                      if(val.isEmpty ) {
-                        return " invalid Entry:(";
+                      if(val.isEmpty && !val.contains("_") ) {
+                        return " invalid Entry/ add numbers & symbols:(";
                       }else if (val.length<4){
                         return"short username";
 
                       }
-                      else if( !val.contains("_")){
-                        return " add any symbols";
-                      }
-                      else if (!val.contains(RegExp(r'[0-9]'))) {
-                        return " you should add numbers ";}
+                      // else if( !val.contains("_")){
+                      //   return " add any symbols";
+                      // }
+                      // else if (!val.contains(RegExp(r'[0-9]'))) {
+                      //   return " you should add numbers ";}
 
                       else{
                         return null;} ;

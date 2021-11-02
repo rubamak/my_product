@@ -141,8 +141,8 @@ class _AddProductState extends State<AddProduct> {
                                 clipBehavior: Clip.antiAlias,
                                 child: (image != null)
                                     ? Image.file(image)
-                                    : Image.network(
-                                    'https://thumbs.dreamstime.com/b/product-icon-collection-trendy-modern-flat-linear-vector-white-background-thin-line-outline-illustration-130947207.jpg'
+                                    : Image.asset(
+                                  "images/noProduct.jpg"
                                 ),
                               ),
                             ),

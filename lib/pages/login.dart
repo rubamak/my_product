@@ -369,10 +369,11 @@ class _LoginState extends State<Login> {
                                         fontSize: 18),
                                   ),
                                   onPressed: () {
-                                    Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => Registartion()));
+                                    // Navigator.pushReplacement(
+                                    //     context,
+                                    //     MaterialPageRoute(
+                                    //         builder: (context) => Registartion()));
+                                    Get.off(()=> Registartion());
                                   },
                                 ),
                             ],

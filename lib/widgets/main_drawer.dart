@@ -191,7 +191,7 @@ var userEmail ;
             }),
           // buildListTile('Favourites Products', Icons.favorite_outline,(){Navigator.pushNamed(context, FavoriteScreen.routeName);}),
           buildListTile('My Chats', Icons.chat_outlined,(){  }),
-          const Divider(color: Colors.black54),//0xffFFBCBC الللون القديم لو تبيه ياربا
+           Divider(color: Colors.black54),//0xffFFBCBC الللون القديم لو تبيه ياربا
           //هنا مفروض اضيف الفايل او اللسته من الصفحه الجديده اللي ضفتها add_new_family
           checkLogin() ?
 
@@ -226,7 +226,7 @@ var userEmail ;
                 await FirebaseAuth.instance.signOut();
                 Fluttertoast.showToast(msg: 'you signed out!');
                 //Navigator.of(context).pop();
-                Get.back();
+                Get.off(HomePage());
               },
               color: basicColor,
                //هنا كمان حذن كونست

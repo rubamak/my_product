@@ -11,14 +11,14 @@ import 'package:my_product/modules/users.dart';
 //سموحه التحتوتحه
 
 
-
-List<Category> DUMMY_CATEGORY = [
-  Category(categoryId: "1", categoryName: 'Food', image_location: 'images/categories/food.png'),
-  Category(categoryId: "2", categoryName: 'Beverages', image_location: 'images/categories/drinks.jpeg'),
-  Category(categoryId: "3", categoryName: 'Clothes',image_location: 'images/categories/dress.jpeg'),
-  Category(categoryId: "4", categoryName: 'Handmade',image_location: 'images/categories/h.png'),
-  Category(categoryId: "5", categoryName: 'Digital Services',image_location: 'images/categories/servoces.jpeg'),
-];
+//
+// List<Category> DUMMY_CATEGORY = [
+//   Category(categoryId: "1", categoryName: 'Food', image_location: 'images/categories/food.png'),
+//   Category(categoryId: "2", categoryName: 'Beverages', image_location: 'images/categories/drinks.jpeg'),
+//   Category(categoryId: "3", categoryName: 'Clothes',image_location: 'images/categories/dress.jpeg'),
+//   Category(categoryId: "4", categoryName: 'Handmade',image_location: ''),
+//   Category(categoryId: "5", categoryName: 'Digital Services',image_location: ''),
+// ];
 
 List<Users> DUMMY_USERS = [
   Users(

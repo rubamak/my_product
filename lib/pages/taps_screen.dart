@@ -8,6 +8,8 @@ import 'package:my_product/pages/category_screen.dart';
 import 'package:my_product/pages/drawer_section_pages/favorite_screen.dart';
 import 'package:my_product/pages/home_page.dart';
 import 'package:my_product/widgets/main_drawer.dart';
+import 'package:get/get.dart';
+
 
 class TapsScreen extends StatefulWidget {
 
@@ -59,7 +61,7 @@ class _TapsScreenState extends State<TapsScreen> {
         iconTheme: IconThemeData(color: black),
         elevation: 0,
         leading: IconButton(
-          onPressed: ()=> Navigator.of(context).pop() ,
+          onPressed: ()=> Get.back() ,
           icon: Icon(Icons.arrow_back_ios),
         ),
 
@@ -135,6 +137,7 @@ class _TapsScreenState extends State<TapsScreen> {
 
         elevation: 0,
         selectedItemColor: white ,
+        selectedFontSize: 25,
         unselectedItemColor: black,
         currentIndex: _selectedPageIndex,
         onTap: _selectSection,

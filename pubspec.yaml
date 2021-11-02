@@ -96,12 +96,8 @@ flutter:
     - images/download.jpeg
     - images/images.jpeg
     - images/cob.png
-    - images/categories/assecc.png
-    - images/categories/dress.jpeg
-    - images/categories/food.png
-    - images/categories/drinks.jpeg
-    - images/categories/h.png
-    - images/categories/servoces.jpeg
+    - images/noFamily.jpg
+    - images/noProduct.jpg
 #    - images/products/f.png
 #    - images/products/ice.jpg
 #    - images/products/waff.png

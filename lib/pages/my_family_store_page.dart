@@ -13,84 +13,87 @@ class MyFamilyStorePage extends StatefulWidget {
 }
 
 class _MyFamilyStorePageState extends State<MyFamilyStorePage> {
-  var firebaseUser = FirebaseAuth.instance.currentUser;
-
-  var storesRef = FirebaseFirestore.instance.collection('familiesStores');
-
-  var familyStore;
-
-  var description;
-
+  User firebaseUser = FirebaseAuth.instance.currentUser;
+  QuerySnapshot <Map<String, dynamic>> familyStoreInfo ;
+  var docData ;
   bool hasStore = false;
 
-  checkStore()async {
-   await storesRef.where('uid',isEqualTo: firebaseUser.uid).get().then((value) {
+  getUserData(String uid) async {
+    //اجيب بيانات دوكيمنت واحد فقط
+    //get will return docs Query snapshot
+    await FirebaseFirestore.instance.collection('users').doc(uid).get().then((value) async{
+      //value.data is the full fields for this doc
+      if (value.exists) {
+        setState(() {
+          docData = value;
+          print(docData.id);
+        });
+        await FirebaseFirestore.instance.collection('familiesStores')
+            .where('uid',isEqualTo: docData.id).get().then((doc) {
+          if(doc != null && doc.docs.isEmpty == false){
+            setState(() {
+              familyStoreInfo = doc;
+              hasStore = true;
+            });
 
-   setState(() {
-     value.docs.forEach((element) {
-       familyStore =element.data();
-       print(familyStore);
-     });
-     hasStore= true;
+          }
+        });
+      } else {
+        setState(() {
+          hasStore= false;
 
-   });
-
-   });
-   return hasStore;
-
-
+        });
+      }
+    });
 
   }
-
-  var storeData;
-
-  getStore(String uid) async {
-
-      //استعلام كامل لهذا الكولكيشن
-      QuerySnapshot querySnapshot = await storesRef.where('uid',isEqualTo:uid).get();
-      //all the docs in list
-      List <dynamic> listDocs = querySnapshot.docs;
-      // for each document get the data for specific field
-      listDocs.forEach((element) {
-        storeData = element.data();
-
-        print(element.data());
-        print("================================");
-      });
+  @override
+  void initState() {
+    getUserData(firebaseUser.uid);
+    super.initState();
   }
+
+
+
 
   @override
   Widget build(BuildContext context) {
     return
       Scaffold(
-      appBar: AppBar(
-        iconTheme: IconThemeData(color: black),
-        toolbarHeight: 100,
-        centerTitle: true,
-        elevation: 0,
-        title: hasStore ?
-            Text(familyStore)
-            :Text("No store",style: TextStyle(color: black),),
-        backgroundColor: Theme.of(context).primaryColor,
-      ),
-      body: Container(
-        color: basicColor,
-        child: Container(
-          height: MediaQuery.of(context).size.height - 100,
-          decoration: BoxDecoration(
-              color: white,
-              borderRadius: BorderRadius.only(topLeft: Radius.circular(120),
-              )
-          ),
-
-          child:
-
-          Center(
-            child: Text("No Store Added,",style: TextStyle(fontSize: 40,color:black,fontWeight: FontWeight.w300),),)
-
-
+        appBar: AppBar(
+          toolbarHeight: 100,
+          centerTitle: true,
+          elevation: 0,
+          title: hasStore? Column(
+            children: [
+              Text(" My store: ${familyStoreInfo.docs[0].data()['family store name'].toString()}",),
+              Text(" Type: ${familyStoreInfo.docs[0].data()['category name'].toString()} Store")
+            ],
+          ): Text("no store"),
+          backgroundColor: Theme.of(context).primaryColor,
         ),
-      ),
+        body: Container(
+          color: basicColor,
+          child: Container(
+              height: MediaQuery.of(context).size.height - 100,
+              decoration: BoxDecoration(
+                  color: white,
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(120),
+                  )
+              ),
+
+              child:
+
+              Center(child:  hasStore?
+              Column(children: [
+                Text("my products here ")
+
+              ],)
+                  : Text("No Store Added,",style: TextStyle(fontSize: 40),),)
+
+
+          ),
+        ),
 
 
 
@@ -98,28 +101,29 @@ class _MyFamilyStorePageState extends State<MyFamilyStorePage> {
 
 
         floatingActionButton: Container(
-          width: 180,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(15.0),
-            color: basicColor,
-          ),
-          child:
-              hasStore? TextButton.icon(
-                label: Text("add products",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 18,color: black),),
-                icon: Icon(Icons.add,color: black,),
-                onPressed: ()=>
-                    //Navigator.push(context, MaterialPageRoute(builder: (context)=> AddProduct())),
-                    Get.to(()=> AddProduct()),
-              ):
-          TextButton.icon(
-            label: Text("add a Store",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18,color: black),),
-            icon: Icon(Icons.add,color: black,),
-            onPressed: ()=>
-                //Navigator.push(context, MaterialPageRoute(builder: (context)=> AddFamilyStore())),
-                Get.to(()=> AddFamilyStore()),
-          )
-      ),
-    );
+            width: 180,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15.0),
+              color: basicColor,
+            ),
+            child:
+            hasStore?
+            TextButton.icon(
+              label: Text("add products",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18,color: black),),
+              icon: Icon(Icons.add,color: black,),
+              onPressed: ()=>
+              //Navigator.push(context, MaterialPageRoute(builder: (context)=> AddProduct())),
+              Get.to(()=> AddProduct()),
+            )
+                : TextButton.icon(
+              label: Text("add a Store",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18,color: black),),
+              icon: Icon(Icons.add,color: black,),
+              onPressed: ()=>
+              //Navigator.push(context, MaterialPageRoute(builder: (context)=> AddFamilyStore())),
+              Get.to(()=> AddFamilyStore()),
+            )
+        ),
+      );
 
   }
 }
