@@ -5,7 +5,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:my_product/color/my_colors.dart';
 import 'package:my_product/pages/categories_pages/accessories.dart';
-import 'package:my_product/modules/category.dart';
 import 'package:my_product/pages/families_screen.dart';
 import 'package:my_product/pages/home_page.dart';
 import 'package:get/get.dart';

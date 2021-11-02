@@ -2,12 +2,10 @@
 import 'dart:isolate';
 
 //ruba love samaha
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart'; //for design
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/foundation.dart';
 import 'package:my_product/dummy_data.dart';
 import 'package:my_product/pages/Registration_page.dart';
 import 'package:my_product/pages/add_product.dart';
@@ -31,8 +29,6 @@ import '../pages/product_detail_screen.dart';
 import 'package:my_product/pages/products_screen.dart';
 import 'package:my_product/pages/taps_screen.dart';
 import 'color/my_colors.dart';
-import 'components/cart_products.dart';
-import 'components/horizontel_listview.dart';
 import 'components/latest_products.dart';
 import 'json_test.dart';
 import 'modules/product.dart';
@@ -52,10 +48,11 @@ import 'package:provider/provider.dart';
 
    runApp(
 
-         ChangeNotifierProvider(
-         create: (_)=> Products(),
-          child: MyApp(),
-         ),
+         //ChangeNotifierProvider(
+         //create: (_)=> Products(),
+          //child:
+          MyApp(),
+        // ),
    );
 
 
@@ -71,25 +68,25 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   final Future<FirebaseApp> _firebaseApp = Firebase.initializeApp();
 
-  List <Product> _favoriteProducts = [];
+ // List <Product> _favoriteProducts = [];
 
-  void _toggleFavorites (int productId){
-     final productExistingIndex = _favoriteProducts.indexWhere((product){
-       return product.productId== productId;
-     });
-     if(productExistingIndex >= 0){
-       setState(() {
-         _favoriteProducts.removeAt(productExistingIndex);
-       });
-     } else{
-       setState(() {
-         _favoriteProducts.add(
-             DUMMY_PRODUCTS.firstWhere((product) => product.productId ==productId));
-       }); }
-  }
-  bool _isProductFavorite(int productId){
-    return _favoriteProducts.any((product) => product.productId == productId);
-  }
+  //void _toggleFavorites (int productId){
+     // final productExistingIndex = _favoriteProducts.indexWhere((product){
+     //   return product.productId== productId;
+     // });
+  //    if(productExistingIndex >= 0){
+  //      setState(() {
+  //        _favoriteProducts.removeAt(productExistingIndex);
+  //      });
+  //    } else{
+  //      setState(() {
+  //        // _favoriteProducts.add(
+  //        //     DUMMY_PRODUCTS.firstWhere((product) => product.productId ==productId));
+  //      }); }
+  // }
+  // bool _isProductFavorite(int productId){
+  //   return _favoriteProducts.any((product) => product.productId == productId);
+  // }
 
 
   @override
@@ -109,13 +106,17 @@ class _MyAppState extends State<MyApp> {
           //home:
         initialRoute:'/' ,
         getPages: [
-          GetPage(name: '/', page:()=> HomePage()),
-          GetPage(name: TapsScreen.routeName,  page:()=> TapsScreen(_favoriteProducts)),
+          GetPage(name: '/', page:()=> LandingPage()),
+          GetPage(name: TapsScreen.routeName,  page:()=> TapsScreen(
+              //_favoriteProducts
+          )),
           GetPage(name: CategoryScreen.routeName,  page:()=> CategoryScreen()),
           GetPage(name: FamiliesScreen.routeName, page: ()=>FamiliesScreen()),
           GetPage(name: ProductsScreen.routeName, page: ()=>ProductsScreen()),
           GetPage(name: SingleChatScreen.routeName, page: ()=> const SingleChatScreen()),
-          GetPage(name: ProductDetailScreen.routeName, page: ()=>  ProductDetailScreen(_toggleFavorites,_isProductFavorite)),
+          GetPage(name: ProductDetailScreen.routeName, page: ()=>  ProductDetailScreen(
+              //_toggleFavorites,_isProductFavorite
+          )),
           //GetPage(name: FavoriteScreen.routeName, page: FamiliesScreen(_favoriteProducts))
 
 

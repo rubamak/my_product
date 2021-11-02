@@ -1,6 +1,5 @@
 
 
-// ignore_for_file: prefer_const_constructors, unused_local_variable, await_only_futures, avoid_function_literals_in_foreach_calls, unnecessary_string_interpolations
 
 import 'dart:async';
 
@@ -17,14 +16,12 @@ import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:my_product/color/my_colors.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:my_product/modules/category.dart';
 import 'package:my_product/modules/product.dart';
 import 'package:provider/provider.dart';
 import 'dart:io';
 import 'package:get/get.dart';
 
 
-import 'package:my_product/modules/category.dart';
 
 import '../home_page.dart';
 

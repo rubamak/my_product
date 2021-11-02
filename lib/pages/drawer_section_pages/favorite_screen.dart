@@ -9,21 +9,21 @@ import 'package:my_product/dummy_data.dart';
 import 'package:my_product/pages/login.dart';
 
 class FavoriteScreen extends StatelessWidget {
-  final List<Product> favoriteProducts;
 
-  FavoriteScreen(this.favoriteProducts);
+
+
 
   //static const routeName = '/favorite-screen';
 //
   @override
   Widget build(BuildContext context) {
-    if (favoriteProducts.isEmpty) {
+
       return Scaffold(
           body: Center(
             child: Text("no items yet",style: TextStyle(color:black ),),
           )
       );
-    } else {
+
       return  // في خلل هناااااااااااااااااااااااا يطلع راندر ايرور
         ListView.builder(
             itemBuilder: (context, index) {
@@ -44,7 +44,7 @@ class FavoriteScreen extends StatelessWidget {
             }
 
         );
-    }
+
   }
 // Future addToFavorite() async{
 //   final Firebase _auth = FirebaseAuth.instance as Firebase;

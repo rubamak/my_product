@@ -18,11 +18,11 @@ class ProductDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List <Product> prodList =
-        Provider.of<Products>(context,listen: true).productsList;
+    // List <Product> prodList =
+    //     Provider.of<Products>(context,listen: true).productsList;
     // هذا عنصر واحد
-        var filteredItem = prodList.firstWhere(
-                (element) => element.description == desc, orElse: null);
+    //     var filteredItem = prodList.firstWhere(
+    //             (element) => element.description == desc, orElse: null);
 
     return Scaffold(
       appBar: AppBar(
@@ -36,10 +36,12 @@ class ProductDetails extends StatelessWidget {
         //   color: Colors.white,
         // ),
 
-        title: filteredItem == null ? null:
+        title:
+        //filteredItem == null ? null:
         Padding(
           padding: EdgeInsets.only(top: 1),
-          child: Text(filteredItem.productName ,
+          child: Text(
+            "filteredItem.productName" ,
             style: TextStyle(
               color: black,
               fontWeight: FontWeight.bold,
@@ -51,7 +53,8 @@ class ProductDetails extends StatelessWidget {
         toolbarHeight: 80,
 
       ),
-      body: filteredItem == null ? null :
+      body:
+      //filteredItem == null ? null :
         ListView(
           children: <Widget>[
             SizedBox(height: 20,),
@@ -64,7 +67,8 @@ class ProductDetails extends StatelessWidget {
 
         child: Column(
           children: [
-            buildContainer(filteredItem.productImage,filteredItem.description,context)
+           // buildContainer(
+                //filteredItem.productImage,filteredItem.description,context)
               // Container(
               //   height: MediaQuery.of(context).size.height - 700,
               //   child: Hero(
@@ -72,9 +76,9 @@ class ProductDetails extends StatelessWidget {
               //     child: Image.file(File(filteredItem.productImage),fit: BoxFit.fill,),
               //   ),
               // ),
-            ,
+
             SizedBox(height: 20,),
-            buildCard(filteredItem.productName,filteredItem.categoryName,filteredItem.familyName,filteredItem.description,filteredItem.price),
+          //  buildCard(filteredItem.productName,filteredItem.categoryName,filteredItem.familyName,filteredItem.description,filteredItem.price),
 
 
           ],
@@ -91,7 +95,7 @@ class ProductDetails extends StatelessWidget {
         onPressed: (){
           //Provider.of<Products>(context,listen: false).delete(filteredItem.productImage);
           //يحذق لي الصفحة ويرجع لورا طبعا ويروح للصفحة الي قبلها ويحذف هناك
-          Navigator.pop(context,filteredItem.description);
+         // Navigator.pop(context,filteredItem.description);
         },
         backgroundColor: basicColor,
         child: Icon(Icons.delete,color: black,),

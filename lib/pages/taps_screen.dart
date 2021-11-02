@@ -13,9 +13,9 @@ import 'package:get/get.dart';
 
 class TapsScreen extends StatefulWidget {
 
-  final List<Product> favoriteProducts;
+  //final List<Product> favoriteProducts;
 
-  TapsScreen(this.favoriteProducts);
+  //TapsScreen(this.favoriteProducts);
 
 
 
@@ -39,7 +39,7 @@ class _TapsScreenState extends State<TapsScreen> {
       {'page': CategoryScreen(),
         'title': 'Categories',
       },
-      {'page': FavoriteScreen(widget.favoriteProducts),
+      {'page': FavoriteScreen(),
         'title': 'Favorites List',}];
     super.initState();
 

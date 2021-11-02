@@ -20,7 +20,7 @@ CollectionReference collectionReference = FirebaseFirestore.instance.collection(
 
   @override
   Widget build(BuildContext context) {
-    List <Product> productList = Provider.of<Products>(context,listen: true).productsList;
+    //List <Product> productList = Provider.of<Products>(context,listen: true).productsList;
 
 
 
@@ -148,8 +148,9 @@ CollectionReference collectionReference = FirebaseFirestore.instance.collection(
         title: Text("My Products ",style: TextStyle(color: black),),
         backgroundColor: Theme.of(context).primaryColor,
       ),
-      body: productList.isEmpty ?
-          Container(
+      //productList.isEmpty ?
+      body
+          :Container(
             color: basicColor,
             child: Container(
               height: MediaQuery.of(context).size.height - 100,
@@ -163,121 +164,122 @@ CollectionReference collectionReference = FirebaseFirestore.instance.collection(
                 child: Text("No Products added,",style: TextStyle(fontSize: 40,color:black),),),
             ),
           )
-          :Container(
-             color: basicColor,
-          child: Container(
-            height: MediaQuery.of(context).size.height - 100,
-            decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(topLeft: Radius.circular(120),
-                )
-            ),
-
-            child:ListView.separated(
-                itemBuilder:(context,index){
-                  return TextButton(
-                                        onPressed: (){
-                                          Navigator.push(context, MaterialPageRoute(
-                                              builder: (_)=>
-                                                  ProductDetails(productList[index].description))).
-                                              // value here is item with specific desc that will delete using delete method
-                                          then((desc) => Provider.of<Products>
-                                            (context,listen: false).delete(desc));
-                                        },
-                                        child: Column(
-                                         children: [
-                                        SizedBox(height: 50,),
-                                        Card(
-                                          shape:RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.only(topLeft: Radius.circular(20))
-                                          ),
-                                        color: grey,
-                                        elevation: 0,
-                                        child: Row(
-                                          children: <Widget>[
-                                            Expanded(
-                                                flex: 2,
-                                                child: Container(
-                                                  // color: black,
-                                                  padding: EdgeInsets.only(right: 10),
-                                                  width: 130,
-                                                  child: Hero(
-                                                    tag: productList[index].productId,
-                                                    child: Image.file(File(productList[index].productImage),fit: BoxFit.cover,
-                                                     // height: MediaQuery.of(context).size.height - 800,
-                                                      // width:MediaQuery.of(context).size.width -250 ,
-                                                    ),
-                                                  ),
-                                                )
-                                            ),
-
-                                            Expanded(
-
-                                              flex: 3,
-                                              child: Column(
-                                                mainAxisAlignment:MainAxisAlignment.spaceBetween,
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                children: <Widget>[
-                                                  SizedBox(height: 10,),
-                                                  Text(
-                                                    productList[index].productName,
-                                                    style: TextStyle(
-                                                        color: black,
-                                                        fontSize: 20,
-                                                        fontWeight: FontWeight.bold),
-                                                  ),
-                                                  Divider(color: white,),
-
-                                                  Text(
-                                                    productList[index].categoryName,
-                                                    style: TextStyle(
-                                                        color: black,
-                                                        fontSize: 20,
-                                                        fontWeight: FontWeight.bold),
-                                                  ),
-
-                                                  Divider(color: white,),
-                                                  Container(
-                                                    width: 200,
-                                                    child: Text(
-                                                      productList[index].description, style: TextStyle(
-                                                        color: black,
-                                                        fontSize: 20,
-                                                        fontWeight: FontWeight.bold),
-                                                      softWrap: true,
-                                                      overflow: TextOverflow.ellipsis,
-                                                      textAlign: TextAlign.justify,
-                                                      maxLines: 2,
-                                                    ),
-                                                  ),
-
-                                                  Divider(color: white,),
-                                                  Text(
-                                                    "${productList[index].price} SR",
-                                                    style: TextStyle(
-                                                        color: black,
-                                                        fontSize: 20,
-                                                        fontWeight: FontWeight.bold),
-                                                  ),
-
-                                                  SizedBox(height: 10,),
-                                                ],
-                                              ),
-                                            ),
-                                            Expanded(flex: 2,
-
-                                              child:  Icon(Icons.arrow_forward_ios,color: black,),
-                                            )
-                                          ],
-                                        ),
-                                    ),
-                                ]
-                                ),
-                  );
-
-                } ,
-                separatorBuilder: (context,index) {return SizedBox(height: 10,);},
-                itemCount: productList.length)
+          // Container(
+          //    color: basicColor,
+          // child: Container(
+          //   height: MediaQuery.of(context).size.height - 100,
+          //   decoration: BoxDecoration(
+          //       color: Colors.white,
+          //       borderRadius: BorderRadius.only(topLeft: Radius.circular(120),
+          //       )
+          //   ),
+          //
+          //   child:ListView.separated(
+          //       itemBuilder:(context,index){
+          //         return TextButton(
+          //                               onPressed: (){
+          //                                 Navigator.push(context, MaterialPageRoute(
+          //                                     builder: (_)=>
+          //                                         ProductDetails(productList[index].description))).
+          //                                     // value here is item with specific desc that will delete using delete method
+          //                                 then((desc) => Provider.of<Products>
+          //                                   (context,listen: false).delete(desc));
+          //                               },
+          //                               child: Column(
+          //                                children: [
+          //                               SizedBox(height: 50,),
+          //                               Card(
+          //                                 shape:RoundedRectangleBorder(
+          //                                   borderRadius: BorderRadius.only(topLeft: Radius.circular(20))
+          //                                 ),
+          //                               color: grey,
+          //                               elevation: 0,
+          //                               child: Row(
+          //                                 children: <Widget>[
+          //                                   Expanded(
+          //                                       flex: 2,
+          //                                       child: Container(
+          //                                         // color: black,
+          //                                         padding: EdgeInsets.only(right: 10),
+          //                                         width: 130,
+          //                                         child: Hero(
+          //                                           tag: productList[index].productId,
+          //                                           child: Image.file(File(productList[index].productImage),fit: BoxFit.cover,
+          //                                            // height: MediaQuery.of(context).size.height - 800,
+          //                                             // width:MediaQuery.of(context).size.width -250 ,
+          //                                           ),
+          //                                         ),
+          //                                       )
+          //                                   ),
+          //
+          //                                   Expanded(
+          //
+          //                                     flex: 3,
+          //                                     child: Column(
+          //                                       mainAxisAlignment:MainAxisAlignment.spaceBetween,
+          //                                       crossAxisAlignment: CrossAxisAlignment.start,
+          //                                       children: <Widget>[
+          //                                         SizedBox(height: 10,),
+          //                                         Text(
+          //                                           productList[index].productName,
+          //                                           style: TextStyle(
+          //                                               color: black,
+          //                                               fontSize: 20,
+          //                                               fontWeight: FontWeight.bold),
+          //                                         ),
+          //                                         Divider(color: white,),
+          //
+          //                                         Text(
+          //                                           productList[index].categoryName,
+          //                                           style: TextStyle(
+          //                                               color: black,
+          //                                               fontSize: 20,
+          //                                               fontWeight: FontWeight.bold),
+          //                                         ),
+          //
+          //                                         Divider(color: white,),
+          //                                         Container(
+          //                                           width: 200,
+          //                                           child: Text(
+          //                                             productList[index].description, style: TextStyle(
+          //                                               color: black,
+          //                                               fontSize: 20,
+          //                                               fontWeight: FontWeight.bold),
+          //                                             softWrap: true,
+          //                                             overflow: TextOverflow.ellipsis,
+          //                                             textAlign: TextAlign.justify,
+          //                                             maxLines: 2,
+          //                                           ),
+          //                                         ),
+          //
+          //                                         Divider(color: white,),
+          //                                         Text(
+          //                                           "${productList[index].price} SR",
+          //                                           style: TextStyle(
+          //                                               color: black,
+          //                                               fontSize: 20,
+          //                                               fontWeight: FontWeight.bold),
+          //                                         ),
+          //
+          //                                         SizedBox(height: 10,),
+          //                                       ],
+          //                                     ),
+          //                                   ),
+          //                                   Expanded(flex: 2,
+          //
+          //                                     child:  Icon(Icons.arrow_forward_ios,color: black,),
+          //                                   )
+          //                                 ],
+          //                               ),
+          //                           ),
+          //                       ]
+          //                       ),
+          //         );
+          //
+          //       } ,
+          //       separatorBuilder: (context,index) {return SizedBox(height: 10,);},
+          //       itemCount: productList.length
+          //   )
 
       //       ListView(
       //
@@ -398,27 +400,27 @@ CollectionReference collectionReference = FirebaseFirestore.instance.collection(
       //             ),
       //   ).toList()
       // ),
-          ),
-
-          ),
+          );
 
 
 
 
 
-      floatingActionButton: Container(
-        width: 180,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15.0),
-          color: basicColor,
-        ),
-        child: TextButton.icon(
-              label: Text("add product",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,color: black),),
-              icon: Icon(Icons.add,color: black,),
-                onPressed: ()=> Navigator.push(context, MaterialPageRoute(builder: (context)=> AddProduct())),
 
-            )
-      ),
-    );
+
+      // floatingActionButton: Container(
+      //   width: 180,
+      //   decoration: BoxDecoration(
+      //     borderRadius: BorderRadius.circular(15.0),
+      //     color: basicColor,
+      //   ),
+      //   child: TextButton.icon(
+      //         label: Text("add product",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,color: black),),
+      //         icon: Icon(Icons.add,color: black,),
+      //           onPressed: ()=> Navigator.push(context, MaterialPageRoute(builder: (context)=> AddProduct())),
+      //
+      //       ));
+
+
   }
 }

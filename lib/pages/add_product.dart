@@ -349,19 +349,15 @@ class _AddProductState extends State<AddProduct> {
     var productRef = await FirebaseFirestore.instance.collection('products');
     var productId = await FirebaseFirestore.instance.collection("familiesStores").doc().id;
 
-    var familiesStoresRef = await FirebaseFirestore.instance.collection('familiesStores');
-    var familyId = await FirebaseFirestore.instance.collection("familiesStores").doc().id;
-
-    var categoryId = await FirebaseFirestore.instance.collection('categories').doc().id;
     if (_formKey.currentState.validate() && image !=null) {
       _formKey.currentState.save();
       //=====put image in the storage
       var storageImage = FirebaseStorage.instance.ref().child(image.path);
       var task = storageImage.putFile(image);
       // take image url to put it in fire store
-      //مو راضي يزبط معايا اني اخد الصورة من الستورج واحطها ف الفاير ستور
       imageUrl = await (await task.whenComplete(() => null)).ref.getDownloadURL();
       //========end image section
+
 try {
   productRef.doc(productId).set({
     'uid': firebaseUser.uid,

@@ -12,18 +12,19 @@ import 'package:my_product/pages/taps_screen.dart';
 class ProductDetailScreen extends StatelessWidget {
   static const routeName = '/product-details';
 
-  final Function toggleFavorites;
-  final Function isProductFavorite;
+  // final Function toggleFavorites;
+  // final Function isProductFavorite;
 
-  ProductDetailScreen(this.toggleFavorites, this.isProductFavorite);
+  ProductDetailScreen();
+      //this.toggleFavorites, this.isProductFavorite);
 
   @override
   Widget build(BuildContext context) {
     final productId = ModalRoute.of(context).settings.arguments as Object;
 
     //هنا ليس لست كاملة وانما عنصر واحد فقط لانه فيرست وير
-    final selectedProduct =
-    DUMMY_PRODUCTS.firstWhere((product) => product.productId == productId);
+    // final selectedProduct =
+    // DUMMY_PRODUCTS.firstWhere((product) => product.productId == productId);
 
     return Scaffold(
       appBar: AppBar(
@@ -32,8 +33,8 @@ class ProductDetailScreen extends StatelessWidget {
         elevation: 0,
         backgroundColor: basicColor,
         centerTitle: true,
-        title: Text(
-          "${selectedProduct.productName} Information",
+        title: Text("Ll",
+          //"${selectedProduct.productName} Information",
           style: TextStyle(
             color: black,
             fontWeight: FontWeight.bold,
@@ -73,7 +74,7 @@ class ProductDetailScreen extends StatelessWidget {
                     decoration: BoxDecoration(
                         image: DecorationImage(
                             image: AssetImage(
-                              selectedProduct.productImage,
+                              ""//selectedProduct.productImage,
                             ),
                             fit: BoxFit.cover)),
                   ),
@@ -91,7 +92,7 @@ class ProductDetailScreen extends StatelessWidget {
                   children: [
 
 
-                    Text(" Name:  ${selectedProduct.productName} ",
+                     Text(" Name:  ",//${selectedProduct.productName} ",
                       style: TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.bold,color:black
@@ -100,7 +101,8 @@ class ProductDetailScreen extends StatelessWidget {
                     SizedBox(height: 15),
 
 
-                    Text( "price: ${selectedProduct.price} ",
+                    Text( "price: ",
+                        //"${selectedProduct.price} ",
                       style: TextStyle(
                         fontSize: 20,
                         color: black,
@@ -108,7 +110,8 @@ class ProductDetailScreen extends StatelessWidget {
                     ),
                     SizedBox(height: 15),
 
-                    Text(" description: ${selectedProduct.description} ",
+                    Text(" description: ",
+                        //"${selectedProduct.description} ",
                       style: TextStyle(
                         fontSize: 20,
                         color: black,
@@ -116,14 +119,16 @@ class ProductDetailScreen extends StatelessWidget {
                       textAlign: TextAlign.center,
                     ),
                     SizedBox(height: 20),
-                    Text(" Owner Name: ${selectedProduct.familyName} ",
+                    Text(" Owner Name: ",
+                        //"${selectedProduct.familyName} ",
                       style: TextStyle(
                         fontSize: 20,
                         color: black,
                       ),
                     ),
                     SizedBox(height: 5),
-                    Text(" Category: ${selectedProduct.categoryName} ",
+                    Text(" Category: ",
+                        //"${selectedProduct.categoryName} ",
                       style: TextStyle(
                         fontSize: 20,
                         color: black,
@@ -199,9 +204,11 @@ class ProductDetailScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
           backgroundColor: white,
-          onPressed: () => toggleFavorites(productId),
+          onPressed: () {},
+              //toggleFavorites(productId),
           child: Icon(
-            isProductFavorite(productId) ? Icons.star : Icons.star_border,
+            //isProductFavorite(productId) ? Icons.star :
+            Icons.star_border,
             color: grey,
           )
         // Icons.star_border_outlined,color: Colors.red ),
