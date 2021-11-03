@@ -188,41 +188,41 @@ class _HomePageState extends State<HomePage> {
               SizedBox(
                 height: 5,
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  margin: EdgeInsets.all(5),
-                  height: 50,
-                  decoration: BoxDecoration(color: white, boxShadow: [
-                    BoxShadow(
-                      color: basicColor,
-                      offset: Offset(5, 10),
-                      blurRadius: 8,
-                    )
-                  ]),
-                  //هنا كان في كونست وشلتها برضو لانها برضو عطلتني ياربا
-                  child: ListTile(
-                    leading:  Icon(
-                      Icons.search,
-                      size: 50,
-                      color: basicColor,
-                      //وهنا كمان نفس الكومنت اللي فوق
-
-                    ),
-                    title: TextField(
-                      decoration:  InputDecoration(
-                        hintText: "Find what you want..",
-                        hintStyle: TextStyle(
-                            color: basicColor,
-                            fontWeight: FontWeight.bold),
-                        border: InputBorder.none,
-                      ),
-                      onTap: (){}
-
-                         ),
-                  ),
-                ),
-              ),
+              // Padding(
+              //   padding: const EdgeInsets.all(8.0),
+              //   child: Container(
+              //     margin: EdgeInsets.all(5),
+              //     height: 50,
+              //     decoration: BoxDecoration(color: white, boxShadow: [
+              //       BoxShadow(
+              //         color: basicColor,
+              //         offset: Offset(5, 10),
+              //         blurRadius: 8,
+              //       )
+              //     ]),
+              //     //هنا كان في كونست وشلتها برضو لانها برضو عطلتني ياربا
+              //     child: ListTile(
+              //       leading:  Icon(
+              //         Icons.search,
+              //         size: 50,
+              //         color: basicColor,
+              //         //وهنا كمان نفس الكومنت اللي فوق
+              //
+              //       ),
+              //       title: TextField(
+              //         decoration:  InputDecoration(
+              //           hintText: "Find what you want..",
+              //           hintStyle: TextStyle(
+              //               color: basicColor,
+              //               fontWeight: FontWeight.bold),
+              //           border: InputBorder.none,
+              //         ),
+              //         onTap: (){}
+              //
+              //            ),
+              //     ),
+              //   ),
+              // ),
               //use the carousal
               imageCarousal,
 
@@ -243,9 +243,24 @@ class _HomePageState extends State<HomePage> {
 
               Padding(
                   padding: EdgeInsets.all(10.0),
-                  child: Text('Press below for Latest Products! ',
+                  child: Text('Press here for Latest Products! ',
                       style: TextStyle(
                           fontSize: 25.0, fontWeight: FontWeight.w800,color: black))),
+
+              Padding(
+                padding: const EdgeInsets.all(30),
+                child: MaterialButton(
+                  color: basicColor,
+
+                  onPressed: ()=> bottomSheet(context),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                    Text("Latest Products"),
+                    Icon(Icons.new_label),
+                  ],),),
+              ),
+
 
               //make it flexible with any screen to avoid problem
               //Flexible(child: Products()) ,
@@ -254,27 +269,28 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        heroTag: "floatButton",
-        onPressed: () => bottomSheet(context),
-        /* async{
-            try{
-              await canLaunch(url)?
-              await launch(url,):
-              throw 'could not get the video';
-            }catch(e){
-              print(e.toString());
-
-            }
-
-          },*/
-
-        backgroundColor: basicColor,
-        child: Icon(
-          Icons.new_label_outlined,
-          color: black,
-        ),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //
+      //   heroTag: "floatButton",
+      //   onPressed: () => bottomSheet(context),
+      //   /* async{
+      //       try{
+      //         await canLaunch(url)?
+      //         await launch(url,):
+      //         throw 'could not get the video';
+      //       }catch(e){
+      //         print(e.toString());
+      //
+      //       }
+      //
+      //     },
+      //
+      //   backgroundColor: basicColor,
+      //   child: Icon(
+      //     Icons.new_label_outlined,
+      //     color: black,
+      //   ),
+      // ),
     );
   }
 

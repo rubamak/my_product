@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:like_button/like_button.dart';
 import 'package:my_product/color/my_colors.dart';
 import 'package:my_product/dummy_data.dart';
+import 'package:my_product/pages/product_detail_screen.dart';
+import 'package:my_product/pages/product_details.dart';
 import 'package:my_product/widgets/main_drawer.dart';
 import 'package:my_product/widgets/product_item.dart';
 import 'package:get/get.dart';
@@ -23,6 +25,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
   User firebaseUser = FirebaseAuth.instance.currentUser;
  // DocumentSnapshot <Map<String, dynamic>> familyStore;
   QuerySnapshot<Map<String, dynamic>> productsList;
+  //دي اللسته المخزنه فيها الاشياء اللي ف الفيربيس
   DocumentSnapshot<Map<String, dynamic>> docData; // for printing
   var username; // for display to user
   var useremail;
@@ -70,6 +73,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
     //   }
     //
     // }else{
+    //هذا اللي يجيب ال doc على الابلكيشن
       try {
         await FirebaseFirestore.instance.collection('products')
             .where('family store id', isEqualTo: widget.selectedFamilyStore.id)
@@ -93,9 +97,11 @@ class _ProductsScreenState extends State<ProductsScreen> {
   }
 
   @override
+  //ستخراج الداتا يكون هنا ف الميثود دي
   void initState() {
     if (firebaseUser != null && firebaseUser.uid != null){
       getUserData(firebaseUser.uid);
+
     }
     fetchSpecifiedProduct();
     super.initState();
@@ -118,7 +124,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
         title: Padding(
           padding: EdgeInsets.only(top: 1),
           child: Text(
-            "${widget.selectedFamilyStore.data()['family store name'].toString()}  Products",
+            "${widget.selectedFamilyStore.data()['family store name'].toString()}'s Products",
             style: TextStyle(
               color: black,
               fontWeight: FontWeight.bold,
@@ -142,6 +148,10 @@ class _ProductsScreenState extends State<ProductsScreen> {
       ]),
     );
   }
+
+
+  //هنا افصلهن عن بعض واعرضهم ف الابلكيشن عن جد
+
   Widget productFlowList(BuildContext context){
     if (productsList != null) {
       return Container(
@@ -161,8 +171,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                 padding: EdgeInsets.only(top: 45),
                 child: Container(
                   height: MediaQuery.of(context).size.height - 300,
-                  child: productsList.docs.isEmpty
-                      ? Center(
+                  child: productsList.docs.isEmpty ? Center(
                     child: Text("no elements",style: TextStyle(color: black),),
                   )
                       : ListView.separated(
@@ -174,8 +183,9 @@ class _ProductsScreenState extends State<ProductsScreen> {
                     itemBuilder: (context, i) {
                       return InkWell(
                         onTap: (){
-                          //Get.to(()=> ProductsScreen(selectedFamilyStore: familiesStoresList.docs[i],));
-                          //ProductsScreen(selectedFamilyStore: ,));
+                          Get.to(()=> ProductDetails(selectedProduct: productsList.docs[i]));
+
+
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -207,6 +217,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                       Text(productsList.docs[i].data()['product name'].toString()
                                           ??"none",style: TextStyle(color:black,fontSize: 17,fontWeight: FontWeight.bold),),
                                       SizedBox(height: 5,),
+                                     // Text(productsList.docs[i].id),
 
                                       Container(
                                           width: 200,
@@ -214,7 +225,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                           Text(productsList.docs[i].data()['product description'].toString()??"none",
                                             softWrap: true,
                                             overflow: TextOverflow.fade,
-                                            style: TextStyle(fontSize: 17,fontWeight: FontWeight.normal,color: grey),)
+                                            style: TextStyle(fontSize: 20,fontWeight: FontWeight.normal,color: grey),)
                                       ),
                                       Text("${productsList.docs[i].data()['category name'].toString()} Store" ??"none",
                                         style: TextStyle(color:black),),

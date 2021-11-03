@@ -14,18 +14,13 @@ import 'package:my_product/widgets/main_drawer.dart';
 import 'dart:io';
 import 'package:get/get.dart';
 
+import 'drawer_section_pages/single_chat_screen.dart';
+
 class FamiliesScreen extends StatefulWidget {
   static const routeName = '/families_categories';
   @override
   State<FamiliesScreen> createState() => _FamiliesScreenState();
   final DocumentSnapshot<Map<String, dynamic>> selectedCategory;
-  FamiliesScreen({
-    this.selectedCategory,
-    this.userId, this.
-    familyStoreId, this.categoryId,
-    this.categoryName,
-    this.familyName,
-    this.description, this.familyImage});
   final String userId;
   final String familyStoreId ;
   final String categoryId;
@@ -33,6 +28,14 @@ class FamiliesScreen extends StatefulWidget {
   final String familyName;
   final String description;
   final String familyImage;
+  FamiliesScreen({
+    this.selectedCategory,
+    this.userId, this.
+    familyStoreId, this.categoryId,
+    this.categoryName,
+    this.familyName,
+    this.description, this.familyImage});
+
 }
 
 class _FamiliesScreenState extends State<FamiliesScreen> {
@@ -46,15 +49,15 @@ class _FamiliesScreenState extends State<FamiliesScreen> {
 
   }
 
-  void chatWithFamily (BuildContext context){
-    // Navigator.of(context).pushNamed(
-    //     SingleChatScreen.routeName,
-    //     arguments: {
-    //       'id': widget.familyStoreId,
-    //       'name': widget.familyName,
-    //     }
-    //
-    // );
+  void chatWithFamily (BuildContext context, String id, String nameFamily){
+    Navigator.of(context).pushNamed(
+        SingleChatScreen.routeName,
+        arguments: {
+          'id': id,
+          'name': nameFamily,
+        }
+
+    );
   }
   User firebaseUser = FirebaseAuth.instance.currentUser;
   QuerySnapshot<Map<String, dynamic>> familiesStoresList;
@@ -259,7 +262,10 @@ class _FamiliesScreenState extends State<FamiliesScreen> {
                             ),
 
                            firebaseUser!= null? IconButton(
-                              onPressed: ()=> chatWithFamily(context),
+                              onPressed: ()=>
+                                  chatWithFamily(context, familiesStoresList.docs[i].data()['family id'].toString(),
+                                      familiesStoresList.docs[i].data()['family store name'].toString()
+                                  ),
                               // Navigator.of(context).pushNamed(ChatScreen.routeName);
                               icon: Icon(Icons.chat_outlined,color: black,),
                               color: black,
@@ -267,15 +273,6 @@ class _FamiliesScreenState extends State<FamiliesScreen> {
                           ],
                         ),
                       );
-                      // return FamilyItem(
-                      //   familyStoreId: familiesStoresList.docs[i].data()['family id'].toString(),
-                      //   familyName: familiesStoresList.docs[i].data()['family store name'].toString(),
-                      //   description: familiesStoresList.docs[i].data()['store description'].toString(),
-                      //   categoryName: familiesStoresList.docs[i].data()['category name'].toString(),
-                      //   userId: firebaseUser ==null ?" no user": firebaseUser.uid,
-                      //   familyImage: familiesStoresList.docs[i].data()['image family store'].toString(),
-                      //   categoryId: familiesStoresList.docs[i].data()['category id'].toString(),
-                      // );
                     },
                   ),
                 ))

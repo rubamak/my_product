@@ -5,7 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:my_product/color/my_colors.dart';
 import 'package:my_product/modules/product.dart';
-import 'package:my_product/pages/add_product.dart';
+import 'package:my_product/pages/drawer_section_pages/add_product.dart';
 import 'package:my_product/pages/drawer_section_pages/single_chat_screen.dart';
 import 'package:my_product/pages/drawer_section_pages/favorite_screen.dart';
 import 'package:my_product/pages/product_detail_screen.dart';

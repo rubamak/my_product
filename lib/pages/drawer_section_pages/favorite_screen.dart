@@ -8,17 +8,43 @@ import 'package:my_product/widgets/product_item.dart';
 import 'package:my_product/dummy_data.dart';
 import 'package:my_product/pages/login.dart';
 
-class FavoriteScreen extends StatelessWidget {
+class FavoriteScreen extends StatefulWidget {
 
 
 
 
   //static const routeName = '/favorite-screen';
 //
+
   @override
+  State<FavoriteScreen> createState() => _FavoriteScreenState();
+}
+
+class _FavoriteScreenState extends State<FavoriteScreen> {
+  getFavoraite() async {
+    // try {
+    //   await FirebaseFirestore.instance.collection('favorites')
+    //      // .where('family store id', isEqualTo: widget.selectedFamilyStore.id)
+    //   //.where('uid', isNotEqualTo: docData.id)
+    //       .get().then((specifiedDoc) async {
+    //     if (specifiedDoc != null && specifiedDoc.docs.isEmpty == false) {
+    //       setState(() {
+    //         productsList = specifiedDoc;
+    //       });
+    //     } else {
+    //       print('No Docs Found');
+    //     }
+    //   });
+    // } catch (e) {
+    //   print('Error Fetching Data$e');
+
+  }
+
+
   Widget build(BuildContext context) {
 
-      return Scaffold(
+
+        return Scaffold(
           body: Center(
             child: Text("no items yet",style: TextStyle(color:black ),),
           )
@@ -46,18 +72,4 @@ class FavoriteScreen extends StatelessWidget {
         );
 
   }
-// Future addToFavorite() async{
-//   final Firebase _auth = FirebaseAuth.instance as Firebase;
-//   var currentUser = _auth._email;
-//   CollectionReference _collectionRef =
-//   FirbaseFirestore.instance.collection("user-favorite-item");
-//   return _collectionRef
-//       .doc(currentUser!.email)
-//       .collection("collectionPath")
-//       .doc()
-//       .set({"name":widget._product["product-name"]}).then((value) => print("added to favorite"))
-
-
-
-//  }
 }
