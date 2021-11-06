@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
 import 'package:my_product/color/my_colors.dart';
-import 'package:my_product/pages/drawer_section_pages/single_chat_screen.dart';
+import 'package:my_product/pages/single_chat_screen.dart';
 
 class Cart_products extends StatefulWidget {
   const Cart_products({Key key}) : super(key: key);
@@ -106,7 +106,9 @@ class Single_cart_products extends StatelessWidget {
                 ),
                 new IconButton(
                   onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => SingleChatScreen()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) {}
+                    //    SingleChatScreen()
+                    ));
                   },
                   icon: Icon(Icons.chat_outlined,color: black,),),
 

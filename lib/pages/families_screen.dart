@@ -14,7 +14,7 @@ import 'package:my_product/widgets/main_drawer.dart';
 import 'dart:io';
 import 'package:get/get.dart';
 
-import 'drawer_section_pages/single_chat_screen.dart';
+import 'single_chat_screen.dart';
 
 class FamiliesScreen extends StatefulWidget {
   static const routeName = '/families_categories';
@@ -39,27 +39,30 @@ class FamiliesScreen extends StatefulWidget {
 }
 
 class _FamiliesScreenState extends State<FamiliesScreen> {
-  void selectFamily(BuildContext context){
+  // void selectFamily(BuildContext context){
+  //   // Navigator.of(context).pushNamed(
+  //   //     ProductsScreen.routeName,
+  //   //     arguments: {
+  //   //       'id': widget.familyStoreId,
+  //   //       'name': widget.familyName,
+  //
+  //
+  // }
+
+  void chatWithFamily ( String id, String nameFamily){
+    Get.to(()=> (
+        SingleChatScreen( id ,nameFamily)));
     // Navigator.of(context).pushNamed(
-    //     ProductsScreen.routeName,
+    //     SingleChatScreen()
     //     arguments: {
-    //       'id': widget.familyStoreId,
-    //       'name': widget.familyName,
-
-
-  }
-
-  void chatWithFamily (BuildContext context, String id, String nameFamily){
-    Navigator.of(context).pushNamed(
-        SingleChatScreen.routeName,
-        arguments: {
-          'id': id,
-          'name': nameFamily,
-        }
-
-    );
+    //       'id': id,
+    //       'name': nameFamily,
+    //     }
+    //
+    // );
   }
   User firebaseUser = FirebaseAuth.instance.currentUser;
+
   QuerySnapshot<Map<String, dynamic>> familiesStoresList;
   DocumentSnapshot<Map<String, dynamic>> docData; // for printing
   var username; // for display to user
@@ -91,7 +94,7 @@ class _FamiliesScreenState extends State<FamiliesScreen> {
   Future fetchSpecifiedFamilyStore() async {
     //print('Inside Fetching Data UID=${docData.id}');
     print('Inside Fetching Data CatID=${widget.selectedCategory.id}');
-    if(firebaseUser != null && firebaseUser.uid != null){
+    if(firebaseUser != null ){
       try {
         await FirebaseFirestore.instance.collection('familiesStores')
             .where('category id', isEqualTo: widget.selectedCategory.id)
@@ -106,7 +109,7 @@ class _FamiliesScreenState extends State<FamiliesScreen> {
           }
         });
       } catch (e) {
-        print('Error Fetching Data');
+        print('Error Fetching Data$e');
       }
     }else{
       try {
@@ -261,15 +264,30 @@ class _FamiliesScreenState extends State<FamiliesScreen> {
                               ),
                             ),
 
-                           firebaseUser!= null? IconButton(
-                              onPressed: ()=>
-                                  chatWithFamily(context, familiesStoresList.docs[i].data()['family id'].toString(),
-                                      familiesStoresList.docs[i].data()['family store name'].toString()
-                                  ),
-                              // Navigator.of(context).pushNamed(ChatScreen.routeName);
-                              icon: Icon(Icons.chat_outlined,color: black,),
-                              color: black,
-                            ): SizedBox(width: 1,),
+                          // firebaseUser!= null?
+                            Container(
+                          child:  StreamBuilder(
+                            // لو في يوزر مسجل دخول اذا اعرض ليه ايقونة الشات لو مافي اخفيها
+                            stream: FirebaseAuth.instance.authStateChanges(),
+                              builder: (ctx,snapshot) {
+                                if (snapshot.hasData) {
+                                  return IconButton(
+                                    onPressed: () =>
+                                        chatWithFamily( familiesStoresList.docs[i].data()['family id'].toString(),
+                                            familiesStoresList.docs[i].data()['family store name'].toString()
+                                        ),
+                                    // Navigator.of(context).pushNamed(ChatScreen.routeName);
+
+                                    icon: Icon(Icons.chat_outlined, color: black,),
+                                    color: black,
+                                  );
+                                } else {
+                                  return SizedBox(width: 1,);
+                                }
+                              }
+                              ),
+                              //SizedBox(width: 1,),
+                      )
                           ],
                         ),
                       );

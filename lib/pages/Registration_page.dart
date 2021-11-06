@@ -16,6 +16,8 @@ class Registartion extends StatefulWidget {
 
   @override
   _RegistartionState createState() => _RegistartionState();
+  bool isLoading = false ;
+
 }
 
 
@@ -31,12 +33,17 @@ class _RegistartionState extends State<Registartion> {
   var myEmail ,firstName, lastName, username, myPassword;
 
 
-  static String valueChoose;
-  static List  listItems = ["User","productive Family"];
+
+
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  @override
+  FirebaseAuth userCredential =  FirebaseAuth.instance;
+
+
   Widget build(BuildContext context) {
+
+
     return  Scaffold(
+
       backgroundColor: white,
       body:Center(
         child: Form(
@@ -47,7 +54,7 @@ class _RegistartionState extends State<Registartion> {
               children: [
                 Container(child: Text("Sign up Form ",textAlign: TextAlign.center,
                   style: TextStyle(fontWeight: FontWeight.bold,fontSize: 30,
-                    backgroundColor: white,color:black),),),
+                      backgroundColor: white,color:black),),),
                 Container(
                   padding: EdgeInsets.all(20),
                   child: TextFormField(
@@ -71,7 +78,7 @@ class _RegistartionState extends State<Registartion> {
                     cursorColor: black,
                     controller: _firstNameController,
                     validator: (val){
-                      if(val.isEmpty|| val.length < 2) {
+                      if( val.length < 3) {
                         return " Short name :(";
                       }   else{
                         return null;} ;
@@ -105,11 +112,12 @@ class _RegistartionState extends State<Registartion> {
                     cursorColor: black,
                     controller:   _lastNameController,
                     validator: (val){
-                      if(val.isEmpty ) {
-                        return " invalid Entry:(";
-                      }else if(val.length < 2){
-                        return "short last name ";
+                      if(val.length < 4 ) {
+                        return " invalid Entry / or short ";
                       }
+                      //else if(val.length < 4){
+                      //   return "short last name ";
+                      // }
                       else{return null;} ;
                     },
                     onSaved: (value){
@@ -141,18 +149,18 @@ class _RegistartionState extends State<Registartion> {
                     cursorColor: black,
                     controller:   _usernameController,
                     validator: (val){
-                      if(val.isEmpty && !val.contains("_") ) {
-                        return " invalid Entry/ add numbers & symbols:(";
-                      }else if (val.length<4){
+                      if(val.isEmpty  ) {
+                        return "it is empty";
+                      }else if (val.length<4) {
                         return"short username";
 
                       }
-                      // else if( !val.contains("_")){
-                      //   return " add any symbols";
-                      // }
-                      // else if (!val.contains(RegExp(r'[0-9]'))) {
-                      //   return " you should add numbers ";}
-
+                      else if(!val.contains('.')&& !val.contains('_')&&!val.contains('-'))
+                      {
+                        return " add any symbols";
+                      }
+                      else if (!val.contains(RegExp(r'[0-9]'))) {
+                        return " you should add numbers ";}
                       else{
                         return null;} ;
                     },
@@ -259,33 +267,41 @@ class _RegistartionState extends State<Registartion> {
                 ),
                 // Container(
 
-                //familyType(),
-                Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: ElevatedButton(
-                    child: Text('Sign Up',style: TextStyle(color:black),),
-                    onPressed:
-                      signUp,
-                    style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.all(10),
-                      primary: Theme.of(context).primaryColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25), ),),
+                if(widget.isLoading)
+                  Center(child: CircularProgressIndicator()),
+
+
+                if(!widget.isLoading)
+                  Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: ElevatedButton(
+                      child: Text('Sign Up',style: TextStyle(color:black),),
+                      onPressed:(){
+                         signUp();
+                      },
+
+
+                      style: ElevatedButton.styleFrom(
+                        padding: EdgeInsets.all(10),
+                        primary: Theme.of(context).primaryColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25), ),),
+                    ),
                   ),
-                ),
                 SizedBox(width: 50,),
-                Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: MaterialButton(
-                    child: Text('Sign with google',style:TextStyle(color:black)),
-                    onPressed: signInWithGoogle,
-                    // style: ElevatedButton.styleFrom(
-                    //   padding: EdgeInsets.all(10),
-                    //   primary: Theme.of(context).primaryColor,
-                    //   shape: RoundedRectangleBorder(
-                    //     borderRadius: BorderRadius.circular(25), ),),
+                if(!widget.isLoading)
+                  Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: MaterialButton(
+                      child: Text('Sign with google',style:TextStyle(color:black)),
+                      onPressed: signInWithGoogle,
+                      // style: ElevatedButton.styleFrom(
+                      //   padding: EdgeInsets.all(10),
+                      //   primary: Theme.of(context).primaryColor,
+                      //   shape: RoundedRectangleBorder(
+                      //     borderRadius: BorderRadius.circular(25), ),),
+                    ),
                   ),
-                ),
                 SizedBox(height: 10,),
                 // Padding(
                 //   padding: const EdgeInsets.all(20.0),
@@ -321,6 +337,7 @@ class _RegistartionState extends State<Registartion> {
   // var firebaseUser = FirebaseAuth.instance.currentUser;
 
   Future <void> signUp() async {
+    FocusScope.of(context).unfocus();
     // var formData = _formKey.currentState;
     // if(formData!.validate()){
     //هدول السطرين يكافؤ السطر الي تحت في سطر واحد
@@ -337,55 +354,64 @@ class _RegistartionState extends State<Registartion> {
     //انشاء حساب لليوزر جديد
   }
   Future<void> _createUser() async {
-    try {
-      UserCredential userCredential = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(email: myEmail, password: myPassword);
-      print(userCredential.user.email);
-      print("===================================");
-      //print(userCredential.user!.displayName);
-      //print(userCredential.user!.uid);
-      Fluttertoast.showToast(msg: "Account has Successfully created ");
-      addUser();
-      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> Login()));
+
+      try {
+        setState(() {
+          widget.isLoading = true;
+        });
+
+        await userCredential.createUserWithEmailAndPassword(email: myEmail.trim(), password: myPassword.trim());
+        print(userCredential.currentUser.email);
+        print("===================================");
+        //print(userCredential.user!.displayName);
+        //print(userCredential.user!.uid);
+        Fluttertoast.showToast(msg: "Account has Successfully created ");
+        addUser();
+        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Login()));
 
 
-      // if( userCredential.user!.emailVerified ==false ) {
-      //   await user!.sendEmailVerification();
-      // }
+        // if( userCredential.user!.emailVerified ==false ) {
+        //   await user!.sendEmailVerification();
+        // }
 
-    } on FirebaseException catch(e) {
-      if (e.code == 'weak-password') {
-        AwesomeDialog(context: context, title: "Something wrong!",
-          body: Text("password is too weak",style: TextStyle(color:black),),)
-          ..show();
-        print("weak pass");
-      } else if (e.code == 'email-already-in-use') {
-        AwesomeDialog(context: context, title: "Something wrong!",
-          body: Text("email is used by another account..",style: TextStyle(color:black)),)
-          ..show();
-        print("emaid is used ");
       }
-    } catch(err){
-      Center(child: CircularProgressIndicator());
-      print(err);
-    }
+      on FirebaseException catch (e) {
+        if (e.code == 'weak-password') {
+          AwesomeDialog(showCloseIcon: true, context: context, title: "Something wrong!",
+            body: Text("password is too weak", style: TextStyle(color: black),),)
+            ..show();
+          print("weak pass");
+        } else if (e.code == 'email-already-in-use') {
+          AwesomeDialog(showCloseIcon: true, context: context, title: "Something wrong!",
+            body: Text("email is used by another account..", style: TextStyle(color: black)),)
+            ..show();
+          print("emaid is used ");
+        }
+        widget.isLoading = false;
+      } catch (err) {
+        Center(child: CircularProgressIndicator());
+        print("error is=====:$err");
+        widget.isLoading = false;
+      }
+
+
   }
   //add user to collection on firebase
   Future addUser() async {
     CollectionReference usersRef =  FirebaseFirestore.instance.collection('users');
-    User firebaseUser = await FirebaseAuth.instance.currentUser;
+    //User firebaseUser = await FirebaseAuth.instance.currentUser;
 
     //اضيف مع تحديد الاي دي لكل دوكيمنت
     //خليت الاي دي هنا نفس الاي دي لليوزر الي عمل authentication
 
-    usersRef.doc(firebaseUser.uid).set({
+    usersRef.doc(userCredential.currentUser.uid).set({
       //وضفت الاي دي  في حقل كمان
-      'uid': firebaseUser.uid,
-      'first name': _firstNameController.text,
-      'last name': _lastNameController.text,
-        "email":_emailController.text,
-         'username': _usernameController.text,
-         'password': _passwordController.text,
+      'uid': userCredential.currentUser.uid,
+      'first name': _firstNameController.text.trim(),
+      'last name': _lastNameController.text.trim(),
+      "email":_emailController.text,
+      'username': _usernameController.text.trim(),
+      'password': _passwordController.text,
 
     })
     //اضيف بدون ما احدد الاي دي الخاص بكل دوكيمنت
@@ -395,7 +421,7 @@ class _RegistartionState extends State<Registartion> {
     //   "email":_emailController.text,
     //   'username': _usernameController.text,
     //   'password': _passwordController.text,
-    .then((value) {  print("user added!");});
+        .then((value) {  print("user added!");});
 
   }
 

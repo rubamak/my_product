@@ -10,13 +10,15 @@ import 'package:my_product/color/my_colors.dart';
 import 'package:my_product/pages/Registration_page.dart';
 import 'package:my_product/pages/drawer_section_pages/add_product.dart';
 import 'package:my_product/pages/category_screen.dart';
+import 'package:my_product/pages/drawer_section_pages/my_chats.dart';
+import 'package:my_product/pages/drawer_section_pages/profile_screen.dart';
 import 'package:my_product/pages/drawer_section_pages/settings_page.dart';
-import 'package:my_product/pages/drawer_section_pages/single_chat_screen.dart';
+import 'package:my_product/pages/single_chat_screen.dart';
 import 'package:my_product/pages/drawer_section_pages/favorite_screen.dart';
 import 'package:my_product/pages/drawer_section_pages/helping_section.dart';
 import 'package:my_product/pages/home_page.dart';
 import 'package:my_product/pages/login.dart';
-import 'package:my_product/pages/my_family_store_page.dart';
+import 'package:my_product/pages/drawer_section_pages/my_family_store_page.dart';
 import 'package:my_product/pages/taps_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -28,7 +30,7 @@ class MainDrawer extends StatefulWidget {
       this.useremail,
 });
 
-  String   username;
+  String username;
   String  useremail ;
 
 }
@@ -49,7 +51,6 @@ class _MainDrawerState extends State<MainDrawer> {
   }
 
 var userEmail ;
-
   getSharedPreferences()async{
     SharedPreferences sharedpref = await SharedPreferences.getInstance();
     setState(() {
@@ -118,7 +119,6 @@ var userEmail ;
     return Drawer(
       child:Container(
         color: white,
-
       child: ListView(
         children: <Widget>[
           //header
@@ -126,21 +126,20 @@ var userEmail ;
             children: [
              // SizedBox(height: 100,child: Image.asset('images/logo.png'),),
               Padding(
-
                 padding: const EdgeInsets.all(10.0),
-                child: InkWell(
-                    onTap: () async {
-                      },
-                    child: SizedBox(height: 100,child: Image.asset('images/myLogo.png'),)),
+                child:
+                InkWell(
+                onTap: () async {
+                  },
+                    child: SizedBox(height: 100,child: Image.asset('images/myLogo.png'),)
+                ),
               ),
 
               UserAccountsDrawerHeader(
                 decoration:  BoxDecoration(
                   borderRadius: BorderRadius.only(topLeft: Radius.circular(50),bottomRight:Radius.circular(50),),
                   color: basicColor,
-
                 ),
-
                 //بعدين حيصير ياخد الايميل من الداتا بيز لما ينضافو
 
                 accountName:
@@ -160,16 +159,16 @@ var userEmail ;
 
                 accountEmail:
                 checkLogin()?
-                Text(widget.useremail):Text('Mode',style: TextStyle(color: black),),
+                Text(widget.useremail,style: TextStyle(color: black),):Text('Mode',style: TextStyle(color: black),),
                 //فيه ايرور انه لما يسجل خروج يصير نل هنا وصفحة حمرا(ضبطت الايرور بنجاح )
 
                 currentAccountPicture: GestureDetector(
                   child:
                       //هنا كان في كمان كونست
-                     CircleAvatar(
+                     checkLogin() ? CircleAvatar(
                       backgroundColor: white,
                       child: Icon(Icons.person, color: black),
-                    ),
+                    ): SizedBox(height: 0,),
 
 
                 ),
@@ -183,13 +182,15 @@ var userEmail ;
            // Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> HomePage()));
             Get.off(()=> HomePage());
             } ),
-          checkLogin() ? buildListTile("My Profile", Icons.person_outline_sharp,(){}): SizedBox(height: 0,),
+          checkLogin() ? buildListTile("My Profile", Icons.person_outline_sharp,(){
+            Get.to(()=> ProfileScreen());
+          }): SizedBox(height: 0,),
           buildListTile('Categories & Favorites', Icons.dashboard_outlined,(){
             //Navigator.pushNamed(context, TapsScreen.routeName);
             Get.toNamed(TapsScreen.routeName);
             }),
           // buildListTile('Favourites Products', Icons.favorite_outline,(){Navigator.pushNamed(context, FavoriteScreen.routeName);}),
-          buildListTile('My Chats', Icons.chat_outlined,(){  }),
+          checkLogin() ? buildListTile('My Chats', Icons.chat_outlined,(){ Get.to(()=> MyChats()); }): SizedBox(height: 0,),
            Divider(color: Colors.black54),//0xffFFBCBC الللون القديم لو تبيه ياربا
           //هنا مفروض اضيف الفايل او اللسته من الصفحه الجديده اللي ضفتها add_new_family
           checkLogin() ?
@@ -225,7 +226,7 @@ var userEmail ;
                 await FirebaseAuth.instance.signOut();
                 Fluttertoast.showToast(msg: 'you signed out!');
                 //Navigator.of(context).pop();
-                Get.off(HomePage());
+                Get.back();
               },
               color: basicColor,
                //هنا كمان حذن كونست

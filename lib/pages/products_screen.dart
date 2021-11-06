@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:like_button/like_button.dart';
 import 'package:my_product/color/my_colors.dart';
 import 'package:my_product/dummy_data.dart';
-import 'package:my_product/pages/product_detail_screen.dart';
 import 'package:my_product/pages/product_details.dart';
 import 'package:my_product/widgets/main_drawer.dart';
 import 'package:my_product/widgets/product_item.dart';
@@ -54,25 +53,6 @@ class _ProductsScreenState extends State<ProductsScreen> {
   }
 
   Future fetchSpecifiedProduct() async {
-    // if(firebaseUser != null && firebaseUser.uid != null){
-    //   try {
-    //     await FirebaseFirestore.instance.collection('products')
-    //         .where('family store id', isEqualTo: widget.selectedFamilyStore.id)
-    //         //.where('uid', isNotEqualTo: docData.id)
-    //         .get().then((specifiedDoc) async {
-    //       if (specifiedDoc != null && specifiedDoc.docs.isEmpty == false) {
-    //         setState(() {
-    //           productsList = specifiedDoc;
-    //         });
-    //       } else {
-    //         print('No Docs Found');
-    //       }
-    //     });
-    //   } catch (e) {
-    //     print('Error Fetching Data$e');
-    //   }
-    //
-    // }else{
     //هذا اللي يجيب ال doc على الابلكيشن
       try {
         await FirebaseFirestore.instance.collection('products')
@@ -176,9 +156,12 @@ class _ProductsScreenState extends State<ProductsScreen> {
                   )
                       : ListView.separated(
                     itemCount: productsList.docs.length,
-                    separatorBuilder: (context, i) => Container(
-                      height: 1,
-                      color: grey,
+                    separatorBuilder: (context, i) => Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Container(
+                        height: 3,
+                        color: basicColor,
+                      ),
                     ),
                     itemBuilder: (context, i) {
                       return InkWell(
@@ -227,6 +210,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                             overflow: TextOverflow.fade,
                                             style: TextStyle(fontSize: 20,fontWeight: FontWeight.normal,color: grey),)
                                       ),
+                                      SizedBox(height: 5,),
                                       Text("${productsList.docs[i].data()['category name'].toString()} Store" ??"none",
                                         style: TextStyle(color:black),),
                                     ],
@@ -238,6 +222,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                             firebaseUser!= null?
                                 Container(child:
                                 LikeButton(
+
                                   onTap:
                                     onLikeButtonTapped,
 
@@ -267,7 +252,11 @@ class _ProductsScreenState extends State<ProductsScreen> {
                 topLeft: Radius.circular(100),
                 bottomRight: Radius.circular(150),
               )),
-          child: Center(child: CircularProgressIndicator()));
+          child: Center(child:Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+              children:[CircularProgressIndicator(),
+                Text("No products")
+              ])));
     }
 
 

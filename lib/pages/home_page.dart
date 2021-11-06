@@ -17,7 +17,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 class HomePage extends StatefulWidget {
   // const HomePage({Key? key, required Object uid}) : super(key: key);
- // static const routeName = '/homepage-screen';
+  // static const routeName = '/homepage-screen';
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -28,7 +28,7 @@ class _HomePageState extends State<HomePage> {
   bool isSwitched = false;
 
   var firebaseUser = FirebaseAuth.instance.currentUser;
-  var docData; // for printing
+  var docData;// for printing
   var username; // for display to user
   var useremail;
 
@@ -47,13 +47,13 @@ class _HomePageState extends State<HomePage> {
 
           useremail = docData['email'];
           username = docData['username'];
+
           // print(value.id);
         });
-        print(docData['uid']);
-        print(docData['username']);
-        print(docData['email']);
-        // print(docData['first name']);
-        print('=============');
+        // print(docData['uid']);
+        // print(docData['username']);
+        // print(docData['email']);
+         print(docData['first name']);
       } else {}
     });
   }
@@ -171,101 +171,105 @@ class _HomePageState extends State<HomePage> {
 
       endDrawer: MainDrawer(
         username: username,
-        useremail: useremail,),
+        useremail: useremail,
+
+      ),
       //body of the page
-      body: Container(
-        height: MediaQuery
-            .of(context)
-            .size
-            .height - 180,
-        width: double.infinity,
-        //color: white,
-        child: SingleChildScrollView(
-          child: Column(
-            //child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              SizedBox(
-                height: 5,
-              ),
-              // Padding(
-              //   padding: const EdgeInsets.all(8.0),
-              //   child: Container(
-              //     margin: EdgeInsets.all(5),
-              //     height: 50,
-              //     decoration: BoxDecoration(color: white, boxShadow: [
-              //       BoxShadow(
-              //         color: basicColor,
-              //         offset: Offset(5, 10),
-              //         blurRadius: 8,
-              //       )
-              //     ]),
-              //     //هنا كان في كونست وشلتها برضو لانها برضو عطلتني ياربا
-              //     child: ListTile(
-              //       leading:  Icon(
-              //         Icons.search,
-              //         size: 50,
-              //         color: basicColor,
-              //         //وهنا كمان نفس الكومنت اللي فوق
-              //
-              //       ),
-              //       title: TextField(
-              //         decoration:  InputDecoration(
-              //           hintText: "Find what you want..",
-              //           hintStyle: TextStyle(
-              //               color: basicColor,
-              //               fontWeight: FontWeight.bold),
-              //           border: InputBorder.none,
-              //         ),
-              //         onTap: (){}
-              //
-              //            ),
-              //     ),
-              //   ),
-              // ),
-              //use the carousal
-              imageCarousal,
+      body: SafeArea(
+        child: Container(
+          height: MediaQuery
+              .of(context)
+              .size
+              .height - 180,
+          width: double.infinity,
+          //color: white,
+          child: SingleChildScrollView(
+            child: Column(
+              //child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                SizedBox(
+                  height: 5,
+                ),
+                // Padding(
+                //   padding: const EdgeInsets.all(8.0),
+                //   child: Container(
+                //     margin: EdgeInsets.all(5),
+                //     height: 50,
+                //     decoration: BoxDecoration(color: white, boxShadow: [
+                //       BoxShadow(
+                //         color: basicColor,
+                //         offset: Offset(5, 10),
+                //         blurRadius: 8,
+                //       )
+                //     ]),
+                //     //هنا كان في كونست وشلتها برضو لانها برضو عطلتني ياربا
+                //     child: ListTile(
+                //       leading:  Icon(
+                //         Icons.search,
+                //         size: 50,
+                //         color: basicColor,
+                //         //وهنا كمان نفس الكومنت اللي فوق
+                //
+                //       ),
+                //       title: TextField(
+                //         decoration:  InputDecoration(
+                //           hintText: "Find what you want..",
+                //           hintStyle: TextStyle(
+                //               color: basicColor,
+                //               fontWeight: FontWeight.bold),
+                //           border: InputBorder.none,
+                //         ),
+                //         onTap: (){}
+                //
+                //            ),
+                //     ),
+                //   ),
+                // ),
+                //use the carousal
+                imageCarousal,
 
-              Container(
-                margin: EdgeInsets.only(top: 30.0),
-                child: const Padding(
-                    padding: EdgeInsets.all(10.0),
-                    child: Text('Our Categories',
-                        style: TextStyle(
-                          //color: ,
+                Container(
+                  margin: EdgeInsets.only(top: 30.0),
+                  child: const Padding(
+                      padding: EdgeInsets.all(10.0),
+                      child: Text('Our Categories',
+                          style: TextStyle(
+                            //color: ,
                             fontSize: 30.0, fontWeight: FontWeight.w800,))),
-              ),
-              //horizontal listview here:
-              HorizontelList(),
-              SizedBox(
-                height: 20,
-              ),
+                ),
+                //horizontal listview here:
+                HorizontelList(),
+                SizedBox(
+                  height: 20,
+                ),
 
-              Padding(
-                  padding: EdgeInsets.all(10.0),
-                  child: Text('Press here for Latest Products! ',
-                      style: TextStyle(
-                          fontSize: 25.0, fontWeight: FontWeight.w800,color: black))),
+                Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: Text('Press here for Latest Products! ',
+                        style: TextStyle(
+                            fontSize: 25.0, fontWeight: FontWeight.w800,color: black))),
 
-              Padding(
-                padding: const EdgeInsets.all(30),
-                child: MaterialButton(
-                  color: basicColor,
+                Padding(
+                  padding: const EdgeInsets.all(30),
+                  child: MaterialButton(
+                    color: basicColor,
 
-                  onPressed: ()=> bottomSheet(context),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                    Text("Latest Products"),
-                    Icon(Icons.new_label),
-                  ],),),
-              ),
+                    onPressed: ()=> bottomSheet(context),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("Latest Products"),
+                        Icon(Icons.new_label),
+                      ],),),
+                ),
 
 
-              //make it flexible with any screen to avoid problem
-              //Flexible(child: Products()) ,
-              // i put the latest products in floating button
-            ],
+                //make it flexible with any screen to avoid problem
+                //Flexible(child: Products()) ,
+                // i put the latest products in floating button
+              ],
+            ),
           ),
         ),
       ),

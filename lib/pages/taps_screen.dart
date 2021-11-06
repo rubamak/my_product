@@ -140,6 +140,7 @@ class _TapsScreenState extends State<TapsScreen> {
         selectedFontSize: 25,
         unselectedItemColor: black,
         currentIndex: _selectedPageIndex,
+
         onTap: _selectSection,
         backgroundColor: basicColor,
         //هنا برضو كان في كونست قبل اللست

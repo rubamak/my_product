@@ -2,10 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:my_product/color/my_colors.dart';
 import 'package:my_product/pages/drawer_section_pages/add_product.dart';
 import 'package:my_product/pages/drawer_section_pages/add_family_store.dart';
 import 'package:get/get.dart';
+
+import 'edit_product_screen.dart';
 
 class MyFamilyStorePage extends StatefulWidget {
   @override
@@ -90,12 +93,10 @@ class _MyFamilyStorePageState extends State<MyFamilyStorePage> {
               Text(" My store ",style: TextStyle(color: black,fontSize: 30),),
               //Text(" Type: ${familyStoreInfo.docs[0].data()['category name'].toString()} Store")
             ],
-          ): Text("no store"),
+          ): Text("no store",style: TextStyle(color: black,fontSize: 30),),
           backgroundColor: Theme.of(context).primaryColor,
         ),
-        body:
-
-            Container(
+        body: Container(
             color: basicColor,
             child: Container(
                 height: MediaQuery.of(context).size.height - 100,
@@ -105,7 +106,10 @@ class _MyFamilyStorePageState extends State<MyFamilyStorePage> {
                     )
                 ),
 
-                child: ListView(
+                child:familyStoreInfo== null?
+                Center(child: CircularProgressIndicator(),)
+                    : ListView(
+                  physics: NeverScrollableScrollPhysics(parent: BouncingScrollPhysics()),
 
                   children:[
                     SizedBox(height: 20,),
@@ -134,6 +138,7 @@ class _MyFamilyStorePageState extends State<MyFamilyStorePage> {
 
             SizedBox(width: 10,),
             Column(
+
               //mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
@@ -162,7 +167,10 @@ class _MyFamilyStorePageState extends State<MyFamilyStorePage> {
           ]
                     ),
                     SizedBox(height: 30,),
-                    Divider(height: 2,color: black,),
+                    Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Divider(height: 2,color: black,),
+                    ),
                     SizedBox(height: 30,),
                     Text("My Products",textAlign: TextAlign.center,style: TextStyle(fontSize: 30,color: black),),
               SizedBox(height: 20,),
@@ -214,6 +222,7 @@ class _MyFamilyStorePageState extends State<MyFamilyStorePage> {
               //bottomRight: Radius.circular(90),
             )),
         child: ListView(
+
           primary: false,
           physics: AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
           padding: EdgeInsets.only(left: 25, right: 25),
@@ -228,11 +237,15 @@ class _MyFamilyStorePageState extends State<MyFamilyStorePage> {
                   )
                       : ListView.separated(
                     itemCount: productsList.docs.length,
-                    separatorBuilder: (context, i) => Container(padding: EdgeInsets.all(10),height: 5, color: black,),
+                    separatorBuilder: (context, i) => Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: Container(padding: EdgeInsets.all(10),height: 3, color: black,),
+                    ),
                     itemBuilder: (context, i) {
                       return InkWell(
                         onTap: (){
                           //ProductsScreen(selectedFamilyStore: ,));
+                          Get.to(()=> EditProductScreen(selectedProduct: productsList.docs[i]));
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -275,10 +288,13 @@ class _MyFamilyStorePageState extends State<MyFamilyStorePage> {
                                         child: Text(
                                           productsList.docs[i].data()['product description'].toString()??
                                               "none",
+                                          maxLines: 1,
                                           softWrap: true,
-                                          overflow: TextOverflow.fade,
+                                          overflow: TextOverflow.ellipsis,
                                           style: TextStyle(fontSize: 14,fontWeight: FontWeight.normal,color: grey),),
                                       ),
+                                      SizedBox(height: 5,),
+
                                       Text(
                                           "${productsList.docs[i].data()['price'].toString()} SR" ??
                                          "none",
@@ -286,13 +302,14 @@ class _MyFamilyStorePageState extends State<MyFamilyStorePage> {
 
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(color:black),),
-                                      
+
                                     ],
                                   )
                                 ],
                               ),
                             ),
-                            
+                            Icon(Icons.edit_outlined),
+
                           ],
                         ),
 
@@ -316,7 +333,7 @@ class _MyFamilyStorePageState extends State<MyFamilyStorePage> {
                 topLeft: Radius.circular(100),
                 bottomRight: Radius.circular(150),
               )),
-          child: Center(child: CircularProgressIndicator()));
+          child:  Text("No products added",textAlign: TextAlign.center,));
     }
   }
 }

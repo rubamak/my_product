@@ -9,11 +9,11 @@ import 'package:flutter/material.dart';
 import 'package:my_product/color/my_colors.dart';
 import 'package:my_product/modules/product.dart';
 import 'package:my_product/pages/home_page.dart';
-import 'package:my_product/pages/my_products_page.dart';
 import 'package:provider/provider.dart';
 import 'package:get/get.dart';
 
 class AddProduct extends StatefulWidget {
+  bool isLoading = false;
   @override
   State<AddProduct> createState() => _AddProductState();
 }
@@ -24,6 +24,7 @@ class _AddProductState extends State<AddProduct> {
   var descriptionController = TextEditingController()..text = "";
 
   var priceController = TextEditingController()..text = "";
+
 
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -70,13 +71,14 @@ class _AddProductState extends State<AddProduct> {
   Widget build(BuildContext context) {
     //String _image = Provider.of<Products>(context, listen: true).image;
     return Scaffold(
+      backgroundColor: white,
         appBar: AppBar(
           iconTheme: IconThemeData(color: black),
           toolbarHeight: 100,
           centerTitle: true,
           elevation: 0,
           leading: IconButton(
-            icon: Icon(Icons.arrow_back_ios),
+            icon: Icon(Icons.arrow_back_ios,color:black),
             onPressed: () {
               Get.back();
             },
@@ -135,7 +137,7 @@ class _AddProductState extends State<AddProduct> {
                               showDialog(context: context, builder: (BuildContext ctx) => alertDialog);
                             },
                             child: CircleAvatar(
-                              backgroundColor: Colors.white38,
+                              backgroundColor: white,
                               radius: 90,
                               child: ClipRRect(
                                 clipBehavior: Clip.antiAlias,
@@ -163,7 +165,7 @@ class _AddProductState extends State<AddProduct> {
                           keyboardType: TextInputType.text,
                           validator: (val) {
                             if (val.toString().length < 5 || val == null) {
-                              return " enter name ";
+                              return " short product name ";
                             } else {
                               return null;
                             }
@@ -221,6 +223,9 @@ class _AddProductState extends State<AddProduct> {
                           },
                         ),
                         SizedBox(height: 15),
+                        if(widget.isLoading)
+                          Center(child: CircularProgressIndicator(),),
+                        if(!widget.isLoading)
                         Container(
                           width: double.infinity,
                           child:ElevatedButton(
@@ -283,9 +288,7 @@ class _AddProductState extends State<AddProduct> {
         //           },
         //         ),
         //       ),
-        //       SizedBox(
-        //         height: 10,
-        //       ),
+
         //
         //       Consumer <Products>(
         //         builder: (ctx, value, _) =>
@@ -345,12 +348,17 @@ class _AddProductState extends State<AddProduct> {
   }
 
   Future addProduct()async{
+    FocusScope.of(context).unfocus();
 
     var productRef = await FirebaseFirestore.instance.collection('products');
     var productId = await FirebaseFirestore.instance.collection("familiesStores").doc().id;
 
     if (_formKey.currentState.validate() && image !=null) {
+
       _formKey.currentState.save();
+      setState(() {
+        widget.isLoading = true ;
+      });
       //=====put image in the storage
       var storageImage = FirebaseStorage.instance.ref().child(image.path);
       var task = storageImage.putFile(image);
@@ -359,11 +367,14 @@ class _AddProductState extends State<AddProduct> {
       //========end image section
 
 try {
+
+
   productRef.doc(productId).set({
     'uid': firebaseUser.uid,
     'family store id': datafamily.docs[0].data()['family id'],
+    'family name' : datafamily.docs[0].data()['family store name'],
     'category name': datafamily.docs[0].data()['category name'],
-    'price': int.parse(priceController.text),
+    'price': double.parse(priceController.text),
     'category id': datafamily.docs[0].data()['category id'],
     'product id' : productId,
     'product name': productController.text,
@@ -377,6 +388,9 @@ try {
   });
 }catch(e){
   print("error when adding product: $e");
+  setState(() {
+    widget.isLoading = false ;
+  });
 
 }
 
@@ -386,6 +400,10 @@ try {
         body: Text("invalid data in your fields",style: TextStyle(color: black),),)
         ..show();
       print(" values not valid" );
+      setState(() {
+        widget.isLoading = false ;
+      });
+
     }
 
 

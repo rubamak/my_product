@@ -20,10 +20,11 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Login extends StatefulWidget {
-  const Login({Key key}) : super(key: key);
+ // const Login({Key key, }) : super(key: key);
 
   @override
   _LoginState createState() => _LoginState();
+  bool isLoading = false;
 }
 
 class _LoginState extends State<Login> {
@@ -54,17 +55,24 @@ class _LoginState extends State<Login> {
 
   }
       _loginUser() async {
-    if (!_formKey.currentState.validate()) {
+        FocusScope.of(context).unfocus();
+
+        if (!_formKey.currentState.validate()) {
       print("Not valid login");
+
 
     } else {
       _formKey.currentState.save();
       print(" valid login ");
       // print
       try {
+        setState(() {
+          widget.isLoading = true ;
+        });
+
         UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: _email,
-          password: _password,
+          email: _email.trim(), // عشان يشيل الفراغات
+          password: _password.trim(),// عشان يشيل الفراغات
         );
 
         // تعجيييييللل هنا تعديل return userCredential;
@@ -75,7 +83,7 @@ class _LoginState extends State<Login> {
               context: context,
               title: "Error",
               showCloseIcon: true,
-              body: Text("user not registered !",style: TextStyle(color: black),))
+              body: Text("user not registered, not founded !",style: TextStyle(color: black),))
             ..show();
 
           print('No user found for that email.');
@@ -87,15 +95,9 @@ class _LoginState extends State<Login> {
               showCloseIcon: true,
               body: Text("wrong password",style: TextStyle(color: black),))..show();
         }
+        widget.isLoading = false ;
       }
-      // }catch(e){
-      //   AwesomeDialog(context: context,body:Text("some thing wrong else "))..show();
-      // }
-      // UserCredential userCredential = await FirebaseAuth.instance
-      //     .signInWithEmailAndPassword(email: _email, password: _password);
-      // Navigator.of(context).pushReplacement(
-      //     MaterialPageRoute(builder: (context) => HomePage()));
-      // print("Loggginnnnn dooooooooooonnnnnnnnnneeeeeeeeee");
+
     }
 
   }
@@ -181,8 +183,8 @@ class _LoginState extends State<Login> {
 
   }
 */
-  var _controllerEmail = TextEditingController();
-  var _controllerPass = TextEditingController();
+  TextEditingController _controllerEmail = TextEditingController();
+  TextEditingController _controllerPass = TextEditingController();
   bool passwordVisible = true;
   var _email;
   var _password;
@@ -280,6 +282,7 @@ class _LoginState extends State<Login> {
                             SizedBox(
                               height: 20,
                             ),
+
                         TextFormField(
                           obscureText: passwordVisible,
                           keyboardType: TextInputType.visiblePassword,
@@ -328,6 +331,9 @@ class _LoginState extends State<Login> {
                         SizedBox(
                           height: 50,
                         ),
+                        if(widget.isLoading)
+                          Center(child: CircularProgressIndicator(),),
+                        if(!widget.isLoading)
                         Padding(
                           padding: const EdgeInsets.all(30.0),
                           child: MaterialButton(
@@ -349,6 +355,7 @@ class _LoginState extends State<Login> {
                           ),
                         ),
                         SizedBox(height: 20,),
+                        if(!widget.isLoading)
                         Padding(
                           padding: const EdgeInsets.all(20.0),
                           child: SingleChildScrollView(

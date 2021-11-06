@@ -2,11 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:like_button/like_button.dart';
 import 'package:my_product/color/my_colors.dart';
 import 'dart:io';
 import 'dart:ui';
 import 'package:my_product/modules/product.dart';
-import 'package:my_product/pages/my_products_page.dart';
 import 'package:provider/provider.dart';
 
 class ProductDetails extends StatefulWidget {
@@ -23,18 +23,19 @@ class _ProductDetailsState extends State<ProductDetails> {
   QuerySnapshot<Map<String, dynamic>> productInfo;
 
   //QuerySnapshot<Map<String, dynamic>> productsList;
-  DocumentSnapshot<Map<String, dynamic>> docData;
+  //DocumentSnapshot<Map<String, dynamic>> docData;
 
-  getProduct(String uid) async {
+  getProduct() async {
+
     //اجيب بيانات دوكيمنت واحد فقط
     //get will return docs Query snapshot
-    await FirebaseFirestore.instance.collection('users').doc(uid).get().then((value) async {
-      //value.data is the full fields for this doc
-      if (value.exists) {
-        setState(() {
-          docData = value;
-          print(docData.id);
-        });
+    // await FirebaseFirestore.instance.collection('users').doc(uid).get().then((value) async {
+    //   //value.data is the full fields for this doc
+    //   if (value.exists) {
+    //     setState(() {
+    //       docData = value;
+    //       print(docData.id);
+    //     });
         try {
           await FirebaseFirestore.instance.collection('products')
               //.where('uid', isNotEqualTo: docData.id)
@@ -51,15 +52,14 @@ class _ProductDetailsState extends State<ProductDetails> {
         } catch (e) {
           print('Error Fetching Data$e');
         }
-      }
-    });
+
   }
 
   @override
   void initState() {
-    getProduct(firebaseUser.uid);
-    print(" id for product ${widget.selectedProduct.id}");
-    super.initState();
+      getProduct();
+      print(" id for product ${widget.selectedProduct.id}");
+      super.initState();
   }
 
   @override
@@ -81,23 +81,25 @@ class _ProductDetailsState extends State<ProductDetails> {
         //   },
         //   color: Colors.white,
         // ),
-
         title:
             Padding(
           padding: EdgeInsets.only(top: 1),
-          child: Text(
+          child: productInfo != null ? Text(
             "${productInfo.docs[0].data()['product name'].toString()}'s details",
             style: TextStyle(
               color: black,
               fontWeight: FontWeight.bold,
               fontSize: 23,
             ),
-          ),
+          ): SizedBox(height: 1,),
         ),
         backgroundColor: basicColor,
         toolbarHeight: 80,
       ),
-      body: Container(
+      body:
+      productInfo== null?
+      Center(child: CircularProgressIndicator(),)
+          :Container(
           color: basicColor,
           child: Container(
               height: MediaQuery.of(context).size.height - 100,
@@ -106,10 +108,53 @@ class _ProductDetailsState extends State<ProductDetails> {
                   borderRadius: BorderRadius.only(
                     topRight: Radius.circular(120),
                   )),
-              child: ListView(children: [
-                productInfo != null ? Text("${productInfo.docs[0].data()['product name'].toString()} details"):
-                    Text("none")
-              ]))),
+              child:
+              ListView(
+                  children: [
+
+
+                    buildContainer(
+                        productInfo.docs[0].data()['image product'],
+                        productInfo.docs[0].data()['product id']
+                        , context
+                    ),
+                    SizedBox(height:5,),
+                    buildCard(
+                        productInfo.docs[0].data()['product name'],
+                        productInfo.docs[0].data()['category name'],
+                        productInfo.docs[0].data()['family store name'],
+                        productInfo.docs[0].data()['product description'],
+                       productInfo.docs[0].data()['price']
+                    ),
+                SizedBox(height: 50,),
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      firebaseUser != null ? LikeButton(): SizedBox(height: 0,),
+                      firebaseUser !=null ? IconButton(onPressed: (){}, icon: Icon(Icons.add_shopping_cart)): SizedBox(width: 0,)
+
+
+                  ],),
+                ),
+
+                //productInfo != null ? 
+                // Text("${productInfo.docs[0].data()['product name'].toString()} details"):
+                //     Text("none")
+              ])
+          )),
+
+
+
+
+
+
+
+
+
+
+
 
       //  buildContainer(filteredItem.productImage,filteredItem.description),
     );
@@ -125,70 +170,91 @@ class _ProductDetailsState extends State<ProductDetails> {
     // //),
   }
 
-  Container buildContainer(String image, String desc, BuildContext context) {
-    return Container(
-      child: Center(
-        child: Hero(
-          tag: desc,
-          child: Image.file(
-            File(image),
-            fit: BoxFit.contain,
-            height: MediaQuery.of(context).size.height - 500,
-            width: MediaQuery.of(context).size.width,
+  Container buildContainer(String image, String id, BuildContext context) {
+    if(productInfo != null ) {
+      return Container(
+        child: Center(
+          child: Hero(
+            tag: id,
+            child: ClipRRect(
+              child: Image.network(
+                image,
+                fit: BoxFit.contain,
+                height: MediaQuery
+                    .of(context)
+                    .size
+                    .height - 600,
+                width: MediaQuery
+                    .of(context)
+                    .size
+                    .width-200,
+              ),
+            ),
           ),
         ),
-      ),
-    );
+      );
+    }else{
+      return Container(child: SizedBox(height: 1,));
+    }
   }
 
-  Card buildCard(String title, String category, String familyName, String desc, double price) {
-    return Card(
-      elevation: 20,
-      margin: EdgeInsets.all(15),
-      child: Padding(
-        padding: EdgeInsets.all(15),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(
-              title,
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: black),
-            ),
-            Divider(
-              color: black,
-            ),
-            Text(
-              desc,
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: black),
-              textAlign: TextAlign.justify,
-            ),
-            Divider(
-              color: black,
-            ),
-            Text(
-              "$price SR",
-              style: TextStyle(fontSize: 20, color: black, fontWeight: FontWeight.bold),
-            ),
-            Divider(
-              color: black,
-            ),
-            Text(
-              familyName,
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: black),
-            ),
-            Divider(
-              color: black,
-            ),
-            Text(
-              category,
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: black),
-            ),
-            Divider(
-              color: black,
-            ),
-          ],
+  Card buildCard(String title, String category, String familyName, String desc,num price ) {
+    if(productInfo!= null ) {
+      return Card(
+        //color: basicColor,
+        elevation: 20,
+        margin: EdgeInsets.all(15),
+        child: Padding(
+          padding: EdgeInsets.all(15),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+               "product:  $title",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: black),
+              ),
+              Divider(
+                color: black,
+              ),
+              Text(
+                "desciption: $desc",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: black),
+                textAlign: TextAlign.justify,
+              ),
+              Divider(
+                color: black,
+              ),
+              Text(
+                " price: $price SR",
+                style: TextStyle(fontSize: 20, color: black, fontWeight: FontWeight.bold),
+              ),
+              Divider(
+                color: black,
+              ),
+              Text(
+                "family owner: $familyName",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: black),
+              ),
+              Divider(
+                color: black,
+              ),
+              Text(
+                "category: $category",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: black),
+              ),
+              Divider(
+                color: black,
+              ),
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    }else{
+     return Card( child:SizedBox(height: 1,));
+    }
   }
+  Future<bool> onLikeButtonTapped(bool isLiked) async{
+    return !isLiked;
+  }
+
 }
