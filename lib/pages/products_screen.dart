@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:like_button/like_button.dart';
 import 'package:my_product/color/my_colors.dart';
 import 'package:my_product/dummy_data.dart';
+import 'package:my_product/pages/drawer_section_pages/favorite_screen.dart';
 import 'package:my_product/pages/product_details.dart';
 import 'package:my_product/widgets/main_drawer.dart';
 import 'package:my_product/widgets/product_item.dart';
@@ -265,4 +266,8 @@ class _ProductsScreenState extends State<ProductsScreen> {
     return !isLiked;
   }
 
-}
+
+  }
+
+
+
