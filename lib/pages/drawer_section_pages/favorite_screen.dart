@@ -14,8 +14,9 @@ import 'package:my_product/pages/login.dart';
 
 class FavoriteScreen extends StatefulWidget {
   static const routeName = '/favorite-screen';
-  final DocumentSnapshot<Map<String, dynamic>> selectedFavorite;
-  FavoriteScreen({this.selectedFavorite});
+
+ // final DocumentSnapshot<Map<String, dynamic>> selectedProduct;
+  //FavoriteScreen({this.selectedProduct});
 
   @override
   State <FavoriteScreen> createState() => _FavoriteScreenState();
@@ -26,124 +27,99 @@ class FavoriteScreen extends StatefulWidget {
  class _FavoriteScreenState extends State<FavoriteScreen>{
 
    User firebaseUser = FirebaseAuth.instance.currentUser;
-   QuerySnapshot<Map<String, dynamic>> FavoriteList;
-   DocumentSnapshot<Map<String, dynamic>> docData;
-   CollectionReference usersRef =  FirebaseFirestore.instance.collection('favorites');// for printing
+   QuerySnapshot<Map<String, dynamic>> favoriteList;
+   var docData;
+   var description;
    var username; // for display to user
    var useremail;
-   getUserData(String uid) async {
+
+  // var productId;
+   getFavorites() async {
 
      //اجيب بيانات دوكيمنت واحد فقط
      //get will return docs Query snapshot
-     await FirebaseFirestore.instance.collection('users').doc(uid).get().then((userDocu) async{
+     await FirebaseFirestore.instance.collection('favorites').where('uid',isEqualTo: firebaseUser.uid)
+         .get().then((doc) async{
        //value.data is the full fields for this doc
 
-       if (userDocu.exists) {
+       if (doc != null && doc.docs.isEmpty == false) {
          setState(() {
-           docData = userDocu.data() as DocumentSnapshot<Map<String, dynamic>>;
-           var description  = docData['description '];
-           username = docData['username'];
-           var image= docData['image'];
-           var price = docData['price'];
-           var productId= docData['product id'];
+           favoriteList= doc;
            // print(value.id);
 
          });
        } else {
        }
      });
-     fetchSpecifiedProduct();
    }
-   Future fetchSpecifiedProduct() async {
-     //هذا اللي يجيب ال doc على الابلكيشن
-     try {
-       await FirebaseFirestore.instance.collection('favorites')
-           .where('product id', isEqualTo: widget.selectedFavorite.id)
-           .get().then((specifiedDoc) async {
-         if (specifiedDoc != null && specifiedDoc.docs.isEmpty == false) {
-           setState(() {
-             FavoriteList = specifiedDoc;
-           });
-         } else {
-           print('No Docs Found');
-         }
-       });
-     } catch (e) {
-       print('Error Fetching Data$e');
-     }
-   }
+
    void initState() {
-     if (firebaseUser != null && firebaseUser.uid != null){
-       getUserData(firebaseUser.uid);
+     if (firebaseUser != null ){
+       getFavorites();
+
 
      }
-     fetchSpecifiedProduct();
+     print(favoriteList);
+    // fetchSpecifiedProduct();
      super.initState();
    }
    Widget build(BuildContext context) {
      return Scaffold(
-       appBar: AppBar(
-         iconTheme: IconThemeData(color: black),
-         elevation: 0,
-         leading: IconButton(
-           icon: Icon(Icons.arrow_back_ios),
-           onPressed: () {
-             //Navigator.of(context).pop();
-             Get.back();
-           },
-           color: black,
-         ),
-         title: Padding(
-           padding: EdgeInsets.only(top: 1),
-           child: Text(
-             "${widget.selectedFavorite.data()['product name'].toString()}'s Products",
-             style: TextStyle(
-               color: black,
-               fontWeight: FontWeight.bold,
-               fontSize: 20,
-             ),
-           ),
-         ),
-         backgroundColor: basicColor,
-         toolbarHeight: 80,
-       ),
-       endDrawer: MainDrawer(
-         username: username,
-         useremail: useremail,
-       ),
-       backgroundColor: basicColor,
-       body: ListView(children: <Widget>[
-         SizedBox(
-           height: 20,
-         ), //between them
+       // appBar: AppBar(
+       //   iconTheme: IconThemeData(color: black),
+       //   elevation: 0,
+       //   leading: IconButton(
+       //     icon: Icon(Icons.arrow_back_ios),
+       //     onPressed: () {
+       //       //Navigator.of(context).pop();
+       //       Get.back();
+       //     },
+       //     color: black,
+       //   ),
+       //   title: Padding(
+       //     padding: EdgeInsets.only(top: 1),
+       //     child: Text(
+       //       "${widget.selectedFavorite.data()['product name'].toString()}'s Products",
+       //       style: TextStyle(
+       //         color: black,
+       //         fontWeight: FontWeight.bold,
+       //         fontSize: 20,
+       //       ),
+       //     ),
+       //   ),
+       //   backgroundColor: basicColor,
+       //   toolbarHeight: 80,
+       // ),
+       // endDrawer: MainDrawer(
+       //   username: username,
+       //   useremail: useremail,
+       // ),
+     //  backgroundColor: basicColor,
+       body: //between them
          FavoriteFlowList(context),
-       ]),
      );
    }
    Widget FavoriteFlowList(BuildContext context){
-     if (FavoriteList != null) {
-       return Container(
-         height: MediaQuery.of(context).size.height - 180,
-         decoration: BoxDecoration(
-             color: white,
-             borderRadius: BorderRadius.only(
-               topLeft: Radius.circular(100),
-               //bottomRight: Radius.circular(90),
-             )),
-         child: ListView(
+     if (favoriteList != null) {
+       return
+         Container(
+         height: MediaQuery.of(context).size.height - 200,
+        color: white,
+         child:
+     ListView(
            primary: false,
            physics: AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
            padding: EdgeInsets.only(left: 25, right: 25),
            children: <Widget>[
              Padding(
-                 padding: EdgeInsets.only(top: 45),
+                 padding: EdgeInsets.only(top: 30),
                  child: Container(
                    height: MediaQuery.of(context).size.height - 300,
-                   child: FavoriteList.docs.isEmpty ? Center(
+                   child: favoriteList.docs.isEmpty ? Center(
                      child: Text("no elements",style: TextStyle(color: black),),
                    )
                        : ListView.separated(
-                     itemCount: FavoriteList.docs.length,
+                     itemCount: favoriteList.docs.length,
                      separatorBuilder: (context, i) => Padding(
                        padding: const EdgeInsets.all(12.0),
                        child: Container(
@@ -155,24 +131,24 @@ class FavoriteScreen extends StatefulWidget {
                        return InkWell(
                          onTap: (){},
                          child: Row(
-                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                            children: <Widget>[
                              Container(
                                child: Row(
                                  children: <Widget>[
                                    Hero(
-                                       tag: FavoriteList.docs[i].data()['product id'].toString(),
+                                       tag: favoriteList.docs[i].id,
                                        child:
-                                       FavoriteList.docs[i].data()['image'].toString() != null ?
-                                       Image.network(FavoriteList.docs[i].data()['image'].toString(),
+                                       favoriteList.docs[i].data()['image'].toString() != null ?
+                                       Image.network(favoriteList.docs[i].data()['image'].toString(),
                                          fit: BoxFit.cover,
                                          height: 75,
                                          width: 75,
                                        ):
                                        Image.network("https://thumbs.dreamstime.com/b/product-icon-collection-trendy-modern-flat-linear-vector-white-background-thin-line-outline-illustration-130947207.jpg",
                                          fit: BoxFit.cover,
-                                         height: 75,
-                                         width: 75,
+                                         height: 70,
+                                         width: 70,
                                        ) ),
 
                                    SizedBox(width: 10,),
@@ -181,22 +157,28 @@ class FavoriteScreen extends StatefulWidget {
                                      crossAxisAlignment: CrossAxisAlignment.start,
                                      children: <Widget>[
 
-                                       Text(FavoriteList.docs[i].data()['product name'].toString()
-                                           ??"none",style: TextStyle(color:black,fontSize: 17,fontWeight: FontWeight.bold),),
+                                       Text(favoriteList.docs[i].data()['product name'].toString()
+                                           ??"none",style: TextStyle(color:black,fontSize: 20,fontWeight: FontWeight.bold),),
                                        SizedBox(height: 5,),
                                        // Text(productsList.docs[i].id),
 
-                                       Container(
-                                           width: 200,
-                                           child:
-                                           Text(FavoriteList.docs[i].data()['product description'].toString()??"none",
+                                      Container(
+                                          width: 200,
+                                          child:
+                                           Text(favoriteList.docs[i].data()['description'].toString()??"none",
                                              softWrap: true,
                                              overflow: TextOverflow.fade,
-                                             style: TextStyle(fontSize: 20,fontWeight: FontWeight.normal,color: grey),)
-                                       ),
+                                             style: TextStyle(fontSize: 18,fontWeight: FontWeight.normal,color: black),)
+                                      ),
+                                       Text("${favoriteList.docs[i].data()['price'].toString()} SR" ?? "none",
+                                         softWrap: true,
+                                         overflow: TextOverflow.fade,
+                                         style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: black),)
                                      ],
-                                   )
+                                   ),
+
                                  ],
+
                                ),
                              ),
 
@@ -210,5 +192,16 @@ class FavoriteScreen extends StatefulWidget {
            ],
          ),
        );
-     }}
+     }else{
+       return Container(
+          // height: MediaQuery.of(context).size.height - 180,
+     // decoration: BoxDecoration(
+     // color: white,
+     // borderRadius: BorderRadius.only(
+     // topLeft: Radius.circular(100),
+     // //bottomRight: Radius.circular(90),
+     // )),
+       child: Center(child: Text("no favorites products"),),);
+     }
+   }
 }

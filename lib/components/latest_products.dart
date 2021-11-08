@@ -47,6 +47,7 @@ class _LatestProductsState extends State<LatestProducts> {
     try {
       await FirebaseFirestore.instance.collection('products')
           .where('uid', isNotEqualTo: docData.id)
+          .orderBy('addedAt',descending: true)
           .get().then((specifiedDoc) async {
         if (specifiedDoc != null && specifiedDoc.docs.isEmpty == false) {
           setState(() {
@@ -71,6 +72,7 @@ class _LatestProductsState extends State<LatestProducts> {
     //هذا اللي يجيب ال doc على الابلكيشن
     try {
       await FirebaseFirestore.instance.collection('products')
+      .orderBy('addedAt',descending: true)
      // .where('uid', isNotEqualTo: docData.id)
           .get().then((specifiedDoc) async {
         if (specifiedDoc != null && specifiedDoc.docs.isEmpty == false) {
@@ -147,10 +149,11 @@ super.initState();
 
   @override
   Widget build(BuildContext context) {
-    return productsList == null ? SizedBox(height: 0,):GridView.builder(
+    return productsList == null ? SizedBox(height: 0,)
+        :GridView.builder(
      // physics:NeverScrollableScrollPhysics() ,
 
-          itemCount: productsList.docs.length,
+          itemCount: productsList.docs.length > 5 ? 6: 3,
          //scrollDirection: Axis.vertical,
           shrinkWrap: true,
           gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),

@@ -2,6 +2,7 @@
 import 'dart:core';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -124,55 +125,57 @@ var userEmail ;
           //header
           Column(
             children: [
-             // SizedBox(height: 100,child: Image.asset('images/logo.png'),),
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child:
-                InkWell(
-                onTap: () async {
-                  },
-                    child: SizedBox(height: 100,child: Image.asset('images/myLogo.png'),)
-                ),
-              ),
+             SizedBox(height: 50),
+             //  Padding(
+             //    padding: const EdgeInsets.all(10.0),
+             //        child: SizedBox(height: 100,child: Image.asset('images/logo.png'),)
+             //  ),
 
-              UserAccountsDrawerHeader(
-                decoration:  BoxDecoration(
-                  borderRadius: BorderRadius.only(topLeft: Radius.circular(50),bottomRight:Radius.circular(50),),
-                  color: basicColor,
-                ),
-                //بعدين حيصير ياخد الايميل من الداتا بيز لما ينضافو
+                  Stack(
+                    children:[
+                      UserAccountsDrawerHeader(
+                      decoration:  BoxDecoration(
+                        borderRadius: BorderRadius.only(topLeft: Radius.circular(50),bottomRight:Radius.circular(50),),
+                        color: basicColor,
+                      ),
+                      //بعدين حيصير ياخد الايميل من الداتا بيز لما ينضافو
 
-                accountName:
-                checkLogin() ? Text(widget.username,style: TextStyle(color:black)):
-                Text('Guest',style: TextStyle(color:black),),
-                    // FutureBuilder(
-                    //   future: getData(firebaseUser!.uid),
-                    //   builder: (_,AsyncSnapshot snapshot){
-                    //     if(snapshot.connectionState == ConnectionState.waiting){
-                    //       return SizedBox(height: 0,);
-                    //     }
-                    //       return Text(
-                    //           "Account Name: " + snapshot.data['username']);
-                    //
-                    //   },)
+                      accountName:
+                      checkLogin() ? Text(widget.username,style: TextStyle(color:black)):
+                      Text('Guest',style: TextStyle(color:black),),
+                          // FutureBuilder(
+                          //   future: getData(firebaseUser!.uid),
+                          //   builder: (_,AsyncSnapshot snapshot){
+                          //     if(snapshot.connectionState == ConnectionState.waiting){
+                          //       return SizedBox(height: 0,);
+                          //     }
+                          //       return Text(
+                          //           "Account Name: " + snapshot.data['username']);
+                          //
+                          //   },)
 
 
-                accountEmail:
-                checkLogin()?
-                Text(widget.useremail,style: TextStyle(color: black),):Text('Mode',style: TextStyle(color: black),),
-                //فيه ايرور انه لما يسجل خروج يصير نل هنا وصفحة حمرا(ضبطت الايرور بنجاح )
+                      accountEmail:
+                      checkLogin()?
+                      Text(widget.useremail,style: TextStyle(color: black),):Text('Mode',style: TextStyle(color: black),),
+                      //فيه ايرور انه لما يسجل خروج يصير نل هنا وصفحة حمرا(ضبطت الايرور بنجاح )
 
-                currentAccountPicture: GestureDetector(
-                  child:
-                      //هنا كان في كمان كونست
-                     checkLogin() ? CircleAvatar(
-                      backgroundColor: white,
-                      child: Icon(Icons.person, color: black),
-                    ): SizedBox(height: 0,),
+                      currentAccountPicture: GestureDetector(
+                        child:
+                            //هنا كان في كمان كونست
+                           checkLogin() ? CircleAvatar(
+                            backgroundColor: white,
+                            child: Icon(Icons.person, color: black),
+                          ): SizedBox(height: 0,),
 
 
-                ),
-              ),
+                      ),
+                    ),
+                      Positioned(top: 10,right: 20,left:100 ,bottom:20,child: Image.asset('images/logo.png')),
+
+                    ]
+                  ),
+
             ],
           ),
 
@@ -185,12 +188,19 @@ var userEmail ;
           checkLogin() ? buildListTile("My Profile", Icons.person_outline_sharp,(){
             Get.to(()=> ProfileScreen());
           }): SizedBox(height: 0,),
+          // buildListTile('Categories', Icons.dashboard_outlined,(){
+          //   //Navigator.pushNamed(context, TapsScreen.routeName);
+          //   Get.toNamed(CategoryScreen.routeName);
+          //   }),
+          // checkLogin() ? buildListTile("Favorites", Icons.favorite_rounded, () {
+          //   Get.toNamed(FavoriteScreen.routeName);
+          // }): SizedBox(height: 0,),
           buildListTile('Categories & Favorites', Icons.dashboard_outlined,(){
             //Navigator.pushNamed(context, TapsScreen.routeName);
             Get.toNamed(TapsScreen.routeName);
-            }),
+          }),
           // buildListTile('Favourites Products', Icons.favorite_outline,(){Navigator.pushNamed(context, FavoriteScreen.routeName);}),
-          checkLogin() ? buildListTile('My Chats', Icons.chat_outlined,(){ Get.to(()=> MyChats()); }): SizedBox(height: 0,),
+          checkLogin() ? buildListTile('My Chats', Icons.chat_outlined,(){ Get.off(()=> MyChats()); }): SizedBox(height: 0,),
            Divider(color: Colors.black54),//0xffFFBCBC الللون القديم لو تبيه ياربا
           //هنا مفروض اضيف الفايل او اللسته من الصفحه الجديده اللي ضفتها add_new_family
           checkLogin() ?

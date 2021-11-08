@@ -51,9 +51,9 @@ class _HomePageState extends State<HomePage> {
           // print(value.id);
         });
         // print(docData['uid']);
-        // print(docData['username']);
+        print(docData['first name']);
         // print(docData['email']);
-         print(docData['first name']);
+         //print(docData['first name']);
       } else {}
     });
   }
@@ -98,7 +98,7 @@ class _HomePageState extends State<HomePage> {
       child: Carousel(
         boxFit: BoxFit.contain,
         images: const [
-          AssetImage("images/myLogo.png"),
+          //AssetImage("images/myLogo.png"),
           AssetImage('images/adv.jpeg'),
           AssetImage('images/cob.png'),
           NetworkImage(

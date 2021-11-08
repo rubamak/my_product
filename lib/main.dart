@@ -98,7 +98,7 @@ class _MyAppState extends State<MyApp> {
           //home:
         initialRoute:'/' ,
         getPages: [
-          GetPage(name: '/', page:()=> FavoriteScreen()),
+          GetPage(name: '/', page:()=> LandingPage()),
           GetPage(name: TapsScreen.routeName,  page:()=> TapsScreen(
               //_favoriteProducts
           )),

@@ -121,8 +121,10 @@ class _MyFamilyStorePageState extends State<MyFamilyStorePage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
-                      Hero(
-                      tag: familyStoreInfo.docs[0].data()['family id'].toString(),
+                      Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Hero(
+                        tag: familyStoreInfo.docs[0].data()['family id'].toString(),
                   child:
                   familyStoreInfo.docs[0].data()['image family store'].toString() != null ?
                   Image.network(familyStoreInfo.docs[0].data()['image family store'].toString(),
@@ -130,11 +132,12 @@ class _MyFamilyStorePageState extends State<MyFamilyStorePage> {
                     height: 75,
                     width: 75,
                   ):
-                      Image.asset("images/noFamily.jpg",
+                        Image.asset("images/noFamily.jpg",
                     fit: BoxFit.cover,
                     height: 75,
                     width: 75,
                   )    ),
+                      ),
 
             SizedBox(width: 10,),
             Column(

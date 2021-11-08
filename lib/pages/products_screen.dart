@@ -25,6 +25,18 @@ class _ProductsScreenState extends State<ProductsScreen> {
   User firebaseUser = FirebaseAuth.instance.currentUser;
  // DocumentSnapshot <Map<String, dynamic>> familyStore;
   QuerySnapshot<Map<String, dynamic>> productsList;
+
+  bool isFav= false;
+  String productName;
+  String productId;
+  String productDescription;
+  var price;
+  String categoryName;
+  String image;
+
+  //var productId;
+ // var description;
+  //var price;
   //دي اللسته المخزنه فيها الاشياء اللي ف الفيربيس
   DocumentSnapshot<Map<String, dynamic>> docData; // for printing
   var username; // for display to user
@@ -63,6 +75,14 @@ class _ProductsScreenState extends State<ProductsScreen> {
           if (specifiedDoc != null && specifiedDoc.docs.isEmpty == false) {
             setState(() {
               productsList = specifiedDoc;
+              for(int i = 0 ; i< productsList.docs.length; i++){
+                productName= productsList.docs[i].data()['product name'];
+                productId= productsList.docs[i].data()['product id'];
+                productDescription= productsList.docs[i].data()['product description'];
+                categoryName = productsList.docs[i].data()['category name'];
+                price =productsList.docs[i].data()['price'];
+                image = productsList.docs[i].data()['image product'];
+              }
             });
           } else {
             print('No Docs Found');
@@ -144,10 +164,12 @@ class _ProductsScreenState extends State<ProductsScreen> {
               //bottomRight: Radius.circular(90),
             )),
         child: ListView(
+
           primary: false,
           physics: AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
           padding: EdgeInsets.only(left: 25, right: 25),
           children: <Widget>[
+            SizedBox(height: 50,),
             Padding(
                 padding: EdgeInsets.only(top: 45),
                 child: Container(
@@ -165,6 +187,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                       ),
                     ),
                     itemBuilder: (context, i) {
+
                       return InkWell(
                         onTap: (){
                           Get.to(()=> ProductDetails(selectedProduct: productsList.docs[i]));
@@ -222,18 +245,25 @@ class _ProductsScreenState extends State<ProductsScreen> {
 
                             firebaseUser!= null?
                                 Container(child:
-                                LikeButton(
+                                IconButton(
+                                  icon: isFav?Icon(Icons.favorite,color: Colors.red,) : Icon(Icons.favorite_outline),
+                                  onPressed: (){
 
-                                  onTap:
-                                    onLikeButtonTapped,
+                                        addProductToFavorite().then((value) async{
+
+                                            await FirebaseFirestore.instance.collection('products')
+                                                .where('product id',isEqualTo:
+                                            FirebaseFirestore.instance.collection('favorites').doc().id).get().then((value) {
+
+                                            });
+
+                                            setState(() {
+                                              isFav = true;
+                                          });
+                                        });
+                                  },
 
                                 ),): SizedBox(width: 1,)
-                            // IconButton(
-                            //   onPressed: (){},//chatWithFamily(context),
-                            //   // Navigator.of(context).pushNamed(ChatScreen.routeName);
-                            //   icon: Icon(Icons.chat_outlined,color: black,),
-                            //   color: black,
-                            // ): SizedBox(width: 1,),
                           ],
                         ),
                       );
@@ -262,9 +292,45 @@ class _ProductsScreenState extends State<ProductsScreen> {
 
 
   }
+
   Future<bool> onLikeButtonTapped(bool isLiked) async{
     return !isLiked;
+
   }
+
+
+  Future addProductToFavorite()async{
+    var favoriteRef = await FirebaseFirestore.instance.collection('favorites');
+    //var productId = await FirebaseFirestore.instance.collection("products").doc().id;
+
+    try {
+
+
+      favoriteRef.doc(productId).set({
+        'uid': firebaseUser.uid,
+        'product name': productName,
+        'price': price,
+        'description': productDescription,
+        'categoryName': categoryName,
+        'image': image
+
+      }).then((value) {
+        print(' product to fav added');
+        // Fluttertoast.showToast(msg: 'product added',);
+        // Get.off(()=> HomePage());
+        //Navigator.of(context).pop();
+      });
+    }
+    catch(e){
+      print("error when adding product to favorites: $e");
+      setState(() {
+        //widget.isLoading = false ;
+      });
+
+    }
+
+  }
+
 
 
   }

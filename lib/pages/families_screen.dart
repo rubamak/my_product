@@ -210,7 +210,11 @@ class _FamiliesScreenState extends State<FamiliesScreen> {
                   )
                       : ListView.separated(
                     itemCount: familiesStoresList.docs.length,
-                    separatorBuilder: (context, i) => Container(height: 1, color: grey,),
+                    separatorBuilder: (context, i) =>
+                        Padding(
+                          padding: EdgeInsets.all(20),
+                          child: Container(height: 2, color: grey,),
+                        ),
                     itemBuilder: (context, i) {
                       return InkWell(
                         onTap: (){

@@ -122,7 +122,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                     buildCard(
                         productInfo.docs[0].data()['product name'],
                         productInfo.docs[0].data()['category name'],
-                        productInfo.docs[0].data()['family store name'],
+                        productInfo.docs[0].data()['family name'],
                         productInfo.docs[0].data()['product description'],
                        productInfo.docs[0].data()['price']
                     ),

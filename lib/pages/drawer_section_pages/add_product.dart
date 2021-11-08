@@ -380,6 +380,7 @@ try {
     'product name': productController.text,
     'product description': descriptionController.text,
     'image product': imageUrl,
+    'addedAt': Timestamp.now(),
   }).then((value) {
     print(' product added');
     Fluttertoast.showToast(msg: 'product added',);

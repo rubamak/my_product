@@ -136,7 +136,7 @@ class _TapsScreenState extends State<TapsScreen> {
       bottomNavigationBar: BottomNavigationBar(
 
         elevation: 0,
-        selectedItemColor: white ,
+        selectedItemColor: black ,
         selectedFontSize: 25,
         unselectedItemColor: black,
         currentIndex: _selectedPageIndex,
@@ -147,12 +147,12 @@ class _TapsScreenState extends State<TapsScreen> {
         items: [
           BottomNavigationBarItem(
               icon: Icon(Icons.dashboard_outlined,color:black),
-              title:Text( "Categories",style: TextStyle(color:black),)
+              label:"Categories",
 
           ),
           BottomNavigationBarItem(
               icon: Icon(Icons.star_border_outlined,color:black),
-              title: Text("Favorites",style: TextStyle(color:black),)
+              label: "Favorites",
 
           ),
         ],
