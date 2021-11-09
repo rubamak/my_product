@@ -10,6 +10,7 @@ import 'package:my_product/widgets/main_drawer.dart';
 import 'package:my_product/widgets/product_item.dart';
 import 'package:get/get.dart';
 
+import 'Comment_screen.dart';
 import 'families_screen.dart';
 
 class ProductsScreen extends StatefulWidget {
@@ -26,7 +27,9 @@ class _ProductsScreenState extends State<ProductsScreen> {
  // DocumentSnapshot <Map<String, dynamic>> familyStore;
   QuerySnapshot<Map<String, dynamic>> productsList;
 
+  String key;
   bool isFav= false;
+  bool addedToCart= false;
   String productName;
   String productId;
   String productDescription;
@@ -244,7 +247,8 @@ class _ProductsScreenState extends State<ProductsScreen> {
                             ),
 
                             firebaseUser!= null?
-                                Container(child:
+                               Container(
+                                 child:
                                 IconButton(
                                   icon: isFav?Icon(Icons.favorite,color: Colors.red,) : Icon(Icons.favorite_outline),
                                   onPressed: (){
@@ -259,11 +263,50 @@ class _ProductsScreenState extends State<ProductsScreen> {
 
                                             setState(() {
                                               isFav = true;
+
                                           });
                                         });
                                   },
 
-                                ),): SizedBox(width: 1,)
+                                )
+                               ): SizedBox(width: 0.001,),
+
+                            IconButton(
+                              icon: Icon(addedToCart? Icons.remove_shopping_cart_rounded:Icons.add_shopping_cart_rounded,color: black,) ,
+                              onPressed: (){
+                                addProductToCart().then((value) async{
+
+                                  await FirebaseFirestore.instance.collection('products')
+                                      .where('product id',isEqualTo:
+                                  FirebaseFirestore.instance.collection('cart').doc().id).get().then((value) {
+
+                                  });
+
+                                  setState(() {
+                                    addedToCart = true;
+
+                                  });
+                                });
+                              },
+
+                            ),
+                            Container(
+                                child:
+                                IconButton(
+                                  icon: Icon(Icons.comment,color: grey,) ,
+                                  onPressed: (){
+                                    setState(() {
+                                      Navigator.push(context, MaterialPageRoute(builder: (context)=> CommentsPage()));
+                                    });
+                                  }
+                                  )
+
+
+                                )
+                            , SizedBox(width: 0.001,),
+
+
+
                           ],
                         ),
                       );
@@ -330,7 +373,35 @@ class _ProductsScreenState extends State<ProductsScreen> {
     }
 
   }
+  Future addProductToCart()async{
+    var cartRef = await FirebaseFirestore.instance.collection('cart');
+    //var productId = await FirebaseFirestore.instance.collection("products").doc().id;
 
+    try {
+
+
+      cartRef.doc(productId).set({
+        'uid': firebaseUser.uid,
+        'product name': productName,
+        'price': price,
+        'description': productDescription,
+        'categoryName': categoryName,
+        'image': image
+
+      }).then((value) {
+        print(' product to cart added');
+        // Fluttertoast.showToast(msg: 'product added',);
+        // Get.off(()=> HomePage());
+        //Navigator.of(context).pop();
+      });
+    }
+    catch(e){
+      print("error when adding product to cart: $e");
+      setState(() {
+        //widget.isLoading = false ;
+      });
+
+    }}
 
 
   }
