@@ -233,6 +233,7 @@ class _NewMessagesState extends State<NewMessages> {
                 onChanged: (val){
                   setState(() {
                     _enteredMessage = val ;
+                    //kjbvjgvjgvjvjh
                   });
 
                 },
