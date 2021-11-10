@@ -81,36 +81,36 @@ class _CategoryScreenState extends State<CategoryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   iconTheme: IconThemeData(color: black),
-      //   elevation: 0,
-      //   leading: IconButton(
-      //     icon: Icon(Icons.arrow_back_ios),
-      //     onPressed: () {
-      //       //Navigator.of(context).pop();
-      //       Get.back();
-      //     },
-      //     color: black,
-      //   ),
-      //   title: Padding(
-      //     padding: EdgeInsets.only(top: 1),
-      //     child: Text(
-      //       'Categories',
-      //       style: TextStyle(
-      //         color: black,
-      //         fontWeight: FontWeight.bold,
-      //         fontSize: 30,
-      //       ),
-      //     ),
-      //   ),
-      //   backgroundColor: basicColor,
-      //   toolbarHeight: 80,
-      // ),
-      // endDrawer: MainDrawer(
-      //   username: username,
-      //   useremail: useremail,
-      // ),
-     // backgroundColor: basicColor,
+      appBar: AppBar(
+        iconTheme: IconThemeData(color: black),
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios),
+          onPressed: () {
+            //Navigator.of(context).pop();
+            Get.back();
+          },
+          color: black,
+        ),
+        title: Padding(
+          padding: EdgeInsets.only(top: 1),
+          child: Text(
+            'Categories',
+            style: TextStyle(
+              color: black,
+              fontWeight: FontWeight.bold,
+              fontSize: 30,
+            ),
+          ),
+        ),
+        backgroundColor: basicColor,
+        toolbarHeight: 80,
+      ),
+      endDrawer: MainDrawer(
+        username: username,
+        useremail: useremail,
+      ),
+     backgroundColor: basicColor,
       body:   Container(
     height: MediaQuery.of(context).size.height - 130,
     decoration: BoxDecoration(

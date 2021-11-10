@@ -8,6 +8,7 @@ import 'package:flutter/rendering.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:my_product/color/my_colors.dart';
+import 'package:my_product/components/cart_products.dart';
 import 'package:my_product/pages/Registration_page.dart';
 import 'package:my_product/pages/drawer_section_pages/add_product.dart';
 import 'package:my_product/pages/category_screen.dart';
@@ -195,17 +196,25 @@ var userEmail ;
           // checkLogin() ? buildListTile("Favorites", Icons.favorite_rounded, () {
           //   Get.toNamed(FavoriteScreen.routeName);
           // }): SizedBox(height: 0,),
-          buildListTile('Categories & Favorites', Icons.dashboard_outlined,(){
+          buildListTile('Categories', Icons.dashboard_outlined,(){
             //Navigator.pushNamed(context, TapsScreen.routeName);
-            Get.toNamed(TapsScreen.routeName);
+            Get.toNamed(CategoryScreen.routeName);
           }),
+
+
+          checkLogin() ? buildListTile(' My Cart & Favorites', Icons.favorite_outline,(){
+            Get.toNamed(TapsScreen.routeName); }): SizedBox(height: 0,),
+
           // buildListTile('Favourites Products', Icons.favorite_outline,(){Navigator.pushNamed(context, FavoriteScreen.routeName);}),
-          checkLogin() ? buildListTile('My Chats', Icons.chat_outlined,(){ Get.off(()=> MyChats()); }): SizedBox(height: 0,),
+          // checkLogin() ? buildListTile('Cart', Icons.shopping_cart_outlined,(){
+          //   Get.off(()=> CartScreen()); }): SizedBox(height: 0,),
+          checkLogin() ? buildListTile('My Chats', Icons.chat_outlined,(){
+            Get.to(()=> MyChats()); }): SizedBox(height: 0,),
            Divider(color: Colors.black54),//0xffFFBCBC الللون القديم لو تبيه ياربا
           //هنا مفروض اضيف الفايل او اللسته من الصفحه الجديده اللي ضفتها add_new_family
+
+
           checkLogin() ?
-
-
           buildListTile('Own Store',Icons.add,(){
             Get.to(()=>MyFamilyStorePage());
             //Navigator.push(context,MaterialPageRoute(builder: (context)=> MyFamilyStorePage()));

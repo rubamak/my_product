@@ -1,3 +1,4 @@
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,7 @@ import 'families_screen.dart';
 class ProductsScreen extends StatefulWidget {
   static const routeName = '/theProducts-screen';
   final DocumentSnapshot<Map<String, dynamic>> selectedFamilyStore;
+
   ProductsScreen({this.selectedFamilyStore});
 
   @override
@@ -23,11 +25,12 @@ class ProductsScreen extends StatefulWidget {
 
 class _ProductsScreenState extends State<ProductsScreen> {
   User firebaseUser = FirebaseAuth.instance.currentUser;
- // DocumentSnapshot <Map<String, dynamic>> familyStore;
+
+  // DocumentSnapshot <Map<String, dynamic>> familyStore;
   QuerySnapshot<Map<String, dynamic>> productsList;
 
-  bool isFav= false;
   String productName;
+
   String productId;
   String productDescription;
   var price;
@@ -35,17 +38,18 @@ class _ProductsScreenState extends State<ProductsScreen> {
   String image;
 
   //var productId;
- // var description;
+  // var description;
   //var price;
   //دي اللسته المخزنه فيها الاشياء اللي ف الفيربيس
   DocumentSnapshot<Map<String, dynamic>> docData; // for printing
   var username; // for display to user
   var useremail;
+  var fav;
 
   getUserData(String uid) async {
     //اجيب بيانات دوكيمنت واحد فقط
     //get will return docs Query snapshot
-    await FirebaseFirestore.instance.collection('users').doc(uid).get().then((value) async{
+    await FirebaseFirestore.instance.collection('users').doc(uid).get().then((value) async {
       //value.data is the full fields for this doc
       if (value.exists) {
         setState(() {
@@ -59,50 +63,50 @@ class _ProductsScreenState extends State<ProductsScreen> {
         print(docData['email']);
         // print(docData['first name']);
         print('======================');
-      } else {
-      }
+      } else {}
     });
     fetchSpecifiedProduct();
   }
 
   Future fetchSpecifiedProduct() async {
+    //استخراج البرودكت من الفايبر بيس
     //هذا اللي يجيب ال doc على الابلكيشن
-      try {
-        await FirebaseFirestore.instance.collection('products')
-            .where('family store id', isEqualTo: widget.selectedFamilyStore.id)
-            //.where('uid', isNotEqualTo: docData.id)
-            .get().then((specifiedDoc) async {
-          if (specifiedDoc != null && specifiedDoc.docs.isEmpty == false) {
-            setState(() {
-              productsList = specifiedDoc;
-              for(int i = 0 ; i< productsList.docs.length; i++){
-                productName= productsList.docs[i].data()['product name'];
-                productId= productsList.docs[i].data()['product id'];
-                productDescription= productsList.docs[i].data()['product description'];
-                categoryName = productsList.docs[i].data()['category name'];
-                price =productsList.docs[i].data()['price'];
-                image = productsList.docs[i].data()['image product'];
-              }
-            });
-          } else {
-            print('No Docs Found');
-          }
-        });
-      } catch (e) {
-        print('Error Fetching Data$e');
-      }
+    try {
+      await FirebaseFirestore.instance
+          .collection('products')
+          .where('family store id', isEqualTo: widget.selectedFamilyStore.id)
+      //.where('uid', isNotEqualTo: docData.id)
+          .get()
+          .then((specifiedDoc) async {
+        if (specifiedDoc != null && specifiedDoc.docs.isEmpty == false) {
+          setState(() {
+            productsList = specifiedDoc;
+            // for (int i = 0; i < productsList.docs.length; i++) {
+            //   productName = productsList.docs[i].data()['product name'];
+            //   productId = productsList.docs[i].data()['product id'];
+            //   productDescription = productsList.docs[i].data()['product description'];
+            //   categoryName = productsList.docs[i].data()['category name'];
+            //   price = productsList.docs[i].data()['price'];
+            //   image = productsList.docs[i].data()['image product'];
+            // }
+          });
+        } else {
+          print('No Docs Found');
+        }
+      });
+    } catch (e) {
+      print('Error Fetching Data$e');
+    }
     //}
 //print( " hereeree ${productsList.docs[1].data()}");
     // يطبع كل منتج ف لازم يكون الانديس هو i
-
   }
 
   @override
   //ستخراج الداتا يكون هنا ف الميثود دي
   void initState() {
-    if (firebaseUser != null && firebaseUser.uid != null){
+    if (firebaseUser != null && firebaseUser.uid != null) {
       getUserData(firebaseUser.uid);
-
     }
     fetchSpecifiedProduct();
     super.initState();
@@ -150,10 +154,9 @@ class _ProductsScreenState extends State<ProductsScreen> {
     );
   }
 
-
   //هنا افصلهن عن بعض واعرضهم ف الابلكيشن عن جد
 
-  Widget productFlowList(BuildContext context){
+  Widget productFlowList(BuildContext context) {
     if (productsList != null) {
       return Container(
         height: MediaQuery.of(context).size.height - 180,
@@ -164,18 +167,23 @@ class _ProductsScreenState extends State<ProductsScreen> {
               //bottomRight: Radius.circular(90),
             )),
         child: ListView(
-
           primary: false,
           physics: AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
           padding: EdgeInsets.only(left: 25, right: 25),
           children: <Widget>[
-            SizedBox(height: 50,),
+            SizedBox(
+              height: 50,
+            ),
             Padding(
                 padding: EdgeInsets.only(top: 45),
                 child: Container(
                   height: MediaQuery.of(context).size.height - 300,
-                  child: productsList.docs.isEmpty ? Center(
-                    child: Text("no elements",style: TextStyle(color: black),),
+                  child: productsList.docs.isEmpty
+                      ? Center(
+                    child: Text(
+                      "no elements",
+                      style: TextStyle(color: black),
+                    ),
                   )
                       : ListView.separated(
                     itemCount: productsList.docs.length,
@@ -187,12 +195,9 @@ class _ProductsScreenState extends State<ProductsScreen> {
                       ),
                     ),
                     itemBuilder: (context, i) {
-
                       return InkWell(
-                        onTap: (){
-                          Get.to(()=> ProductDetails(selectedProduct: productsList.docs[i]));
-
-
+                        onTap: () {
+                          Get.to(() => ProductDetails(selectedProduct: productsList.docs[i],));
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -202,79 +207,66 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                 children: <Widget>[
                                   Hero(
                                       tag: productsList.docs[i].data()['product id'].toString(),
-                                      child:
-                                      productsList.docs[i].data()['image product'].toString() != null ?
-                                      Image.network(productsList.docs[i].data()['image product'].toString(),
+                                      child: productsList.docs[i].data()['image product'].toString() != null
+                                          ? Image.network(
+                                        productsList.docs[i].data()['image product'].toString(),
                                         fit: BoxFit.cover,
                                         height: 75,
                                         width: 75,
-                                      ):
-                                      Image.network("https://thumbs.dreamstime.com/b/product-icon-collection-trendy-modern-flat-linear-vector-white-background-thin-line-outline-illustration-130947207.jpg",
+                                      )
+                                          : Image.network(
+                                        "https://thumbs.dreamstime.com/b/product-icon-collection-trendy-modern-flat-linear-vector-white-background-thin-line-outline-illustration-130947207.jpg",
                                         fit: BoxFit.cover,
                                         height: 75,
                                         width: 75,
-                                      ) ),
-
-                                  SizedBox(width: 10,),
+                                      )),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
                                   Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: <Widget>[
-
-                                      Text(productsList.docs[i].data()['product name'].toString()
-                                          ??"none",style: TextStyle(color:black,fontSize: 17,fontWeight: FontWeight.bold),),
-                                      SizedBox(height: 5,),
-                                     // Text(productsList.docs[i].id),
+                                      Text(
+                                        productsList.docs[i].data()['product name'].toString() ?? "none",
+                                        style: TextStyle(color: black, fontSize: 17, fontWeight: FontWeight.bold),
+                                      ),
+                                      SizedBox(
+                                        height: 5,
+                                      ),
+                                      // Text(productsList.docs[i].id),
 
                                       Container(
                                           width: 200,
-                                          child:
-                                          Text(productsList.docs[i].data()['product description'].toString()??"none",
+                                          child: Text(
+                                            productsList.docs[i].data()['product description'].toString() ?? "none",
                                             softWrap: true,
                                             overflow: TextOverflow.fade,
-                                            style: TextStyle(fontSize: 20,fontWeight: FontWeight.normal,color: grey),)
+                                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.normal, color: grey),
+                                          )),
+                                      SizedBox(
+                                        height: 5,
                                       ),
-                                      SizedBox(height: 5,),
-                                      Text("${productsList.docs[i].data()['category name'].toString()} Store" ??"none",
-                                        style: TextStyle(color:black),),
+                                      Text(
+                                        "${productsList.docs[i].data()['category name'].toString()} Store" ?? "none",
+                                        style: TextStyle(color: black),
+                                      ),
                                     ],
                                   )
                                 ],
                               ),
                             ),
 
-                            firebaseUser!= null?
-                                Container(child:
-                                IconButton(
-                                  icon: isFav?Icon(Icons.favorite,color: Colors.red,) : Icon(Icons.favorite_outline),
-                                  onPressed: (){
-
-                                        addProductToFavorite().then((value) async{
-
-                                            await FirebaseFirestore.instance.collection('products')
-                                                .where('product id',isEqualTo:
-                                            FirebaseFirestore.instance.collection('favorites').doc().id).get().then((value) {
-
-                                            });
-
-                                            setState(() {
-                                              isFav = true;
-                                          });
-                                        });
-                                  },
-
-                                ),): SizedBox(width: 1,)
                           ],
                         ),
                       );
-
                     },
                   ),
                 ))
           ],
         ),
       );
-    } else  {
+    } else {
       return Container(
           height: MediaQuery.of(context).size.height - 180,
           decoration: BoxDecoration(
@@ -283,57 +275,11 @@ class _ProductsScreenState extends State<ProductsScreen> {
                 topLeft: Radius.circular(100),
                 bottomRight: Radius.circular(150),
               )),
-          child: Center(child:Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-              children:[CircularProgressIndicator(),
-                Text("No products")
-              ])));
+          child: Center(child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [CircularProgressIndicator(), Text("No products")])));
     }
-
-
-  }
-
-  Future<bool> onLikeButtonTapped(bool isLiked) async{
-    return !isLiked;
-
   }
 
 
-  Future addProductToFavorite()async{
-    var favoriteRef = await FirebaseFirestore.instance.collection('favorites');
-    //var productId = await FirebaseFirestore.instance.collection("products").doc().id;
-
-    try {
-
-
-      favoriteRef.doc(productId).set({
-        'uid': firebaseUser.uid,
-        'product name': productName,
-        'price': price,
-        'description': productDescription,
-        'categoryName': categoryName,
-        'image': image
-
-      }).then((value) {
-        print(' product to fav added');
-        // Fluttertoast.showToast(msg: 'product added',);
-        // Get.off(()=> HomePage());
-        //Navigator.of(context).pop();
-      });
-    }
-    catch(e){
-      print("error when adding product to favorites: $e");
-      setState(() {
-        //widget.isLoading = false ;
-      });
-
-    }
-
-  }
-
-
-
-  }
-
-
-
+}

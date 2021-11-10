@@ -3,6 +3,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_product/color/my_colors.dart';
+import 'package:my_product/components/cart_products.dart';
 import 'package:my_product/modules/product.dart';
 import 'package:my_product/pages/category_screen.dart';
 import 'package:my_product/pages/drawer_section_pages/favorite_screen.dart';
@@ -12,10 +13,6 @@ import 'package:get/get.dart';
 
 
 class TapsScreen extends StatefulWidget {
-
-  //final List<Product> favoriteProducts;
-
-  //TapsScreen(this.favoriteProducts);
 
 
 
@@ -36,11 +33,11 @@ class _TapsScreenState extends State<TapsScreen> {
 
   void initState(){
     _pages = [
-      {'page': CategoryScreen(),
-        'title': 'Categories',
+      {'page': CartScreen(),
+        'title': 'My cart',
       },
       {'page': FavoriteScreen(),
-        'title': 'Favorites List',}];
+        'title': 'Favorites',}];
     super.initState();
 
 
@@ -53,8 +50,6 @@ class _TapsScreenState extends State<TapsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final routeArg = ModalRoute.of(context).settings.arguments;
-
 
     return Scaffold(
       appBar: AppBar(
@@ -135,9 +130,10 @@ class _TapsScreenState extends State<TapsScreen> {
 
       bottomNavigationBar: BottomNavigationBar(
 
-        elevation: 0,
+       // elevation: 0,
+        selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold,fontSize: 25),
         selectedItemColor: black ,
-        selectedFontSize: 25,
+        selectedFontSize: 20,
         unselectedItemColor: black,
         currentIndex: _selectedPageIndex,
 
@@ -146,12 +142,12 @@ class _TapsScreenState extends State<TapsScreen> {
         //هنا برضو كان في كونست قبل اللست
         items: [
           BottomNavigationBarItem(
-              icon: Icon(Icons.dashboard_outlined,color:black),
-              label:"Categories",
+              icon: Icon(Icons.shopping_basket_outlined,color:black,size: 30,),
+              label:"Cart",
 
           ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.star_border_outlined,color:black),
+              icon: Icon(Icons.star_border_outlined,color:black,size: 30,),
               label: "Favorites",
 
           ),
