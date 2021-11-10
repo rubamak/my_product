@@ -9,6 +9,8 @@ import 'dart:ui';
 import 'package:my_product/modules/product.dart';
 import 'package:provider/provider.dart';
 
+import 'Comment_screen.dart';
+
 class ProductDetails extends StatefulWidget {
   final DocumentSnapshot<Map<String, dynamic>> selectedProduct;
 
@@ -131,9 +133,18 @@ class _ProductDetailsState extends State<ProductDetails> {
                   padding: const EdgeInsets.all(10.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      firebaseUser != null ? LikeButton(): SizedBox(height: 0,),
-                      firebaseUser !=null ? IconButton(onPressed: (){}, icon: Icon(Icons.add_shopping_cart)): SizedBox(width: 0,)
+                    children:<Widget> [
+                      firebaseUser != null ? IconButton(onPressed: (){}, icon: Icon(Icons.add_shopping_cart)): SizedBox(width: 0,),
+                      firebaseUser !=null ? IconButton(onPressed: (){}, icon: Icon(Icons.add_shopping_cart)): SizedBox(width: 0,),
+                      firebaseUser != null ? Container(
+                          child: IconButton(
+                              icon: Icon(Icons.comment,color: grey,) ,
+                              onPressed: (){
+                                setState(() {
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=> CommentsPage()));
+                                });
+                              },
+                          )):SizedBox(width: 0,),
 
 
                   ],),

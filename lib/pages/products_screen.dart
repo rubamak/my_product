@@ -290,20 +290,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                               },
 
                             ),
-                            Container(
-                                child:
-                                IconButton(
-                                  icon: Icon(Icons.comment,color: grey,) ,
-                                  onPressed: (){
-                                    setState(() {
-                                      Navigator.push(context, MaterialPageRoute(builder: (context)=> CommentsPage()));
-                                    });
-                                  }
-                                  )
-
-
-                                )
-                            , SizedBox(width: 0.001,),
+                             SizedBox(width: 0.001,),
 
 
 
