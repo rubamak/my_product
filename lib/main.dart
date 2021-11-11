@@ -6,6 +6,7 @@ import 'package:flutter/material.dart'; //for design
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:my_product/pages/Comment_screen.dart';
 import 'package:my_product/pages/Registration_page.dart';
 import 'package:my_product/pages/drawer_section_pages/helping_section.dart';
 import 'package:my_product/pages/drawer_section_pages/settings_page.dart';
