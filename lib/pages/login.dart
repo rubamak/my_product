@@ -28,18 +28,6 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  // function every time called will create a new account and insert in firebase
-  // Future<void> _createUser() async {
-  //   try {
-  //     // print("email: $_email, pass: $_password");
-  //     // to create account and added to firebase
-  //     UserCredential userCredential = await FirebaseAuth.instance
-  //         .createUserWithEmailAndPassword(email: _email, password: _password);
-  //     print("yeeeeeeeeeeessssssssssssss");
-  //   } catch (e) {
-  //     print("Error : $e");
-  //   }
-  // }
   saveSharedPreferences()async{
     SharedPreferences sharedpref = await SharedPreferences.getInstance();
     sharedpref.setString('email',_email);
@@ -52,6 +40,19 @@ class _LoginState extends State<Login> {
     var userCred = FirebaseAuth.instance.currentUser;
     print(userCred);
     super.initState();
+
+  }
+
+  Future resetPassword(String email)async{
+    try{
+      return await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+
+    }catch(e){
+      print("error: $e");
+    }
+
+  }
+  Future signInWithGoogle(){
 
   }
       _loginUser() async {
@@ -102,87 +103,7 @@ class _LoginState extends State<Login> {
 
   }
 
-/*
-  final GoogleSignIn googleSignIn = new GoogleSignIn();
-  final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-  late SharedPreferences preferences ;
 
-   bool loading = false;
-   bool isLogedin = false;
-
-
-  //final FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-
-  // sharedPreferences is show if you login for first time the app
-  //will show press here and this and that(tutorial screen)
-  // but if the second login it will not show you these instructions.
-
-
-  @override
-  void initState() {
-    //called initState for Login base class
-    super.initState();
-    // is SignedIn() I create this method
-    isSignedIn();
-  }
-  //async (wait something that is going from future) word is while load the state it can doing something else
-  void isSignedIn() async {
-    // start loading
-    setState(() {
-      loading = true;
-    });
-
-    // await is to hold for bit to get the data in the future
-    preferences = await SharedPreferences.getInstance();
-    isLogedin = await googleSignIn.isSignedIn();
-
-    // or if(isLogedin)
-    if (isLogedin == true) {
-      //pushReplacement is for user to
-      // be not able to back to login page after he login
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => HomePage()));
-    }
-
-    //end loading because the user is  finish logged in
-    setState(() {
-      loading = false;
-    });
-  }
-
-
-  // method of type future that waiting something
-  //handleSignIn to handle the sign in
-  Future handleSignIn() async {
-    preferences = await SharedPreferences.getInstance();
-    setState(() {
-      loading = true; });
-
-   GoogleSignInAccount? googleUser = await googleSignIn.signIn();
-    GoogleSignInAuthentication googleSignInAuthentication = await googleUser!.authentication;
-    FirebaseUser firebaseUser = await firebaseAuth.signInWithGoogle(
-        idToken: googleSignInAuthentication.idToken,
-    accessToken: googleSignInAuthentication.accessToken);
-
-    if(firebaseUser != null){
-      final QuerySnapshot result = await FirebaseFirestore.instance.collection("user").
-      where("id",isEqualTo: firebaseUser.uid).get();
-
-      final List<DocumentSnapshot> documents = result.docs;
-
-
-    }else{
-
-    }
-
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth.accessToken,
-      idToken: googleAuth.idToken,);
-
-    return await FirebaseAuth.instance.signInWithCredential(credential);
-
-  }
-*/
   TextEditingController _controllerEmail = TextEditingController();
   TextEditingController _controllerPass = TextEditingController();
   bool passwordVisible = true;
@@ -331,6 +252,18 @@ class _LoginState extends State<Login> {
                         SizedBox(
                           height: 50,
                         ),
+                        GestureDetector(
+                          onTap: (){},
+                          child: Container(alignment: Alignment.centerRight,
+                            child: Container(
+
+                              padding: EdgeInsets.symmetric(horizontal: 20,vertical: 8),
+                              child: Text("forget password ?",style: TextStyle(
+                                decoration: TextDecoration.underline,
+                                  color: basicColor,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18),)),),
+                        ),
                         if(widget.isLoading)
                           Center(child: CircularProgressIndicator(),),
                         if(!widget.isLoading)
@@ -346,7 +279,7 @@ class _LoginState extends State<Login> {
                               var  userCred = await _loginUser();
                               if(userCred != null){
                                 //Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> HomePage()));
-                               // Get.back();
+
                                 Get.off(()=> HomePage());
                                 saveSharedPreferences();
                                 Fluttertoast.showToast(msg: 'you signed in ');
@@ -371,6 +304,7 @@ class _LoginState extends State<Login> {
                                   child: Text(
                                     " Create new Account ",
                                     style: TextStyle(
+                                        decoration: TextDecoration.underline,
                                         color: basicColor,
                                         fontWeight: FontWeight.bold,
                                         fontSize: 18),

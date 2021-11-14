@@ -24,6 +24,7 @@ class Registartion extends StatefulWidget {
 class _RegistartionState extends State<Registartion> {
   bool passwordVisible = true;
   bool passwordVisible2 = true;
+
   var  _emailController = TextEditingController();
   var _passwordController = TextEditingController();
   var _firstNameController = TextEditingController();

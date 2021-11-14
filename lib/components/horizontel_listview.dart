@@ -44,8 +44,12 @@ class _HorizontelListState extends State<HorizontelList> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height-150,
-      width: MediaQuery.of(context).size.width-150,
+     // height: MediaQuery.of(context).size.height-150,
+      width: double.infinity,
+      height: MediaQuery.of(context).size.height * 0.3,
+
+      //height: MediaQuery.of(context).size.height-100,
+      // width: MediaQuery.of(context).size.width-150,
       child: categoriesFlowList(context),
     );
   }
@@ -63,8 +67,8 @@ class _HorizontelListState extends State<HorizontelList> {
 
               child: Column(children: [
                 Container(
-                  height: MediaQuery.of(context).size.height-250,
-                  width: MediaQuery.of(context).size.width-250,
+                 //height: MediaQuery.of(context).size.height-250,
+                 // width: MediaQuery.of(context).size.width-250,
                   padding: EdgeInsets.all(30),
                   child: ClipRRect(
                       borderRadius: BorderRadius.circular(10),

@@ -1,5 +1,4 @@
 //ربا مرت من هناا وسماحه كمان
-import 'dart:isolate';
 
 //ruba love samaha
 import 'package:flutter/material.dart'; //for design
@@ -9,7 +8,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:my_product/pages/Registration_page.dart';
 import 'package:my_product/pages/drawer_section_pages/helping_section.dart';
 import 'package:my_product/pages/drawer_section_pages/settings_page.dart';
-import 'package:my_product/pages/single_chat_screen.dart';
+import 'package:my_product/pages/chat/single_chat_screen.dart';
 import 'package:my_product/pages/drawer_section_pages/favorite_screen.dart';
 import 'package:my_product/pages/drawer_section_pages/my_family_store_page.dart';
 import 'package:my_product/widgets/main_drawer.dart';
