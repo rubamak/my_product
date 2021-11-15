@@ -194,13 +194,6 @@ class _FavoriteScreenState extends State<FavoriteScreen>{
         );
     }else{
       return Container(
-        // height: MediaQuery.of(context).size.height - 180,
-        // decoration: BoxDecoration(
-        // color: white,
-        // borderRadius: BorderRadius.only(
-        // topLeft: Radius.circular(100),
-        // //bottomRight: Radius.circular(90),
-        // )),
         child: Center(child: Text("no favorites products"),),);
     }
   }

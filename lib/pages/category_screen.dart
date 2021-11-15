@@ -118,7 +118,12 @@ class _CategoryScreenState extends State<CategoryScreen> {
     borderRadius: BorderRadius.only(topLeft: Radius.circular(100),
     //bottomRight:Radius.circular(150),
     )),
-    child: categoriesFlowList(context)
+    child:
+
+
+      categoriesFlowList(context),
+
+
       ),
     );
   }
@@ -145,8 +150,8 @@ class _CategoryScreenState extends State<CategoryScreen> {
                 child: Column(
 
                     children: [
-                  Container(
 
+                  Container(
                     padding: EdgeInsets.all(30),
                     child: ClipRRect(
                         borderRadius: BorderRadius.circular(20),

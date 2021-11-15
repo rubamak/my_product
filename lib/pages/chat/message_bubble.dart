@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:my_product/color/my_colors.dart';
 class MessageBubble extends StatelessWidget {
 MessageBubble(
-   this.username,
+   //this.username,
     this.message,
     this.isMe,
     {this.key});
   final Key key ;
   final String message ;
- final String username;
+ //final String username;
   final bool isMe;
 
   @override
@@ -34,11 +34,12 @@ MessageBubble(
           child: Column(
             crossAxisAlignment: !isMe? CrossAxisAlignment.end: CrossAxisAlignment.start,
             children: [
-              Text("$username :",style: TextStyle(
-                color: isMe?  black: white,
+             isMe?Text("Me:",style: TextStyle(color:black ,fontWeight: FontWeight.bold),)
+                 : Text("",style: TextStyle(
+                color: white,
                 fontWeight: FontWeight.bold
               ),) ,
-              Text(message,style: TextStyle(color: isMe? black: white,fontSize: 20),textAlign:
+              Text(message,style: TextStyle(color: isMe? black: white,fontSize: 17),textAlign:
                 !isMe? TextAlign.end:TextAlign.start ,)
             ],
           ),

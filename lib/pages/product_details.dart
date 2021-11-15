@@ -253,8 +253,6 @@ class _ProductDetailsState extends State<ProductDetails> {
                                     size: 35,
                                   ),
                                 );
-
-
                               }
                             }else{
                               return Text("no connection");
@@ -288,7 +286,8 @@ class _ProductDetailsState extends State<ProductDetails> {
                             icon: Icon(Icons.comment,color: grey,) ,
                             onPressed: (){
                               setState(() {
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=> CommentsPage(productId:widget.selectedProduct.id)));
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>
+                                    CommentsPage(productId:widget.selectedProduct.id)));
                               });
                             },
                           )):SizedBox(width: 0,),

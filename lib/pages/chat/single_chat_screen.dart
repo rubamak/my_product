@@ -16,9 +16,9 @@ class SingleChatScreen extends StatelessWidget {
   //const SingleChatScreen({Key key}) : super(key: key);
 
   static const routeName = '/chatScreen';
-    final String id ;
-    final String familyName;
-    SingleChatScreen(this.id,this.familyName);
+  final String familyId ;
+  final String familyName;
+  SingleChatScreen(this.familyId,this.familyName);
 
 
 
@@ -35,52 +35,53 @@ class SingleChatScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(color: black),
-        backgroundColor: basicColor,
-       toolbarHeight: 80,
-       // elevation: 0,
-        leading:  IconButton(
-          icon: Icon(Icons.arrow_back_ios,color: black,),
-          onPressed: () {
-            //Navigator.of(context).pop(familyName);
-        Get.back();
-          },
-          color: white,
-        ),
+          iconTheme: IconThemeData(color: black),
+          backgroundColor: basicColor,
+          toolbarHeight: 80,
+          // elevation: 0,
+          leading:  IconButton(
+            icon: Icon(Icons.arrow_back_ios,color: black,),
+            onPressed: () {
+              //Navigator.of(context).pop(familyName);
+              Get.back();
+            },
+            color: white,
+          ),
 
-        title:
+          title:
           //Image.asset('images/myLogo.png' ,height: 30),
-              Text("$familyName Owner",style: TextStyle(color: black),),
-        actions:[
-        IconButton(
-          onPressed: (){
-            //Navigator.of(context).pop(familyId);
-            //Get.back();
-            Get.off(HomePage());
-          },
-          icon: Icon(Icons.close,color: black,),
-        ),
-    ]
+          Text("$familyName Owner",style: TextStyle(color: black),),
+          actions:[
+            IconButton(
+              onPressed: (){
+                //Navigator.of(context).pop(familyId);
+                //Get.back();
+                Get.off(HomePage());
+              },
+              icon: Icon(Icons.close,color: black,),
+            ),
+          ]
 
 
-    ),
+      ),
       body: SafeArea(
-        child: Container(
-              child: Column(
-                children: [
-                 // Text("ananwawiw"),
-                  Expanded(
-                      child: Messages()),
-                  Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: NewMessages(),
-                  ),
-                ],
-                
+          child: Container(
+            child: Column(
+              children: [
+                Expanded(
+                    child: Messages(familyId: familyId)
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: NewMessages(familyId: familyId,store: familyName),
+                ),
+
+              ],
+
 
 
             ),
-        )
+          )
         // StreamBuilder(
         //   stream:
         //   FirebaseFirestore.instance.collection("chats/Qm2EkhbeLycPspcwqXjU/messages").snapshots(),
@@ -181,9 +182,13 @@ class SingleChatScreen extends StatelessWidget {
 }
 
 class NewMessages extends StatefulWidget {
-  const NewMessages({Key key}) : super(key: key);
+  //const NewMessages({Key key}) : super(key: key);
   @override
   _NewMessagesState createState() => _NewMessagesState();
+
+  String familyId ;
+  String store ;
+  NewMessages({this.familyId,this.store});
 }
 
 
@@ -191,25 +196,78 @@ class NewMessages extends StatefulWidget {
 
 class _NewMessagesState extends State<NewMessages> {
   TextEditingController _controller = TextEditingController();
-  var _enteredMessage = '';
+  String _enteredMessage = '';
+  final user =  FirebaseAuth.instance.currentUser;
+  var docData;
+  String username;
+
+  void initState(){
+    getUserData();
+    super.initState();
+  }
+
+  getUserData() async {
+    //اجيب بيانات دوكيمنت واحد فقط
+    //get will return docs Query snapshot
+    await FirebaseFirestore.instance.collection('users').doc(user.uid).get().then((value) async{
+      //value.data is the full fields for this doc
+      if (value.exists) {
+        setState(() {
+          docData = value;
+          username = docData['username'];
+          // print(value.id);
+        });
+      }});
+  }
 
   _sendMessage()async{
     // تخلي الكيبورد عند الضغط ينزل تحت
     //FocusScope.of(context).unfocus();
 
     //  ========هنا في النص اللوجيك حق ارسال الرسسالة وخزنها في الفايير ستور========
-    final user =  FirebaseAuth.instance.currentUser;
+
     // رح ترجع لي دوكيومينت
 
-    final userData = await FirebaseFirestore.instance.collection("users").doc(user.uid).get();
-    FirebaseFirestore.instance.collection("chat")
+//مهمممممممممممممممممممممممممممممممممممممممممممممممممممممممم كيف اجيب اليوزر حق الطرف التاني
+
+    // set my chat
+    FirebaseFirestore.instance.collection("users").doc(user.uid)
+        .collection('chats').doc(widget.familyId).collection('messages')
         .add({
       'text': _enteredMessage,
-      'createdAt': Timestamp.now(),
+      'createdAt': DateTime.now(),
       //this is sender data===================
-      'username': userData['username'],// اقدر اجيب اي حثل في هذا الدوكيمنت
-        'userId':user.uid,
+      // 'username': username,//
+      'senderId':user.uid,
+      'receiverId': widget.familyId,
+    }).then((value) {
+      print ("message send");
+    }).catchError((error){});
+    // set the other shat
+
+    FirebaseFirestore.instance.collection("familiesStores").doc(widget.familyId)
+        .collection('chats').doc(user.uid).collection('messages')
+        .add({
+      'text': _enteredMessage,
+      'createdAt': DateTime.now(),
+      //this is sender data===================
+      // 'username': widget.store,//
+      'senderId':user.uid,
+      'receiverId': widget.familyId,
     });
+
+
+
+    //    // .get();
+    // FirebaseFirestore.instance.collection("chat")
+    //     .add({
+    //   'text': _enteredMessage,
+    //   'createdAt': Timestamp.now(),
+    //   //this is sender data===================
+    //   'username': userData['username'],// اقدر اجيب اي حثل في هذا الدوكيمنت
+    //     'senderId':user.uid,
+    //   'receiverI': widget.receId,
+    // });
     //===================================================
     //  وهنا افضي النص عشان ارسل جديد
 

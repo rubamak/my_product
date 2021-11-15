@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/rendering.dart';
@@ -10,10 +11,12 @@ import 'package:my_product/color/my_colors.dart';
 import 'dart:async';
 import 'package:my_product/components/horizontel_listview.dart';
 import 'package:my_product/components/latest_products.dart';
-import 'package:my_product/modules/product.dart';
+import 'package:my_product/pages/chat/my_chats.dart';
+import 'package:my_product/pages/search.dart';
 import 'package:my_product/widgets/main_drawer.dart';
-import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:get/get.dart';
+
 
 class HomePage extends StatefulWidget {
   // const HomePage({Key? key, required Object uid}) : super(key: key);
@@ -69,21 +72,7 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  //  getCurrentUser(){
-  //   //هادا المتغير يحفظ لي معلومات اخر يوزر عمل تسجيل دخول في التطبيق
-  //   // عشان استخدم معلوماته دام لسه ما سوا تسجيل خروج
-  //   var currentUser = FirebaseAuth.instance.currentUser;
-  //   print(currentUser!.email);
-  //   return currentUser ;
-  //
-  // }
-  // @override
-  // void initState(){
-  //
-  //     getCurrentUser();
-  //     super.initState();
-  //
-  // }
+
   @override
   Widget build(BuildContext context) {
     //this the size of the screen
@@ -104,9 +93,9 @@ class _HomePageState extends State<HomePage> {
           NetworkImage(
               'https://onlinedjradio.com/wp-content/uploads/2016/10/ads.jpeg'),
           AssetImage('images/download.jpeg'),
-          AssetImage(
-            'images/images.jpeg',
-          ),
+          // AssetImage(
+          //   'images/images.jpeg',
+          // ),
         ],
         autoplay: true,
         //how the images in carousal moves
@@ -122,14 +111,13 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: white,
       appBar: AppBar(
         iconTheme: IconThemeData(color: black),
-        // leading: IconButton(
-        //     icon: Icon(Icons.outbond_outlined, color: white),
-        //     onPressed: () async{
-        //       // Navigator.push(context,
-        //       //     MaterialPageRoute(builder: (context) => CartScreen()));
-        //       await FirebaseAuth.instance.signOut();
-        //       Fluttertoast.showToast(msg: 'you signed out!');
-        //     }),
+        leading: IconButton(
+            icon: Icon(Icons.search_rounded, size: 30,),
+            onPressed: () async{
+              // Navigator.push(context,
+              //     MaterialPageRoute(builder: (context) => CartScreen()));
+             Get.to(()=> Search());
+            }),
 
         // elevation: 0,
         toolbarHeight: 110,
@@ -191,48 +179,14 @@ class _HomePageState extends State<HomePage> {
                 SizedBox(
                   height: 5,
                 ),
-                // Padding(
-                //   padding: const EdgeInsets.all(8.0),
-                //   child: Container(
-                //     margin: EdgeInsets.all(5),
-                //     height: 50,
-                //     decoration: BoxDecoration(color: white, boxShadow: [
-                //       BoxShadow(
-                //         color: basicColor,
-                //         offset: Offset(5, 10),
-                //         blurRadius: 8,
-                //       )
-                //     ]),
-                //     //هنا كان في كونست وشلتها برضو لانها برضو عطلتني ياربا
-                //     child: ListTile(
-                //       leading:  Icon(
-                //         Icons.search,
-                //         size: 50,
-                //         color: basicColor,
-                //         //وهنا كمان نفس الكومنت اللي فوق
-                //
-                //       ),
-                //       title: TextField(
-                //         decoration:  InputDecoration(
-                //           hintText: "Find what you want..",
-                //           hintStyle: TextStyle(
-                //               color: basicColor,
-                //               fontWeight: FontWeight.bold),
-                //           border: InputBorder.none,
-                //         ),
-                //         onTap: (){}
-                //
-                //            ),
-                //     ),
-                //   ),
-                // ),
+
                 //use the carousal
                 imageCarousal,
 
                 Container(
                   margin: EdgeInsets.only(top: 30.0),
                   child: const Padding(
-                      padding: EdgeInsets.all(10.0),
+                      padding: EdgeInsets.symmetric(horizontal: 10.0),
                       child: Text('Our Categories',
                           style: TextStyle(
                             //color: ,
@@ -251,7 +205,7 @@ class _HomePageState extends State<HomePage> {
                             fontSize: 25.0, fontWeight: FontWeight.w800,color: black))),
 
                 Padding(
-                  padding: const EdgeInsets.all(30),
+                  padding:  EdgeInsets.symmetric(horizontal: 30),
                   child: MaterialButton(
                     color: basicColor,
 
@@ -289,14 +243,11 @@ class _HomePageState extends State<HomePage> {
       //
       //     },
       //
-      //   backgroundColor: basicColor,
-      //   child: Icon(
-      //     Icons.new_label_outlined,
-      //     color: black,
-      //   ),
+
       // ),
     );
   }
+
 
   void bottomSheet(BuildContext cont) {
     showModalBottomSheet(

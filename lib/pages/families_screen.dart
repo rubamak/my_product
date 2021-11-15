@@ -14,7 +14,7 @@ import 'package:my_product/widgets/main_drawer.dart';
 import 'dart:io';
 import 'package:get/get.dart';
 
-import 'single_chat_screen.dart';
+import 'chat/single_chat_screen.dart';
 
 class FamiliesScreen extends StatefulWidget {
   static const routeName = '/families_categories';
@@ -49,9 +49,9 @@ class _FamiliesScreenState extends State<FamiliesScreen> {
   //
   // }
 
-  void chatWithFamily ( String id, String nameFamily){
+  void chatWithFamily ( String familyId, String nameFamily){
     Get.to(()=> (
-        SingleChatScreen( id ,nameFamily)));
+        SingleChatScreen( familyId,nameFamily)));
     // Navigator.of(context).pushNamed(
     //     SingleChatScreen()
     //     arguments: {
@@ -160,7 +160,7 @@ class _FamiliesScreenState extends State<FamiliesScreen> {
         title: Padding(
           padding: EdgeInsets.only(top: 1),
           child: Text(
-            "${widget.selectedCategory.data()['name'].toString()}  Families Stores",
+            "${widget.selectedCategory.data()['name'].toString()} Families Stores",
             style: TextStyle(
               color: black,
               fontWeight: FontWeight.bold,
@@ -193,7 +193,7 @@ class _FamiliesScreenState extends State<FamiliesScreen> {
             color: white,
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(100),
-               //bottomRight: Radius.circular(90),
+              //bottomRight: Radius.circular(90),
             )),
         child: ListView(
           primary: false,
@@ -218,7 +218,9 @@ class _FamiliesScreenState extends State<FamiliesScreen> {
                     itemBuilder: (context, i) {
                       return InkWell(
                         onTap: (){
-                          Get.to(()=> ProductsScreen(selectedFamilyStore: familiesStoresList.docs[i],));
+                          Get.to(()=> ProductsScreen(
+                           // imageStore: familiesStoresList.docs[i].data()['image family store'],
+                            selectedFamilyStore: familiesStoresList.docs[i],));
                           //ProductsScreen(selectedFamilyStore: ,));
                         },
                         child: Row(
@@ -268,30 +270,30 @@ class _FamiliesScreenState extends State<FamiliesScreen> {
                               ),
                             ),
 
-                          // firebaseUser!= null?
+                            // firebaseUser!= null?
                             Container(
-                          child:  StreamBuilder(
-                            // لو في يوزر مسجل دخول اذا اعرض ليه ايقونة الشات لو مافي اخفيها
-                            stream: FirebaseAuth.instance.authStateChanges(),
-                              builder: (ctx,snapshot) {
-                                if (snapshot.hasData) {
-                                  return IconButton(
-                                    onPressed: () =>
-                                        chatWithFamily( familiesStoresList.docs[i].data()['family id'].toString(),
-                                            familiesStoresList.docs[i].data()['family store name'].toString()
-                                        ),
-                                    // Navigator.of(context).pushNamed(ChatScreen.routeName);
+                              child:  StreamBuilder(
+                                // لو في يوزر مسجل دخول اذا اعرض ليه ايقونة الشات لو مافي اخفيها
+                                  stream: FirebaseAuth.instance.authStateChanges(),
+                                  builder: (ctx,snapshot) {
+                                    if (snapshot.hasData) {
+                                      return IconButton(
+                                        onPressed: () =>
+                                            chatWithFamily( familiesStoresList.docs[i].data()['family id'].toString(),
+                                                familiesStoresList.docs[i].data()['family store name'].toString()
+                                            ),
+                                        // Navigator.of(context).pushNamed(ChatScreen.routeName);
 
-                                    icon: Icon(Icons.chat_outlined, color: black,),
-                                    color: black,
-                                  );
-                                } else {
-                                  return SizedBox(width: 1,);
-                                }
-                              }
+                                        icon: Icon(Icons.chat_outlined, color: black,),
+                                        color: black,
+                                      );
+                                    } else {
+                                      return SizedBox(width: 1,);
+                                    }
+                                  }
                               ),
                               //SizedBox(width: 1,),
-                      )
+                            )
                           ],
                         ),
                       );

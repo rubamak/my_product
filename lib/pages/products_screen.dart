@@ -16,8 +16,11 @@ import 'families_screen.dart';
 class ProductsScreen extends StatefulWidget {
   static const routeName = '/theProducts-screen';
   final DocumentSnapshot<Map<String, dynamic>> selectedFamilyStore;
+  //final String imageStore;
 
-  ProductsScreen({this.selectedFamilyStore});
+  ProductsScreen({this.selectedFamilyStore
+    //,this.imageStore
+  });
 
   @override
   State<ProductsScreen> createState() => _ProductsScreenState();
@@ -30,7 +33,6 @@ class _ProductsScreenState extends State<ProductsScreen> {
   QuerySnapshot<Map<String, dynamic>> productsList;
 
   String productName;
-
   String productId;
   String productDescription;
   var price;
@@ -126,17 +128,40 @@ class _ProductsScreenState extends State<ProductsScreen> {
           },
           color: black,
         ),
-        title: Padding(
-          padding: EdgeInsets.only(top: 1),
-          child: Text(
-            "${widget.selectedFamilyStore.data()['family store name'].toString()}'s Products",
-            style: TextStyle(
-              color: black,
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
+        title:
+        // Row(
+        //   children: [
+        //     Hero(
+        //       tag: widget.imageStore,
+        //       child:
+        //       widget.imageStore != null ?
+        //       Image.network(widget.imageStore,
+        //         fit: BoxFit.cover,
+        //         height: 30,
+        //         width: 30,
+        //       ):
+        //       Image.network("https://previews.123rf.com/images/thesomeday123/thesomeday1231712/thesomeday123171200009/91087331-default-avatar-profile-icon-for-male-grey-photo-placeholder-illustrations-vector.jpg",
+        //         fit: BoxFit.cover,
+        //         height: 30,
+        //         width: 30,
+        //       )    ),
+
+            Padding(
+              padding: EdgeInsets.only(top: 1),
+              child: Text(
+
+                "${widget.selectedFamilyStore.data()['family store name'].toString()}'s Products",
+                style: TextStyle(
+                  color: black,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
+                softWrap: true,
+
+              ),
             ),
-          ),
-        ),
+        //   ],
+        // ),
         backgroundColor: basicColor,
         toolbarHeight: 80,
       ),

@@ -1,21 +1,16 @@
 
 import 'dart:core';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:my_product/color/my_colors.dart';
-import 'package:my_product/components/cart_products.dart';
-import 'package:my_product/pages/Registration_page.dart';
-import 'package:my_product/pages/drawer_section_pages/add_product.dart';
 import 'package:my_product/pages/category_screen.dart';
-import 'package:my_product/pages/drawer_section_pages/my_chats.dart';
 import 'package:my_product/pages/drawer_section_pages/profile_screen.dart';
 import 'package:my_product/pages/drawer_section_pages/settings_page.dart';
-import 'package:my_product/pages/single_chat_screen.dart';
+import 'package:my_product/pages/chat/my_chats.dart';
+import 'package:my_product/pages/chat/single_chat_screen.dart';
 import 'package:my_product/pages/drawer_section_pages/favorite_screen.dart';
 import 'package:my_product/pages/drawer_section_pages/helping_section.dart';
 import 'package:my_product/pages/home_page.dart';
@@ -209,7 +204,7 @@ var userEmail ;
           // checkLogin() ? buildListTile('Cart', Icons.shopping_cart_outlined,(){
           //   Get.off(()=> CartScreen()); }): SizedBox(height: 0,),
           checkLogin() ? buildListTile('My Chats', Icons.chat_outlined,(){
-            Get.to(()=> MyChats()); }): SizedBox(height: 0,),
+            Get.off(()=> MyChats()); }): SizedBox(height: 0,),
            Divider(color: Colors.black54),//0xffFFBCBC الللون القديم لو تبيه ياربا
           //هنا مفروض اضيف الفايل او اللسته من الصفحه الجديده اللي ضفتها add_new_family
 
