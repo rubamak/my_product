@@ -17,6 +17,7 @@ import 'Comment_screen.dart';
 class ProductDetails extends StatefulWidget {
   final DocumentSnapshot<Map<String, dynamic>> selectedProduct;
 
+
   ProductDetails({this.selectedProduct});
 
   @override
@@ -28,27 +29,12 @@ class _ProductDetailsState extends State<ProductDetails> {
   bool isFav;
   bool isInCart;
   QuerySnapshot<Map<String, dynamic>> productInfo;
-  String productName;
-
+  String familyId ;
   String productId;
-  String productDescription;
-  var price;
-  String categoryName;
   String image;
 
-  //QuerySnapshot<Map<String, dynamic>> productsList;
-  //DocumentSnapshot<Map<String, dynamic>> docData;
 
   getProduct() async {
-    //اجيب بيانات دوكيمنت واحد فقط
-    //get will return docs Query snapshot
-    // await FirebaseFirestore.instance.collection('users').doc(uid).get().then((value) async {
-    //   //value.data is the full fields for this doc
-    //   if (value.exists) {
-    //     setState(() {
-    //       docData = value;
-    //       print(docData.id);
-    //     });
     try {
       await FirebaseFirestore.instance
           .collection('products')
@@ -60,6 +46,10 @@ class _ProductDetailsState extends State<ProductDetails> {
           setState(() {
             productInfo = specifiedDoc;
             productId = productInfo.docs[0].data()['product id'];
+            // هذا هوا الاي دي حق الاسرة رح يتخزن من وين؟
+            // من جدول المنتجات رح ياخذ الحقل الي اسمه فايملي اي دي
+            familyId = productInfo.docs[0].data()['family store id'];
+            //====================================== جديددد
             print(productId);
           });
         } else {
@@ -339,6 +329,8 @@ class _ProductDetailsState extends State<ProductDetails> {
         'description': productInfo.docs[0].data()['product description'],
         'categoryName': productInfo.docs[0].data()['category name'],
         'image': productInfo.docs[0].data()['image product'],
+        //جبتلك الاي دي حق الاسرة عشان تلعبي فيه زي ما تحبيه
+        'family id': familyId,
         'product id': productId,
       }).then((value) {
         print(' product to favorite added');
@@ -360,26 +352,13 @@ class _ProductDetailsState extends State<ProductDetails> {
         'description': productInfo.docs[0].data()['product description'],
         'categoryName': productInfo.docs[0].data()['category name'],
         'image': productInfo.docs[0].data()['image product'],
+        'family id':familyId,
         'product id': productId,
       }).then((value) {
         print(' product to cart added');
         Fluttertoast.showToast(msg: 'product added to cart ', backgroundColor: Colors.blue);
       });
-      // try{
-      //   favoriteRef.add({
-      //     'uid': firebaseUser.uid,
-      //     'product name': productInfo.docs[0].data()['product name'],
-      //     'price': productInfo.docs[0].data()['price'],
-      //     'description': productInfo.docs[0].data()['product description'],
-      //     'categoryName': productInfo.docs[0].data()['category name'],
-      //     'image': productInfo.docs[0].data()['image'],
-      //     'product id': productInfo.docs[0].data()['product id'],
-      //   }).then((value) {
-      //     print(' product to fav added');
 
-      // Fluttertoast.showToast(msg: 'product added',);
-
-      //  });
     } catch (e) {
       print("error when adding product to favorites: $e");
     }
@@ -480,9 +459,5 @@ class _ProductDetailsState extends State<ProductDetails> {
             height: 1,
           ));
     }
-  }
-
-  Future<bool> onLikeButtonTapped(bool isLiked) async {
-    return !isLiked;
   }
 }

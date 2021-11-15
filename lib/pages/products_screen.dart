@@ -33,6 +33,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
   QuerySnapshot<Map<String, dynamic>> productsList;
 
   String productName;
+  String familyId;
   String productId;
   String productDescription;
   var price;
@@ -222,7 +223,8 @@ class _ProductsScreenState extends State<ProductsScreen> {
                     itemBuilder: (context, i) {
                       return InkWell(
                         onTap: () {
-                          Get.to(() => ProductDetails(selectedProduct: productsList.docs[i],));
+                          Get.to(() => ProductDetails(
+                              selectedProduct: productsList.docs[i]));
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
