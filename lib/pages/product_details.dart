@@ -6,12 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:like_button/like_button.dart';
 import 'package:my_product/color/my_colors.dart';
+import 'package:my_product/components/cart_screen.dart';
 import 'dart:io';
 import 'dart:ui';
 import 'package:my_product/modules/product.dart';
 import 'package:provider/provider.dart';
 import 'package:get/get.dart';
 
+import 'Comment_page.dart';
 import 'Comment_screen.dart';
 
 class ProductDetails extends StatefulWidget {
@@ -277,7 +279,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                             onPressed: (){
                               setState(() {
                                 Navigator.push(context, MaterialPageRoute(builder: (context)=>
-                                    CommentsPage(productId:widget.selectedProduct.id)));
+                                    CommentsPage(productId:widget.selectedProduct.id,)));
                               });
                             },
                           )):SizedBox(width: 0,),
