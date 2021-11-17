@@ -1,12 +1,9 @@
-import 'dart:ffi';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:my_product/color/my_colors.dart';
@@ -79,12 +76,12 @@ class _CartScreenState extends State<CartScreen> {
   Widget build(BuildContext context) {
     if (cartList != null) {
       return Scaffold(
-
         backgroundColor: white,
         body: new Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Expanded(
+              flex: 5,
               child: Container(
                 height: MediaQuery.of(context).size.height - 100,
                 decoration: BoxDecoration(
@@ -104,6 +101,7 @@ class _CartScreenState extends State<CartScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: <Widget>[
                             Container(
+
                               child: Row(
                                   children: <Widget>[
                                     Hero(

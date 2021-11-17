@@ -6,7 +6,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:my_product/color/my_colors.dart';
@@ -29,8 +28,8 @@ class _cartDetails extends State<cartDetails> {
   var username; // for display to user
   var useremail;
   var productId;
-  double price;
-  double totalPrice = 0.0;
+  int num =1;
+
 
   getCart() async {
     await FirebaseFirestore.instance.collection('cart').
@@ -57,16 +56,23 @@ class _cartDetails extends State<cartDetails> {
         if (specifiedDoc != null && specifiedDoc.docs.isEmpty == false) {
           setState(() {
             cartList = specifiedDoc;
-            var list = [];
-             for (int i = 0; i < cartList.docs.length; i++) {
-               var item;
-               list.add(Container(
-                   child: FittedBox(
-                     fit: BoxFit.fitWidth,
-                     child: Text(
-                       item[i],
-                     ),
-                   )));
+            double price;
+            double totalPrice = 0.0;
+            if (specifiedDoc != null && specifiedDoc.docs.isEmpty == false) {
+              setState(() {
+                cartList = specifiedDoc;
+                for (int i = 0; i < cartList.docs.length; i++) {
+                  productId = cartList.docs[i].data()['product id'];
+                  price = cartList.docs[i].data()['price'];
+
+                  for (int i = 0; i < cartList.docs.length; i++) {
+                    totalPrice= (totalPrice + price);
+
+                  }
+                  totalPrice.toString();
+                  print(totalPrice) ;
+                }
+              });
 
             //   productId = cartList.docs[i].data()['product id'];
             //   price = cartList.docs[i].data()['price'];
@@ -74,7 +80,7 @@ class _cartDetails extends State<cartDetails> {
             //   totalPrice.toString();
             //   print(totalPrice) ;
             }
-             return list;
+             return totalPrice;
           });
         } else {
           print('No product Found');
@@ -95,10 +101,10 @@ class _cartDetails extends State<cartDetails> {
           iconTheme: IconThemeData(color: black),
           toolbarHeight: 70,
           centerTitle: true,
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back_ios, color: black),
-            onPressed: () => Get.back,
-          ),
+          // leading: IconButton(
+          //   icon: Icon(Icons.arrow_back_ios, color: black),
+          //   onPressed: () => Get.back,
+          // ),
           title: Padding(
             padding: EdgeInsets.only(top: 1),
             child: Text(
@@ -114,8 +120,9 @@ class _cartDetails extends State<cartDetails> {
           children: [
             SizedBox(height: 100,),
             Expanded(
+              flex: 5,
               child: Container(
-                height: MediaQuery.of(context).size.height - 100,
+                 height: MediaQuery.of(context).size.height - 100,
                 decoration: BoxDecoration(
                     color: white,
                     borderRadius: BorderRadius.only(
@@ -193,8 +200,20 @@ class _cartDetails extends State<cartDetails> {
                 padding: const EdgeInsets.all(30),
                 child: ListView(
                   children: [
-                    Text("your total pricr is $totalPrice ",
-                    style: TextStyle(color: black , fontSize: 30, fontWeight: FontWeight.bold),),
+                    Text("your totalprics is")
+
+                  //   FutureBuilder(
+                  //   future: userTotalPrice(),
+                  // builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  //   if (snapshot.hasData) {
+                  //     return userTotalPrice() ;
+                  //   }
+                  // })
+
+              //         if (num == 1){
+              //           return userTotalPrice();
+              // }
+
                   ],
                 ),
               ),

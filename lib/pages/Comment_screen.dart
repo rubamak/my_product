@@ -60,10 +60,10 @@ class CommentPageState extends State<CommentsPage> {
           iconTheme: IconThemeData(color: black),
           toolbarHeight: 70,
           centerTitle: true,
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back_ios, color: black),
-            onPressed: () => Get.back,
-          ),
+          // leading: IconButton(
+          //   icon: Icon(Icons.arrow_back_ios, color: black),
+          //   onPressed: () => Get.back,
+          // ),
           title: Padding(
             padding: EdgeInsets.only(top: 1),
             child: Text(
@@ -77,6 +77,7 @@ class CommentPageState extends State<CommentsPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Expanded(
+              flex: 2,
               child: Container(
                 height: MediaQuery.of(context).size.height - 100,
                 decoration: BoxDecoration(
@@ -141,6 +142,7 @@ class CommentPageState extends State<CommentsPage> {
                         onPressed: () {
                           addComments();
                           setState(() {
+                            addComments();
                           });
                         },
                         icon: Icon(Icons.send_outlined)),
@@ -185,6 +187,10 @@ class CommentPageState extends State<CommentsPage> {
                 onPressed: () {
                   addComments();
                   setState(() {
+                    // Navigator.push(context,
+                    //              MaterialPageRoute(builder: (context) =>
+                    //                 ProductDetails(),
+                    //              ));
                   });
                 },
                 // onPressed:(){ addComments();},
