@@ -4,17 +4,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:like_button/like_button.dart';
 import 'package:my_product/color/my_colors.dart';
-import 'package:my_product/components/cart_screen.dart';
-import 'dart:io';
 import 'dart:ui';
-import 'package:my_product/modules/product.dart';
-import 'package:provider/provider.dart';
 import 'package:get/get.dart';
-
 import 'Comment_page.dart';
 import 'Comment_screen.dart';
+import 'package:my_product/pages/Comment_page.dart';
 
 class ProductDetails extends StatefulWidget {
   final DocumentSnapshot<Map<String, dynamic>> selectedProduct;
@@ -31,7 +26,8 @@ class _ProductDetailsState extends State<ProductDetails> {
   bool isFav;
   bool isInCart;
   QuerySnapshot<Map<String, dynamic>> productInfo;
-  String familyId ;
+  String familyId;
+
   String productId;
   String image;
 
@@ -93,7 +89,8 @@ class _ProductDetailsState extends State<ProductDetails> {
           padding: EdgeInsets.only(top: 1),
           child: productInfo != null
               ? Text(
-            "${productInfo.docs[0].data()['product name'].toString()}'s details",
+            "${productInfo.docs[0].data()['product name']
+                .toString()}'s details",
             style: TextStyle(
               color: black,
               fontWeight: FontWeight.bold,
@@ -114,19 +111,26 @@ class _ProductDetailsState extends State<ProductDetails> {
           : Container(
           color: basicColor,
           child: Container(
-              height: MediaQuery.of(context).size.height - 100,
+              height: MediaQuery
+                  .of(context)
+                  .size
+                  .height - 100,
               decoration: BoxDecoration(
                   color: white,
                   borderRadius: BorderRadius.only(
                     topRight: Radius.circular(120),
                   )),
               child: ListView(children: [
-                buildContainer(productInfo.docs[0].data()['image product'], productInfo.docs[0].data()['product id'], context),
+                buildContainer(productInfo.docs[0].data()['image product'],
+                    productInfo.docs[0].data()['product id'], context),
                 SizedBox(
                   height: 5,
                 ),
-                buildCard(productInfo.docs[0].data()['product name'], productInfo.docs[0].data()['category name'], productInfo.docs[0].data()['family name'],
-                    productInfo.docs[0].data()['product description'], productInfo.docs[0].data()['price']),
+                buildCard(productInfo.docs[0].data()['product name'],
+                    productInfo.docs[0].data()['category name'],
+                    productInfo.docs[0].data()['family name'],
+                    productInfo.docs[0].data()['product description'],
+                    productInfo.docs[0].data()['price']),
                 SizedBox(
                   height: 50,
                 ),
@@ -141,7 +145,8 @@ class _ProductDetailsState extends State<ProductDetails> {
                               .collection('favorites')
                               .doc(firebaseUser.uid)
                               .collection('favorites_products_user')
-                              .where('product id', isEqualTo: widget.selectedProduct.id)
+                              .where('product id', isEqualTo: widget
+                              .selectedProduct.id)
                               .get()
                               .then((favDoc) {
                             if (favDoc.docs.isNotEmpty) {
@@ -150,7 +155,9 @@ class _ProductDetailsState extends State<ProductDetails> {
                               });
                             } else {
                               setState(() {
-                                isFav = false;});}
+                                isFav = false;
+                              });
+                            }
                           }),
                           builder: (context, snapshot) {
                             if (snapshot.data == null) {
@@ -185,7 +192,8 @@ class _ProductDetailsState extends State<ProductDetails> {
                           : IconButton(
                           onPressed: () {
                             AwesomeDialog(
-                                body: Text("login for adding to favorite feature!"),
+                                body: Text(
+                                    "login for adding to favorite feature!"),
                                 context: context,
                                 btnCancel: IconButton(
                                   icon: Icon(Icons.cancel),
@@ -207,23 +215,25 @@ class _ProductDetailsState extends State<ProductDetails> {
 
                       firebaseUser != null
                           ? FutureBuilder(
-                          future: FirebaseFirestore.instance.collection('cart').doc(firebaseUser.uid)
+                          future: FirebaseFirestore.instance.collection('cart')
+                              .doc(firebaseUser.uid)
                               .collection('cart_products_user').
-                          where('product id', isEqualTo: widget.selectedProduct.id).get().then((cartDoc){
-                            if(cartDoc.docs.isNotEmpty){
+                          where('product id', isEqualTo: widget.selectedProduct
+                              .id).get()
+                              .then((cartDoc) {
+                            if (cartDoc.docs.isNotEmpty) {
                               setState(() {
                                 isInCart = true;
                               });
-                            }else{
+                            } else {
                               setState(() {
-                                isInCart = false ;
+                                isInCart = false;
                               });
                             }
-
                           }),
-                          builder: (context,snapshot){
-                            if(!snapshot.hasData){
-                              if(isInCart== true){
+                          builder: (context, snapshot) {
+                            if (!snapshot.hasData) {
+                              if (isInCart == true) {
                                 return IconButton(
                                   onPressed: () {
                                     removeProductFromCart();
@@ -234,7 +244,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                     size: 35,
                                   ),
                                 );
-                              }else{
+                              } else {
                                 return IconButton(
                                   onPressed: () {
                                     addProductToCart();
@@ -246,15 +256,15 @@ class _ProductDetailsState extends State<ProductDetails> {
                                   ),
                                 );
                               }
-                            }else{
+                            } else {
                               return Text("no connection");
                             }
-
                           })
                           : IconButton(
                           onPressed: () {
                             AwesomeDialog(
-                                body: Text("login for adding to Cart feature  !"),
+                                body: Text(
+                                    "login for adding to Cart feature  !"),
                                 context: context,
                                 btnCancel: IconButton(
                                   icon: Icon(Icons.cancel),
@@ -275,14 +285,18 @@ class _ProductDetailsState extends State<ProductDetails> {
                           )),
                       firebaseUser != null ? Container(
                           child: IconButton(
-                            icon: Icon(Icons.comment,color: grey,) ,
-                            onPressed: (){
-                              setState(() {
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=>
-                                    CommentsPage(productId:widget.selectedProduct.id,)));
-                              });
-                            },
-                          )):SizedBox(width: 0,),
+                            icon: Icon(Icons.comment, color: grey,),
+                            onPressed: ()=>  bottomSheet(context),
+                            //   setState(() {
+                            //     Navigator.push(context,
+                            //         MaterialPageRoute(builder: (context) =>
+                            //             CommentsPage(
+                            //                 productId: widget.selectedProduct
+                            //                     .id),
+                            //         ));
+                            //   });
+                            // },
+                          )) : SizedBox(width: 0,),
                     ],
                   ),
                 ),
@@ -307,24 +321,29 @@ class _ProductDetailsState extends State<ProductDetails> {
   }
 
   Future removeProductFromFavorite() async {
-    CollectionReference favoriteRef = await FirebaseFirestore.instance.collection('favorites');
+    CollectionReference favoriteRef = await FirebaseFirestore.instance
+        .collection('favorites');
 
     try {
-      favoriteRef.doc(firebaseUser.uid).collection('favorites_products_user').doc(productId).delete().then((value) {
+      favoriteRef.doc(firebaseUser.uid).collection('favorites_products_user')
+          .doc(productId).delete()
+          .then((value) {
         print(' product to favorite deleted');
-        Fluttertoast.showToast(msg: 'product deleted from favorite list', backgroundColor: Colors.red);
+        Fluttertoast.showToast(msg: 'product deleted from favorite list',
+            backgroundColor: Colors.red);
       });
-
     } catch (e) {
       print("error when deleting product to favorites: $e");
     }
   }
 
   Future addProductToFavorite() async {
-    CollectionReference favoriteRef = await FirebaseFirestore.instance.collection('favorites');
+    CollectionReference favoriteRef = await FirebaseFirestore.instance
+        .collection('favorites');
 
     try {
-      favoriteRef.doc(firebaseUser.uid).collection('favorites_products_user').doc(productId).set({
+      favoriteRef.doc(firebaseUser.uid).collection('favorites_products_user')
+          .doc(productId).set({
         'uid': firebaseUser.uid,
         'product name': productInfo.docs[0].data()['product name'],
         'price': productInfo.docs[0].data()['price'],
@@ -334,46 +353,53 @@ class _ProductDetailsState extends State<ProductDetails> {
         //جبتلك الاي دي حق الاسرة عشان تلعبي فيه زي ما تحبيه
         'family id': familyId,
         'product id': productId,
-      }).then((value) {
+      })
+          .then((value) {
         print(' product to favorite added');
-        Fluttertoast.showToast(msg: 'product added to favorite list', backgroundColor: Colors.blue);
+        Fluttertoast.showToast(msg: 'product added to favorite list',
+            backgroundColor: Colors.blue);
       });
-
     } catch (e) {
       print("error when adding product to favorites: $e");
     }
   }
+
   Future addProductToCart() async {
-    CollectionReference cartRef = await FirebaseFirestore.instance.collection('cart');
+    CollectionReference cartRef = await FirebaseFirestore.instance.collection(
+        'cart');
 
     try {
-      cartRef.doc(firebaseUser.uid).collection('cart_products_user').doc(productId).set({
+      cartRef.doc(firebaseUser.uid).collection('cart_products_user').doc(
+          productId).set({
         'uid': firebaseUser.uid,
         'product name': productInfo.docs[0].data()['product name'],
         'price': productInfo.docs[0].data()['price'],
         'description': productInfo.docs[0].data()['product description'],
         'categoryName': productInfo.docs[0].data()['category name'],
         'image': productInfo.docs[0].data()['image product'],
-        'family id':familyId,
+        'family id': familyId,
         'product id': productId,
       }).then((value) {
         print(' product to cart added');
-        Fluttertoast.showToast(msg: 'product added to cart ', backgroundColor: Colors.blue);
+        Fluttertoast.showToast(
+            msg: 'product added to cart ', backgroundColor: Colors.blue);
       });
-
     } catch (e) {
       print("error when adding product to favorites: $e");
     }
   }
+
   Future removeProductFromCart() async {
-    CollectionReference cartRef = await FirebaseFirestore.instance.collection('cart');
+    CollectionReference cartRef = await FirebaseFirestore.instance.collection(
+        'cart');
 
     try {
-      cartRef.doc(firebaseUser.uid).collection('cart_products_user').doc(productId).delete().then((value) {
+      cartRef.doc(firebaseUser.uid).collection('cart_products_user').doc(
+          productId).delete().then((value) {
         print(' product from cart deleted');
-        Fluttertoast.showToast(msg: 'product deleted from cart !', backgroundColor: Colors.red);
+        Fluttertoast.showToast(
+            msg: 'product deleted from cart !', backgroundColor: Colors.red);
       });
-
     } catch (e) {
       print("error when deleting product to favorites: $e");
     }
@@ -389,8 +415,14 @@ class _ProductDetailsState extends State<ProductDetails> {
               child: Image.network(
                 image,
                 fit: BoxFit.contain,
-                height: MediaQuery.of(context).size.height - 600,
-                width: MediaQuery.of(context).size.width - 200,
+                height: MediaQuery
+                    .of(context)
+                    .size
+                    .height - 600,
+                width: MediaQuery
+                    .of(context)
+                    .size
+                    .width - 200,
               ),
             ),
           ),
@@ -404,7 +436,8 @@ class _ProductDetailsState extends State<ProductDetails> {
     }
   }
 
-  Card buildCard(String title, String category, String familyName, String desc, num price) {
+  Card buildCard(String title, String category, String familyName, String desc,
+      num price) {
     if (productInfo != null) {
       return Card(
         //color: basicColor,
@@ -417,14 +450,16 @@ class _ProductDetailsState extends State<ProductDetails> {
             children: <Widget>[
               Text(
                 "product:  $title",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: black),
+                style: TextStyle(
+                    fontSize: 20, fontWeight: FontWeight.bold, color: black),
               ),
               Divider(
                 color: black,
               ),
               Text(
                 "desciption: $desc",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: black),
+                style: TextStyle(
+                    fontSize: 20, fontWeight: FontWeight.bold, color: black),
                 textAlign: TextAlign.justify,
               ),
               Divider(
@@ -432,21 +467,24 @@ class _ProductDetailsState extends State<ProductDetails> {
               ),
               Text(
                 " price: $price SR",
-                style: TextStyle(fontSize: 20, color: black, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                    fontSize: 20, color: black, fontWeight: FontWeight.bold),
               ),
               Divider(
                 color: black,
               ),
               Text(
                 "family owner: $familyName",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: black),
+                style: TextStyle(
+                    fontSize: 20, fontWeight: FontWeight.bold, color: black),
               ),
               Divider(
                 color: black,
               ),
               Text(
                 "category: $category",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: black),
+                style: TextStyle(
+                    fontSize: 20, fontWeight: FontWeight.bold, color: black),
               ),
               Divider(
                 color: black,
@@ -455,11 +493,15 @@ class _ProductDetailsState extends State<ProductDetails> {
           ),
         ),
       );
-    } else {
-      return Card(
-          child: SizedBox(
-            height: 1,
-          ));
     }
+  }
+  void bottomSheet(BuildContext cont) {
+    showModalBottomSheet(
+        context: cont,
+        builder: (_) {
+          return  CommentsPage(
+              productId: widget.selectedProduct
+                  .id);
+        });
   }
 }

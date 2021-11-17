@@ -10,25 +10,26 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:my_product/color/my_colors.dart';
-import 'package:my_product/pages/cart_details.dart';
 import 'package:my_product/pages/product_details.dart';
 
-class CartScreen extends StatefulWidget {
+class cartDetails extends StatefulWidget {
   @override
-  State<CartScreen> createState() => _CartScreenState();
+  State<cartDetails> createState() => _cartDetails();
   var productId;
 }
 
-class _CartScreenState extends State<CartScreen> {
+class _cartDetails extends State<cartDetails> {
 
   var firebaseUser = FirebaseAuth.instance.currentUser;
 
   QuerySnapshot<Map<String, dynamic>> cartList;
+
   var docData;
   var description;
   var username; // for display to user
   var useremail;
   var productId;
+  double price;
   double totalPrice = 0.0;
 
   getCart() async {
@@ -56,14 +57,24 @@ class _CartScreenState extends State<CartScreen> {
         if (specifiedDoc != null && specifiedDoc.docs.isEmpty == false) {
           setState(() {
             cartList = specifiedDoc;
-            for (int i = 0; i < cartList.docs.length; i++) {
-              productId = cartList.docs[i].data()['product id'];
-              double price = cartList.docs[i].data()['price'];
+            var list = [];
+             for (int i = 0; i < cartList.docs.length; i++) {
+               var item;
+               list.add(Container(
+                   child: FittedBox(
+                     fit: BoxFit.fitWidth,
+                     child: Text(
+                       item[i],
+                     ),
+                   )));
 
-              totalPrice= (totalPrice + price);
-              totalPrice.toString();
-              return totalPrice;
+            //   productId = cartList.docs[i].data()['product id'];
+            //   price = cartList.docs[i].data()['price'];
+            //
+            //   totalPrice.toString();
+            //   print(totalPrice) ;
             }
+             return list;
           });
         } else {
           print('No product Found');
@@ -79,11 +90,29 @@ class _CartScreenState extends State<CartScreen> {
   Widget build(BuildContext context) {
     if (cartList != null) {
       return Scaffold(
-
         backgroundColor: white,
+        appBar: AppBar(
+          iconTheme: IconThemeData(color: black),
+          toolbarHeight: 70,
+          centerTitle: true,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back_ios, color: black),
+            onPressed: () => Get.back,
+          ),
+          title: Padding(
+            padding: EdgeInsets.only(top: 1),
+            child: Text(
+              "cart",
+              style: TextStyle(color: black, fontSize: 25),
+            ),
+          ),
+          backgroundColor: basicColor,
+        ),
         body: new Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            SizedBox(height: 100,),
             Expanded(
               child: Container(
                 height: MediaQuery.of(context).size.height - 100,
@@ -94,41 +123,18 @@ class _CartScreenState extends State<CartScreen> {
                     )),
                 child: ListView.separated(
                     itemBuilder: (context, i) {
-                      return InkWell(
-                        onTap: () {
-                          Get.to(() =>
-                              ProductDetails(
-                                selectedProduct: cartList.docs[i],));
-                        },
+                      return Container(
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
                             Container(
                               child: Row(
                                   children: <Widget>[
-                                    Hero(
-                                        tag: cartList.docs[i].id,
-                                        child:
-                                        cartList.docs[i].data()['image']
-                                            .toString() != null ?
-                                        Image.network(
-                                          cartList.docs[i].data()['image']
-                                              .toString(),
-                                          fit: BoxFit.cover,
-                                          height: 75,
-                                          width: 75,
-                                        ) :
-                                        Image.network(
-                                          "https://thumbs.dreamstime.com/b/product-icon-collection-trendy-modern-flat-linear-vector-white-background-thin-line-outline-illustration-130947207.jpg",
-                                          fit: BoxFit.cover,
-                                          height: 70,
-                                          width: 70,
-                                        )),
 
                                     SizedBox(width: 10,),
                                     Column(
                                       mainAxisAlignment: MainAxisAlignment
-                                          .center,
+                                          .start,
                                       crossAxisAlignment: CrossAxisAlignment
                                           .start,
                                       children: <Widget>[
@@ -141,18 +147,6 @@ class _CartScreenState extends State<CartScreen> {
                                             fontWeight: FontWeight.bold),),
                                         SizedBox(height: 5,),
 
-                                        Container(
-                                            width: 200,
-                                            child:
-                                            Text(cartList.docs[i]
-                                                .data()['description']
-                                                .toString() ?? "none",
-                                              softWrap: true,
-                                              overflow: TextOverflow.fade,
-                                              style: TextStyle(fontSize: 18,
-                                                  fontWeight: FontWeight.normal,
-                                                  color: black),)
-                                        ),
                                         Text("${cartList.docs[i].data()['price']
                                             .toString()} SR" ?? "none",
                                           softWrap: true,
@@ -168,12 +162,15 @@ class _CartScreenState extends State<CartScreen> {
                                     ),
 
                                     SizedBox(width: 10,),
+
                                     Column(  mainAxisAlignment: MainAxisAlignment
                                         .center,
                                         crossAxisAlignment: CrossAxisAlignment
                                             .start,
                                         children: <Widget>[
-                                        ] ),
+
+                                          ],
+                                      ),
                                   ] ),
                             ),
                           ],
@@ -184,7 +181,7 @@ class _CartScreenState extends State<CartScreen> {
                       padding: const EdgeInsets.all(12.0),
                       child: Container(
                         height: 3,
-                        color: basicColor,
+                        color: grey,
                       ),
                     ),
                     itemCount: cartList.docs.length),
@@ -196,22 +193,8 @@ class _CartScreenState extends State<CartScreen> {
                 padding: const EdgeInsets.all(30),
                 child: ListView(
                   children: [
-                    MaterialButton(
-                      color: basicColor,
-
-                      onPressed: (){
-                        Navigator.push(context,
-                                     MaterialPageRoute(builder: (context) =>
-                            cartDetails(),
-                                     ));
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text("Go to the payment stage"),
-                          Icon(Icons.label),
-                        ],),),
-
+                    Text("your total pricr is $totalPrice ",
+                    style: TextStyle(color: black , fontSize: 30, fontWeight: FontWeight.bold),),
                   ],
                 ),
               ),
