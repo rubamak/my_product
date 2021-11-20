@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
@@ -9,6 +10,7 @@ import 'package:my_product/pages/products_screen.dart';
 import 'package:toast/toast.dart';
 
 class Search extends StatefulWidget {
+
   const Search({Key key}) : super(key: key);
 
   @override
@@ -19,18 +21,6 @@ class _SearchState extends State<Search> {
   TextEditingController searchTextController = TextEditingController();
   QuerySnapshot<Map<String, dynamic>> searchSnapshot;
 
-
-
-  // @override
-  // void initState() {
-  //   if (firebaseUser != null && firebaseUser.uid != null) {
-  //     getUserData();
-  //     //fetchSpecifiedFamilyStore();
-  //     print("yseeeeee");
-  //   } else {
-  //     //fetchSpecifiedFamilyStore();
-  //   }
-  // }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -97,6 +87,7 @@ class _SearchState extends State<Search> {
                     ),
                     title: TextField(
                       controller: searchTextController,
+
                       decoration:  InputDecoration(
                         hintText: "searching...",
                         hintStyle: TextStyle(
@@ -156,7 +147,6 @@ class _SearchState extends State<Search> {
           return InkWell(
             onTap: (){
               Get.to(()=> ProductsScreen(selectedFamilyStore: searchSnapshot.docs[i],));
-
             },
             child: SearchTile(
               searchStoreValue: searchSnapshot.docs[i].data()['family store name'].toString(),
@@ -166,7 +156,6 @@ class _SearchState extends State<Search> {
 
             ),
           );
-
         });
   }
 
@@ -174,9 +163,8 @@ class _SearchState extends State<Search> {
 searchToGetStoresNames(String storeName)async{
   return await FirebaseFirestore.instance.collection('familiesStores')
       .where('family store name',isEqualTo:storeName)
+      //.where('uid',isNotEqualTo:FirebaseAuth.instance.currentUser.uid)
       .get();
-
-
 }
 
 
@@ -235,25 +223,8 @@ class SearchTile extends StatelessWidget {
                   ],),
               ),
               Spacer(),
-              // Flexible(
-              //   flex: 2,
-              //   child: Container(
-              //     height: 40
-              //     ,
-              //     decoration: BoxDecoration(
-              //       color: basicColor ,
-              //       borderRadius: BorderRadius.circular(20),
-              //
-              //     ),
-              //     padding: EdgeInsets.symmetric(horizontal: 10,vertical: 5),
-              //     child: GestureDetector(
-              //       onTap: (){},
-              //       child: Text(
-              //         "message",style: TextStyle(color: black),
-              //       ),
-              //     ),
-              //   ),
-              // ),
+
+
             ],),
           ]
       ),

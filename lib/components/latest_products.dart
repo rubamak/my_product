@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_product/color/my_colors.dart';
 import 'package:my_product/pages/product_details.dart';
-import 'package:my_product/pages/product_details_latest_products.dart';
 import 'package:get/get.dart';
 
 
@@ -160,7 +159,8 @@ super.initState();
           itemBuilder: (BuildContext context, int i) {
             return Padding(
               padding: const EdgeInsets.all(8.0),
-              child:productsList.docs.isEmpty ? CircularProgressIndicator(): Single_prod(
+              child:productsList.docs.isEmpty ? CircularProgressIndicator():
+              Single_prod(
                 id: productsList.docs[i].data()['product id'],
                 product_name:productsList.docs[i].data()['product name'],
                 product_picture: productsList.docs[i].data()['image product'],
@@ -213,21 +213,6 @@ class Single_prod extends StatelessWidget {
                   selectedPro));
 
                 },
-                //     Navigator.of(context).push(
-                //     MaterialPageRoute(
-                //     builder: (context) => ProductDetailsLatestProducts(
-                //       // the property of the constructor,
-                //       // we are passing the values from
-                //       // products to products_details
-                //       product_detail_name: product_name ,
-                //
-                //       product_detail_owner: product_owner,
-                //       product_detail_picture: product_picture,
-                //       product_detail_price: product_price,
-                //
-                //     ),
-                // ),
-                // ),//push
 
                 child: GridTile(
                   footer: Container(

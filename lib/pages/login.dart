@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:my_product/color/my_colors.dart';
+import 'package:my_product/helper/shared_pref.dart';
 import 'package:my_product/pages/Registration_page.dart';
 import 'package:my_product/pages/home_page.dart';
 import 'package:get/get.dart';
@@ -28,14 +29,7 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  saveSharedPreferences()async{
-    SharedPreferences sharedpref = await SharedPreferences.getInstance();
-    sharedpref.setString('email',_email);
-    // sharedpref.setString(,);
-    print(" shared saved");
 
-
-  }
   void initState(){
     var userCred = FirebaseAuth.instance.currentUser;
     print(userCred);
@@ -66,18 +60,28 @@ class _LoginState extends State<Login> {
       _formKey.currentState.save();
       print(" valid login ");
       // print
+   //   SharedPref.saveUserEmailShared(_email);
+
       try {
+
         setState(() {
           widget.isLoading = true ;
         });
 
+
         UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: _email.trim(), // عشان يشيل الفراغات
           password: _password.trim(),// عشان يشيل الفراغات
-        );
+              );
+            //.then((value) {
 
+          //SharedPref.saveUserLoggedInShared(true);
+         // Get.off(()=> HomePage());
+
+        //});
         // تعجيييييللل هنا تعديل return userCredential;
-          return userCredential;
+        return userCredential;
+
       } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found') {
           AwesomeDialog(
@@ -96,7 +100,9 @@ class _LoginState extends State<Login> {
               showCloseIcon: true,
               body: Text("wrong password",style: TextStyle(color: black),))..show();
         }
-        widget.isLoading = false ;
+        setState(() {
+          widget.isLoading = false ;
+        });
       }
 
     }
@@ -110,6 +116,7 @@ class _LoginState extends State<Login> {
   var _email;
   var _password;
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
 
   @override
   Widget build(BuildContext context) {
@@ -279,9 +286,9 @@ class _LoginState extends State<Login> {
                               var  userCred = await _loginUser();
                               if(userCred != null){
                                 //Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> HomePage()));
-
                                 Get.off(()=> HomePage());
-                                saveSharedPreferences();
+                               // SharedPref.saveUserEmailShared(_email);
+                                SharedPref.saveSharedPreferences(_email);
                                 Fluttertoast.showToast(msg: 'you signed in ');
                               }
                             },

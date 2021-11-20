@@ -2,6 +2,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:like_button/like_button.dart';
 import 'package:my_product/color/my_colors.dart';
 import 'package:my_product/dummy_data.dart';
@@ -16,9 +17,12 @@ import 'families_screen.dart';
 class ProductsScreen extends StatefulWidget {
   static const routeName = '/theProducts-screen';
   final DocumentSnapshot<Map<String, dynamic>> selectedFamilyStore;
+  final String familyDescription;
   //final String imageStore;
 
-  ProductsScreen({this.selectedFamilyStore
+  ProductsScreen({
+    this.selectedFamilyStore,
+    this.familyDescription
     //,this.imageStore
   });
 
@@ -171,10 +175,15 @@ class _ProductsScreenState extends State<ProductsScreen> {
         useremail: useremail,
       ),
       backgroundColor: basicColor,
-      body: ListView(children: <Widget>[
+      body: ListView(
+
+          children: <Widget>[
         SizedBox(
           height: 20,
-        ), //between them
+        ),
+            // Padding(
+            //     padding: EdgeInsets.symmetric(horizontal: 35),
+            //     child: Text(widget.familyDescription)),//between them
         productFlowList(context),
       ]),
     );
@@ -198,8 +207,12 @@ class _ProductsScreenState extends State<ProductsScreen> {
           padding: EdgeInsets.only(left: 25, right: 25),
           children: <Widget>[
             SizedBox(
-              height: 50,
+              height: 30,
             ),
+            Padding(
+                padding: EdgeInsets.symmetric(horizontal: 40),
+                child: Text("Store abstract:  ${widget.familyDescription}",textAlign: TextAlign.center,style:
+                TextStyle(color: black,fontSize: 30,fontStyle: FontStyle.italic,fontWeight: FontWeight.w700))),
             Padding(
                 padding: EdgeInsets.only(top: 45),
                 child: Container(

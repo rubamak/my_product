@@ -4,7 +4,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:my_product/pages/chat/message_bubble.dart';
+
+import 'conversation_screen.dart';
 
 class Messages extends StatelessWidget {
  // const Messages({Key key}) : super(key: key);
@@ -39,7 +40,6 @@ class Messages extends StatelessWidget {
             final docs = snapshot.data.docs;
             return ListView.builder(
               reverse: true,
-
                 itemCount: docs.length,
                 itemBuilder: (ctx, i) {
                   return

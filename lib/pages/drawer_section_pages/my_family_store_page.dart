@@ -107,7 +107,7 @@ class _MyFamilyStorePageState extends State<MyFamilyStorePage> {
                 ),
 
                 child:familyStoreInfo== null?
-                Center(child: CircularProgressIndicator(),)
+                Center(child: Text(" you don't have a store"),)
                     : ListView(
                   physics: NeverScrollableScrollPhysics(parent: BouncingScrollPhysics()),
 

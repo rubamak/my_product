@@ -9,7 +9,7 @@ import 'package:my_product/color/my_colors.dart';
 import 'package:my_product/pages/category_screen.dart';
 import 'package:my_product/pages/drawer_section_pages/profile_screen.dart';
 import 'package:my_product/pages/drawer_section_pages/settings_page.dart';
-import 'package:my_product/pages/chat/my_chats.dart';
+import 'package:my_product/pages/chat/chat_rooms_screen.dart';
 import 'package:my_product/pages/chat/single_chat_screen.dart';
 import 'package:my_product/pages/drawer_section_pages/favorite_screen.dart';
 import 'package:my_product/pages/drawer_section_pages/helping_section.dart';
@@ -184,17 +184,7 @@ var userEmail ;
           checkLogin() ? buildListTile("My Profile", Icons.person_outline_sharp,(){
             Get.to(()=> ProfileScreen());
           }): SizedBox(height: 0,),
-          // buildListTile('Categories', Icons.dashboard_outlined,(){
-          //   //Navigator.pushNamed(context, TapsScreen.routeName);
-          //   Get.toNamed(CategoryScreen.routeName);
-          //   }),
-          // checkLogin() ? buildListTile("Favorites", Icons.favorite_rounded, () {
-          //   Get.toNamed(FavoriteScreen.routeName);
-          // }): SizedBox(height: 0,),
-          buildListTile('Categories', Icons.dashboard_outlined,(){
-            //Navigator.pushNamed(context, TapsScreen.routeName);
-            Get.toNamed(CategoryScreen.routeName);
-          }),
+          buildListTile('Categories', Icons.dashboard_outlined,(){Get.toNamed(CategoryScreen.routeName);}),
 
 
           checkLogin() ? buildListTile(' My Cart & Favorites', Icons.favorite_outline,(){
@@ -204,7 +194,10 @@ var userEmail ;
           // checkLogin() ? buildListTile('Cart', Icons.shopping_cart_outlined,(){
           //   Get.off(()=> CartScreen()); }): SizedBox(height: 0,),
           checkLogin() ? buildListTile('My Chats', Icons.chat_outlined,(){
-            Get.off(()=> MyChats()); }): SizedBox(height: 0,),
+            Get.off(()=>
+                //ChatListPage()
+                ChatRoomsScreen()
+            ); }): SizedBox(height: 0,),
            Divider(color: Colors.black54),//0xffFFBCBC الللون القديم لو تبيه ياربا
           //هنا مفروض اضيف الفايل او اللسته من الصفحه الجديده اللي ضفتها add_new_family
 

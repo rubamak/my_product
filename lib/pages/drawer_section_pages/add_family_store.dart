@@ -214,7 +214,7 @@ class _AddFamilyStoreState extends State<AddFamilyStore> {
           'uid': firebaseUser.uid,
           'family id': familyId,
           'category name': categoryName,
-          'family store name': familyStoreNameController.text,
+          'family store name': familyStoreNameController.text.trim(),
           'category id': categoryChooseId,
           'store description': descriptionController.text,
           'image family store': imageUrl,

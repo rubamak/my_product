@@ -8,16 +8,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:my_product/color/my_colors.dart';
 import 'package:my_product/dummy_data.dart';
+import 'package:my_product/pages/chat/conversation_screen.dart';
 import 'package:my_product/pages/products_screen.dart';
 import 'package:my_product/pages/taps_screen.dart';
 import 'package:my_product/widgets/main_drawer.dart';
 import 'dart:io';
 import 'package:get/get.dart';
 
+import 'chat/database_methods.dart';
 import 'chat/single_chat_screen.dart';
 
 class FamiliesScreen extends StatefulWidget {
   static const routeName = '/families_categories';
+
   @override
   State<FamiliesScreen> createState() => _FamiliesScreenState();
   final DocumentSnapshot<Map<String, dynamic>> selectedCategory;
@@ -39,34 +42,48 @@ class FamiliesScreen extends StatefulWidget {
 }
 
 class _FamiliesScreenState extends State<FamiliesScreen> {
-  // void selectFamily(BuildContext context){
-  //   // Navigator.of(context).pushNamed(
-  //   //     ProductsScreen.routeName,
-  //   //     arguments: {
-  //   //       'id': widget.familyStoreId,
-  //   //       'name': widget.familyName,
-  //
-  //
-  // }
-
-  void chatWithFamily ( String familyId, String nameFamily){
-    Get.to(()=> (
-        SingleChatScreen( familyId,nameFamily)));
-    // Navigator.of(context).pushNamed(
-    //     SingleChatScreen()
-    //     arguments: {
-    //       'id': id,
-    //       'name': nameFamily,
-    //     }
-    //
-    // );
-  }
   User firebaseUser = FirebaseAuth.instance.currentUser;
-
   QuerySnapshot<Map<String, dynamic>> familiesStoresList;
   DocumentSnapshot<Map<String, dynamic>> docData; // for printing
   var username; // for display to user
   var useremail;
+  DatabaseMethods databaseMethods = DatabaseMethods();
+
+  createChatRoomAndStartConversation(String receiverUserId, String familyName, String uid, String myName) {
+    String chatRoomId = getChatRoomId(receiverUserId, uid);
+    //List<String> chatters = [receiverUserId, uid];
+   // List<String > chattersNames  =[familyName,myName];
+    Map<String, dynamic> chatRoomMap = {
+     // "chatter": chatters,
+      "chatRoomId": chatRoomId,
+     // "chatterName": chattersNames,
+      "recevierName": familyName,
+      "recevierId": receiverUserId,
+      "senderName": myName,
+      "senderId":uid,
+    };
+    databaseMethods.createChatRoom(chatRoomId, chatRoomMap);
+    Get.to(() => ConversationScreen(
+      recevierId: receiverUserId,
+      recevierName: familyName.toString(),
+      chatRoomId: chatRoomId,
+
+    ));
+  }
+// to generate the doc id to be contain  two ids for sender and recevier
+  getChatRoomId(String receiver, String sender) {
+    if (receiver.substring(0, 1).codeUnitAt(0) > sender.substring(0, 1).codeUnitAt(0)) {
+      return "$sender\_$receiver";
+    } else {
+      return "$receiver\_$sender";
+    }
+  }
+
+  void chatWithFamily ( String userFamilyId, String nameFamily){
+    createChatRoomAndStartConversation(userFamilyId, nameFamily,firebaseUser.uid,username);
+
+  }
+
 
   getUserData(String uid) async {
     //اجيب بيانات دوكيمنت واحد فقط
@@ -219,9 +236,8 @@ class _FamiliesScreenState extends State<FamiliesScreen> {
                       return InkWell(
                         onTap: (){
                           Get.to(()=> ProductsScreen(
-                           // imageStore: familiesStoresList.docs[i].data()['image family store'],
-                            selectedFamilyStore: familiesStoresList.docs[i],));
-                          //ProductsScreen(selectedFamilyStore: ,));
+                            selectedFamilyStore: familiesStoresList.docs[i],
+                            familyDescription: familiesStoresList.docs[i].data()['store description'].toString(),));
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -279,7 +295,7 @@ class _FamiliesScreenState extends State<FamiliesScreen> {
                                     if (snapshot.hasData) {
                                       return IconButton(
                                         onPressed: () =>
-                                            chatWithFamily( familiesStoresList.docs[i].data()['family id'].toString(),
+                                            chatWithFamily( familiesStoresList.docs[i].data()['uid'].toString(),
                                                 familiesStoresList.docs[i].data()['family store name'].toString()
                                             ),
                                         // Navigator.of(context).pushNamed(ChatScreen.routeName);

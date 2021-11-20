@@ -1,3 +1,125 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter/widgets.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:my_product/color/my_colors.dart';
+
+class CommentPage extends StatefulWidget {
+  // const CommentPage({Key key}) : super(key: key);
+  String productId;
+  String productName;
+
+  CommentPage({this.productId,this.productName});
+
+  @override
+  _CommentPageState createState() => _CommentPageState();
+}
+
+class _CommentPageState extends State<CommentPage> {
+  TextEditingController commentsController = TextEditingController();
+
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  User firebaseUser = FirebaseAuth.instance.currentUser;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        iconTheme: IconThemeData(color: black),
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios),
+          onPressed: () {
+            Get.back();
+          },
+          color: black,
+        ),
+        title: Padding(
+          padding: EdgeInsets.only(top: 1),
+          child: Text(
+            "Comments of ${widget.productName} ",
+            style: TextStyle(
+              color: black,
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+            ),
+            softWrap: true,
+          ),
+        ),
+        backgroundColor: basicColor,
+        toolbarHeight: 80,
+      ),
+      backgroundColor: basicColor,
+      body: Column(
+        children: [
+          Expanded(
+            child: Container(
+                height: MediaQuery.of(context).size.height - 140,
+                decoration: BoxDecoration(
+                    color: white,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(100),
+                      //bottomRight: Radius.circular(90),
+                    )),
+            ),
+
+          ),
+
+
+                    //alignment: Alignment.bottomLeft,
+                  Padding(
+                    padding: const EdgeInsets.all(15),
+                    child: TextField(
+                      controller: commentsController,
+                      decoration:  InputDecoration(
+
+                        hintText: "add your comment",
+                        hintStyle: TextStyle(
+                            color: white,
+                            fontWeight: FontWeight.bold),
+
+                      ),
+                    ),
+                  ),
+                  MaterialButton(
+                      child: Icon(Icons.note_add_outlined),
+                      onPressed: (){
+                        addComments();
+                      }),
+                ],
+              ),
+    );
+  }
+  Future addComments() async {
+    FocusScope.of(context).unfocus();
+    var commentRef = await FirebaseFirestore.instance.collection('comments');
+
+      try {
+        commentRef.add({
+          'uid': firebaseUser.uid,
+          'product name': widget.productName,
+          'product id': widget.productId,
+          'Comment': commentsController.text,
+          'addedAt': Timestamp.now(),
+        }).then((value) {
+          print('comment added');
+          Fluttertoast.showToast(
+            msg: 'comment added',
+          );
+          //Get.off(() => commentsScreen());
+          //Navigator.of(context).pop();
+        });
+      } catch (e) {
+        print("error when adding comment: $e");
+
+      }
+    }
+}
 // import 'package:cloud_firestore/cloud_firestore.dart';
 // import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:flutter/cupertino.dart';

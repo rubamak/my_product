@@ -11,7 +11,7 @@ import 'package:my_product/color/my_colors.dart';
 import 'dart:async';
 import 'package:my_product/components/horizontel_listview.dart';
 import 'package:my_product/components/latest_products.dart';
-import 'package:my_product/pages/chat/my_chats.dart';
+import 'package:my_product/pages/chat/chat_rooms_screen.dart';
 import 'package:my_product/pages/search.dart';
 import 'package:my_product/widgets/main_drawer.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -117,6 +117,7 @@ class _HomePageState extends State<HomePage> {
               // Navigator.push(context,
               //     MaterialPageRoute(builder: (context) => CartScreen()));
              Get.to(()=> Search());
+            // await FirebaseAuth.instance.signOut();
             }),
 
         // elevation: 0,
@@ -199,13 +200,13 @@ class _HomePageState extends State<HomePage> {
                 ),
 
                 Padding(
-                    padding: EdgeInsets.all(10.0),
+                    padding: EdgeInsets.all(20.0),
                     child: Text('Press here for Latest Products! ',
                         style: TextStyle(
                             fontSize: 25.0, fontWeight: FontWeight.w800,color: black))),
 
                 Padding(
-                  padding:  EdgeInsets.symmetric(horizontal: 30),
+                  padding:  EdgeInsets.symmetric(horizontal: 30,vertical: 20),
                   child: MaterialButton(
                     color: basicColor,
 
