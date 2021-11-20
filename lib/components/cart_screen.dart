@@ -200,7 +200,7 @@ class _CartScreenState extends State<CartScreen> {
                       onPressed: (){
                         Navigator.push(context,
                                      MaterialPageRoute(builder: (context) =>
-                            cartDetails(),
+                            CartDetails(),
                                      ));
                       },
                       child: Row(

@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,29 +7,46 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:my_product/color/my_colors.dart';
-import 'package:my_product/pages/product_details.dart';
 
-class cartDetails extends StatefulWidget {
+import 'home_page.dart';
+
+
+class CartDetails extends StatefulWidget {
+
   @override
-  State<cartDetails> createState() => _cartDetails();
-  var productId;
+  State<CartDetails> createState() => _CartDetails();
 }
 
-class _cartDetails extends State<cartDetails> {
+class _CartDetails extends State<CartDetails> {
 
   var firebaseUser = FirebaseAuth.instance.currentUser;
+  CollectionReference cartRef = FirebaseFirestore.instance.collection('cart');
 
   QuerySnapshot<Map<String, dynamic>> cartList;
-
-  var docData;
-  var description;
-  var username; // for display to user
-  var useremail;
   var productId;
-  int num =1;
+  double newTotalPrice;
 
 
+  Future cartCompleted ()async{
+    FocusScope.of(context).unfocus();
+    var Userid = firebaseUser = FirebaseAuth.instance.currentUser.uid as User;
+
+    try{
+      final snackBar = SnackBar
+        (duration: Duration(seconds: 2), content: Text(" completed ",
+        style: TextStyle(color: white, fontSize: 15),), backgroundColor: black,);
+      // updateProduct();
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      Get.off(()=> HomePage());
+      cartRef.doc(Userid.uid).delete();
+      setState(() {
+      });
+    }catch(e){
+      print("Error:$e");
+      setState(() {});
+    }}
   getCart() async {
+
     await FirebaseFirestore.instance.collection('cart').
     doc(firebaseUser.uid).collection('cart_products_user')
         .get().then((doc) async {
@@ -49,39 +64,26 @@ class _cartDetails extends State<cartDetails> {
   }
   Future userTotalPrice() async {
     try {
-      await FirebaseFirestore.instance
-          .collection('cart')
-          .get()
-          .then((specifiedDoc) async {
-        if (specifiedDoc != null && specifiedDoc.docs.isEmpty == false) {
-          setState(() {
-            cartList = specifiedDoc;
+      await FirebaseFirestore.instance.collection('cart').
+      doc(firebaseUser.uid).collection('cart_products_user')
+          .get().then((doc) async {
+        if (doc != null && doc.docs.isEmpty == false) {
+            cartList = doc;
             double price;
             double totalPrice = 0.0;
-            if (specifiedDoc != null && specifiedDoc.docs.isEmpty == false) {
-              setState(() {
-                cartList = specifiedDoc;
+            if (doc != null && doc.docs.isEmpty == false) {
+                cartList = doc;
                 for (int i = 0; i < cartList.docs.length; i++) {
                   productId = cartList.docs[i].data()['product id'];
                   price = cartList.docs[i].data()['price'];
-
-                  for (int i = 0; i < cartList.docs.length; i++) {
-                    totalPrice= (totalPrice + price);
-
-                  }
+                  totalPrice= totalPrice+ price;
                   totalPrice.toString();
-                  print(totalPrice) ;
                 }
-              });
-
-            //   productId = cartList.docs[i].data()['product id'];
-            //   price = cartList.docs[i].data()['price'];
-            //
-            //   totalPrice.toString();
-            //   print(totalPrice) ;
             }
-             return totalPrice;
-          });
+            setState(() {
+              newTotalPrice = totalPrice;
+            });
+             print(totalPrice);
         } else {
           print('No product Found');
         }
@@ -101,10 +103,6 @@ class _cartDetails extends State<cartDetails> {
           iconTheme: IconThemeData(color: black),
           toolbarHeight: 70,
           centerTitle: true,
-          // leading: IconButton(
-          //   icon: Icon(Icons.arrow_back_ios, color: black),
-          //   onPressed: () => Get.back,
-          // ),
           title: Padding(
             padding: EdgeInsets.only(top: 1),
             child: Text(
@@ -114,11 +112,10 @@ class _cartDetails extends State<cartDetails> {
           ),
           backgroundColor: basicColor,
         ),
-        body: new Column(
+        body: Column(
 
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 100,),
             Expanded(
               flex: 5,
               child: Container(
@@ -138,7 +135,7 @@ class _cartDetails extends State<cartDetails> {
                               child: Row(
                                   children: <Widget>[
 
-                                    SizedBox(width: 10,),
+                                    SizedBox(width: 100,),
                                     Column(
                                       mainAxisAlignment: MainAxisAlignment
                                           .start,
@@ -200,24 +197,24 @@ class _cartDetails extends State<cartDetails> {
                 padding: const EdgeInsets.all(30),
                 child: ListView(
                   children: [
-                    Text("your totalprics is")
+                    MaterialButton(
+                      color: basicColor,
 
-                  //   FutureBuilder(
-                  //   future: userTotalPrice(),
-                  // builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  //   if (snapshot.hasData) {
-                  //     return userTotalPrice() ;
-                  //   }
-                  // })
+                      onPressed: (){
+                         cartCompleted();
+                        setState(() {
 
-              //         if (num == 1){
-              //           return userTotalPrice();
-              // }
-
+                        });
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text("total price : ${newTotalPrice}RS ,press to complete this"),
+                        ],),),
                   ],
                 ),
+                ),
               ),
-            ),
           ],
         ),
       );
@@ -229,9 +226,6 @@ class _cartDetails extends State<cartDetails> {
             toolbarHeight: 100,
             centerTitle: true,
             elevation: 0,
-            leading: IconButton(
-              icon: Icon(Icons.arrow_back_ios, color: black),
-            ),
             title: Padding(
               padding: EdgeInsets.only(top: 1),
               child: Text(
@@ -243,12 +237,7 @@ class _cartDetails extends State<cartDetails> {
           ),
           body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
             Text("No products in cart"),
-            SizedBox(
-              height: 100,
-            ),
 
-
-            SizedBox(height: 15),
           ]));
     }
   }
