@@ -51,7 +51,7 @@ class _CartScreenState extends State<CartScreen> {
           .get()
           .then((specifiedDoc) async {
         if (specifiedDoc != null && specifiedDoc.docs.isEmpty == false) {
-          setState(() {
+          setState((){
             cartList = specifiedDoc;
             for (int i = 0; i < cartList.docs.length; i++) {
               productId = cartList.docs[i].data()['product id'];
@@ -76,7 +76,7 @@ class _CartScreenState extends State<CartScreen> {
   Widget build(BuildContext context) {
     if (cartList != null) {
       return Scaffold(
-        backgroundColor: white,
+        backgroundColor: Colors.transparent,
         body: new Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -85,7 +85,7 @@ class _CartScreenState extends State<CartScreen> {
               child: Container(
                 height: MediaQuery.of(context).size.height - 100,
                 decoration: BoxDecoration(
-                    color: white,
+                    color: Colors.transparent,
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(120),
                     )),
@@ -220,25 +220,9 @@ class _CartScreenState extends State<CartScreen> {
     } else {
       return Scaffold(
           backgroundColor: white,
-          appBar: AppBar(
-            iconTheme: IconThemeData(color: black),
-            toolbarHeight: 100,
-            centerTitle: true,
-            elevation: 0,
-            leading: IconButton(
-              icon: Icon(Icons.arrow_back_ios, color: black),
-            ),
-            title: Padding(
-              padding: EdgeInsets.only(top: 1),
-              child: Text(
-                "Add products to cart",
-                style: TextStyle(color: black, fontSize: 25),
-              ),
-            ),
-            backgroundColor: basicColor,
-          ),
-          body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Text("No products in cart"),
+
+          body: Column(mainAxisAlignment: MainAxisAlignment.center, children: const [
+            Center(child:Text(("No products in cart"))),
             SizedBox(
               height: 100,
             ),

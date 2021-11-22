@@ -59,56 +59,6 @@ var userEmail ;
 
 
 
-  // var docData;
-  // getData(String uid) async {
-  //   DocumentReference documentReference = FirebaseFirestore.instance
-  //   //اجيب بيانات دوكيمنت واحد فقط
-  //    .collection('users').doc(uid);
-  //   //get will return docs Query snapshot
-  //   await documentReference.get().then((value) {
-  //     //value.data is the full fields for this doc
-  //     if(value.exists) {
-  //       docData = value.data();
-  //       print(docData);
-  //       // print(value.id);
-  //       print('=============');
-  //     }else{ }
-  //   });
-  //   return docData;
-  // }
-  //======================= how to use where
-  /*
-  CollectionReference userRef = FirebaseFirestore.instance.collection("users);
-  await usersRef.where("the field",isEqualTo: " value " ).get().then((value) {
-  //ممكن كمان where("name", whereIn/whereNotIn: [القيم عبارة عن مصفوفة ]
-  value.docs.forEach((element){
-  });
-  });
-*/
-  //var username;
-  //رح يجيب لستة فيها كل الدكيمونت الموجودة في الكولكيشن
-  // getData2() async {
-  //   //create collection
-  //   CollectionReference usersRef = FirebaseFirestore.instance.collection('users');
-  //   //استعلام كامل لهذا الكولكيشن
-  //   QuerySnapshot querySnapshot = await usersRef.get();
-  //   //all the docs in list
-  //   List <dynamic> listDocs = querySnapshot.docs;
-  //   // for each document get the data for specific field
-  //   listDocs.forEach((element) {
-  //     print(element.data()['email']);
-  //     print(element.data()['username']);
-  //     print("================================");
-  //   });
-  // }
-  //==========================OR===========
-  /* FirebaseFirestore.instance.collection('users').get().then((value) {
-      value.docs.forEach((element) {
-        print(element.data()['first Name']);
-      });
-    });
-  }*/
-
 
   @override
 
@@ -122,11 +72,6 @@ var userEmail ;
           Column(
             children: [
              SizedBox(height: 50),
-             //  Padding(
-             //    padding: const EdgeInsets.all(10.0),
-             //        child: SizedBox(height: 100,child: Image.asset('images/logo.png'),)
-             //  ),
-
                   Stack(
                     children:[
                       UserAccountsDrawerHeader(
@@ -139,18 +84,6 @@ var userEmail ;
                       accountName:
                       checkLogin() ? Text(widget.username,style: TextStyle(color:black)):
                       Text('Guest',style: TextStyle(color:black),),
-                          // FutureBuilder(
-                          //   future: getData(firebaseUser!.uid),
-                          //   builder: (_,AsyncSnapshot snapshot){
-                          //     if(snapshot.connectionState == ConnectionState.waiting){
-                          //       return SizedBox(height: 0,);
-                          //     }
-                          //       return Text(
-                          //           "Account Name: " + snapshot.data['username']);
-                          //
-                          //   },)
-
-
                       accountEmail:
                       checkLogin()?
                       Text(widget.useremail,style: TextStyle(color: black),):Text('Mode',style: TextStyle(color: black),),

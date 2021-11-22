@@ -129,33 +129,6 @@ class _HomePageState extends State<HomePage> {
         ),
         centerTitle: true,
 
-        //actions: <Widget>[
-        //
-        //   Switch(
-        //     value: isSwitched,
-        //     onChanged: (value) {
-        //      setState(() {
-        //        isSwitched = value;
-        //        print(isSwitched);
-        //
-        //        if(isSwitched== true){
-        //          black = Colors.white;
-        //          white = Colors.black;
-        //        }
-        //        if(isSwitched== false) {
-        //          black = Colors.black;
-        //          white =  Colors.white;
-        //        }
-        //
-        //      });
-        //
-        //     },
-        //   activeColor: Colors.white,
-        //   inactiveThumbColor: Colors.black,
-        //   inactiveTrackColor: Colors.black,
-        //
-        //   ),
-        // ],
       ),
 
       endDrawer: MainDrawer(
@@ -166,6 +139,7 @@ class _HomePageState extends State<HomePage> {
       //body of the page
       body: SafeArea(
         child: Container(
+          //color: white,
           height: MediaQuery
               .of(context)
               .size

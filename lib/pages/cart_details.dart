@@ -29,7 +29,6 @@ class _CartDetails extends State<CartDetails> {
 
   Future cartCompleted ()async{
     FocusScope.of(context).unfocus();
-    var Userid = firebaseUser = FirebaseAuth.instance.currentUser.uid as User;
 
     try{
       final snackBar = SnackBar
@@ -38,7 +37,7 @@ class _CartDetails extends State<CartDetails> {
       // updateProduct();
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
       Get.off(()=> HomePage());
-      cartRef.doc(Userid.uid).delete();
+      cartRef.doc(firebaseUser.uid).delete();
       setState(() {
       });
     }catch(e){
@@ -98,7 +97,7 @@ class _CartDetails extends State<CartDetails> {
   Widget build(BuildContext context) {
     if (cartList != null) {
       return Scaffold(
-        backgroundColor: white,
+        backgroundColor: Colors.transparent,
         appBar: AppBar(
           iconTheme: IconThemeData(color: black),
           toolbarHeight: 70,
@@ -159,6 +158,7 @@ class _CartDetails extends State<CartDetails> {
                                               fontWeight: FontWeight.bold,
                                               color: black),)
                                         ,
+
                                       ],
 
 

@@ -10,6 +10,8 @@ import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:my_product/color/my_colors.dart';
 import 'package:my_product/pages/product_details.dart';
 
+import 'home_page.dart';
+
 class CommentsPage extends StatefulWidget {
   @override
   State<CommentsPage> createState() => CommentPageState();
@@ -28,7 +30,7 @@ class CommentPageState extends State<CommentsPage> {
   Future fetchSpecifiedComment() async {
     try {
       await FirebaseFirestore.instance
-          .collection('comments')
+          .collection('comments').orderBy('addedAt',descending: true)
           .where('product id', isEqualTo: widget.productId)
           .get()
           .then((specifiedDoc) async {
@@ -67,7 +69,7 @@ class CommentPageState extends State<CommentsPage> {
           title: Padding(
             padding: EdgeInsets.only(top: 1),
             child: Text(
-              "comments page",
+              "comments",
               style: TextStyle(color: black, fontSize: 25),
             ),
           ),
@@ -203,6 +205,7 @@ class CommentPageState extends State<CommentsPage> {
   Future addComments() async {
     FocusScope.of(context).unfocus();
     var commentRef = await FirebaseFirestore.instance.collection('comments');
+    if (CommentsController.text != ""){
     try {
       commentRef.add({
         'uid': firebaseUser.uid,
@@ -214,11 +217,14 @@ class CommentPageState extends State<CommentsPage> {
         Fluttertoast.showToast(
           msg: 'comment added',
         );
-        Get.off(() => CommentsPage());
+        Get.back();
         //Navigator.of(context).pop();
       });
     } catch (e) {
       print("error when adding comment: $e");
     }
   }
-}
+  else{
+    Fluttertoast.showToast(msg:'add comment please');
+  }
+}}

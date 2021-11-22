@@ -63,36 +63,7 @@ class _FavoriteScreenState extends State<FavoriteScreen>{
   }
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   iconTheme: IconThemeData(color: black),
-      //   elevation: 0,
-      //   leading: IconButton(
-      //     icon: Icon(Icons.arrow_back_ios),
-      //     onPressed: () {
-      //       //Navigator.of(context).pop();
-      //       Get.back();
-      //     },
-      //     color: black,
-      //   ),
-      //   title: Padding(
-      //     padding: EdgeInsets.only(top: 1),
-      //     child: Text(
-      //       "${widget.selectedFavorite.data()['product name'].toString()}'s Products",
-      //       style: TextStyle(
-      //         color: black,
-      //         fontWeight: FontWeight.bold,
-      //         fontSize: 20,
-      //       ),
-      //     ),
-      //   ),
-      //   backgroundColor: basicColor,
-      //   toolbarHeight: 80,
-      // ),
-      // endDrawer: MainDrawer(
-      //   username: username,
-      //   useremail: useremail,
-      // ),
-      //  backgroundColor: basicColor,
+      backgroundColor: Colors.transparent,
       body: //between them
       FavoriteFlowList(context),
     );
@@ -102,7 +73,7 @@ class _FavoriteScreenState extends State<FavoriteScreen>{
       return
         Container(
           height: MediaQuery.of(context).size.height - 200,
-          color: white,
+          color: Colors.transparent,
           child:
           ListView(
             primary: false,
@@ -112,6 +83,7 @@ class _FavoriteScreenState extends State<FavoriteScreen>{
               Padding(
                   padding: EdgeInsets.only(top: 30),
                   child: Container(
+                    color: Colors.transparent,
                     height: MediaQuery.of(context).size.height - 300,
                     child: favoriteList.docs.isEmpty ? Center(
                       child: Text("no elements",style: TextStyle(color: black),),
@@ -134,6 +106,7 @@ class _FavoriteScreenState extends State<FavoriteScreen>{
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: <Widget>[
                               Container(
+                                color: Colors.transparent,
                                 child: Row(
                                   children: <Widget>[
                                     Hero(
