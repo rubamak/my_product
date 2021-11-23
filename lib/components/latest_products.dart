@@ -72,7 +72,7 @@ class _LatestProductsState extends State<LatestProducts> {
     try {
       await FirebaseFirestore.instance.collection('products')
       .orderBy('addedAt',descending: true)
-     // .where('uid', isNotEqualTo: docData.id)
+      //.where('uid', isNotEqualTo: firebaseUser.uid)
           .get().then((specifiedDoc) async {
         if (specifiedDoc != null && specifiedDoc.docs.isEmpty == false) {
           setState(() {

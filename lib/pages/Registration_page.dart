@@ -281,7 +281,6 @@ class _RegistartionState extends State<Registartion> {
                          signUp();
                       },
 
-
                       style: ElevatedButton.styleFrom(
                         padding: EdgeInsets.all(10),
                         primary: Theme.of(context).primaryColor,
@@ -289,35 +288,8 @@ class _RegistartionState extends State<Registartion> {
                           borderRadius: BorderRadius.circular(25), ),),
                     ),
                   ),
-                SizedBox(width: 50,),
-                if(!widget.isLoading)
-                  Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: MaterialButton(
-                      child: Text('Sign with google',style:TextStyle(color:black)),
-                      onPressed: signInWithGoogle,
-                      // style: ElevatedButton.styleFrom(
-                      //   padding: EdgeInsets.all(10),
-                      //   primary: Theme.of(context).primaryColor,
-                      //   shape: RoundedRectangleBorder(
-                      //     borderRadius: BorderRadius.circular(25), ),),
-                    ),
-                  ),
+
                 SizedBox(height: 10,),
-                // Padding(
-                //   padding: const EdgeInsets.all(20.0),
-                //   child: ElevatedButton(
-                //     child: Text('Return to Login '),
-                //     onPressed: () =>
-                //         Navigator.of(context).push(MaterialPageRoute(builder: (context)=> Login()))
-                //     ,
-                //     style: ElevatedButton.styleFrom(
-                //       padding: EdgeInsets.all(10),
-                //       primary: Theme.of(context).primaryColor,
-                //       shape: RoundedRectangleBorder(
-                //         borderRadius: BorderRadius.circular(25), ),),
-                //   ),
-                // ),
 
               ],
             ),
@@ -331,11 +303,6 @@ class _RegistartionState extends State<Registartion> {
     );
   }
 
-  //FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-  //DatabaseReference dbRef = FirebaseDatabase.instance.reference().child("Users");
-
-
-  // var firebaseUser = FirebaseAuth.instance.currentUser;
 
   Future <void> signUp() async {
     FocusScope.of(context).unfocus();
@@ -412,7 +379,7 @@ class _RegistartionState extends State<Registartion> {
       'last name': _lastNameController.text.trim(),
       "email":_emailController.text,
       'username': _usernameController.text.trim(),
-      'password': _passwordController.text,
+     // 'password': _passwordController.text,
 
     })
     //اضيف بدون ما احدد الاي دي الخاص بكل دوكيمنت
@@ -423,27 +390,6 @@ class _RegistartionState extends State<Registartion> {
     //   'username': _usernameController.text,
     //   'password': _passwordController.text,
         .then((value) {  print("user added!");});
-
-  }
-
-  Future<UserCredential> signInWithGoogle() async {
-    final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
-
-    // Obtain the auth details from the request
-    final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-
-
-    // Create a new credential
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth.accessToken,
-      idToken: googleAuth?.idToken,
-    );
-    addUser();
-    Fluttertoast.showToast(msg: "google account created!",textColor: black);
-
-
-    // Once signed in, return the UserCredential
-    return await FirebaseAuth.instance.signInWithCredential(credential);
 
   }
 

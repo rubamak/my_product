@@ -11,13 +11,13 @@ import 'package:my_product/helper/shared_pref.dart';
 import 'package:my_product/pages/Registration_page.dart';
 import 'package:my_product/pages/home_page.dart';
 import 'package:get/get.dart';
+import 'package:my_product/pages/reset_password_page.dart';
 
 // ===the packages the packages that added in pubspec.yaml==
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Login extends StatefulWidget {
@@ -37,18 +37,7 @@ class _LoginState extends State<Login> {
 
   }
 
-  Future resetPassword(String email)async{
-    try{
-      return await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
 
-    }catch(e){
-      print("error: $e");
-    }
-
-  }
-  Future signInWithGoogle(){
-
-  }
       _loginUser() async {
         FocusScope.of(context).unfocus();
 
@@ -259,8 +248,11 @@ class _LoginState extends State<Login> {
                         SizedBox(
                           height: 50,
                         ),
-                        GestureDetector(
-                          onTap: (){},
+                        InkWell(
+                          onTap: (){
+                            Get.off(()=> ResetPasswordPage());
+
+                          },
                           child: Container(alignment: Alignment.centerRight,
                             child: Container(
 
@@ -287,7 +279,6 @@ class _LoginState extends State<Login> {
                               if(userCred != null){
                                 //Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> HomePage()));
                                 Get.off(()=> HomePage());
-                               // SharedPref.saveUserEmailShared(_email);
                                 SharedPref.saveSharedPreferences(_email);
                                 Fluttertoast.showToast(msg: 'you signed in ');
                               }
@@ -317,10 +308,7 @@ class _LoginState extends State<Login> {
                                         fontSize: 18),
                                   ),
                                   onPressed: () {
-                                    // Navigator.pushReplacement(
-                                    //     context,
-                                    //     MaterialPageRoute(
-                                    //         builder: (context) => Registartion()));
+
                                     Get.off(()=> Registartion());
                                   },
                                 ),

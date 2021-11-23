@@ -114,8 +114,6 @@ class _HomePageState extends State<HomePage> {
         leading: IconButton(
             icon: Icon(Icons.search_rounded, size: 30,),
             onPressed: () async{
-              // Navigator.push(context,
-              //     MaterialPageRoute(builder: (context) => CartScreen()));
              Get.to(()=> Search());
             // await FirebaseAuth.instance.signOut();
             }),
@@ -128,7 +126,6 @@ class _HomePageState extends State<HomePage> {
           style: TextStyle(color: black, fontSize: 30),
         ),
         centerTitle: true,
-
       ),
 
       endDrawer: MainDrawer(
@@ -139,7 +136,6 @@ class _HomePageState extends State<HomePage> {
       //body of the page
       body: SafeArea(
         child: Container(
-          //color: white,
           height: MediaQuery
               .of(context)
               .size

@@ -5,20 +5,20 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class DatabaseMethods{
 
 
-  createChatRoom(String chatRoomId ,chatRoomMap) async{
+  createChatRoom(String chatRoomId ,chatRoomInfoMap) async{
     final snapshot = await
     FirebaseFirestore.instance
         .collection('chatRoom')
         .doc(chatRoomId).get();
     if(snapshot.exists){
-      // there is this specific chatRoom already..
+      // there is this specific chatRoom already exists..
       return true ;
 
     }else{
-      // not exixts for this room
-    FirebaseFirestore.instance.collection('chatRoom')
+      // not exists for this room
+     return  FirebaseFirestore.instance.collection('chatRoom')
         .doc(chatRoomId)
-        .set(chatRoomMap)
+        .set(chatRoomInfoMap)
         .catchError((error){
       print("Errorr: $error");
     });
@@ -35,14 +35,14 @@ class DatabaseMethods{
   }
 
 
-  addConversationMessages(String chatRoomId,Map messageMap)async{
+  Future addMessage(String chatRoomId,Map messageInfoMap)async{
     return FirebaseFirestore.instance
         .collection('chatRoom')
         .doc(chatRoomId)
         .collection('chats')
         //.doc(messageId)
        // .set(messageMap)
-    .add(messageMap)
+    .add(messageInfoMap)
         .catchError((onError){
           print("Error here is $onError");
     });
@@ -56,25 +56,38 @@ class DatabaseMethods{
 
 
   // Future <Stream<QuerySnapshot>>
-  getConversationMessages(String chatRoomId)async{
-    return await FirebaseFirestore.instance
+  getConversationMessages(String chatRoomId ,String myUid)async{
+   // if(chatRoomId.split("_").first== myUid || chatRoomId.split("_").last == myUid) {
+      return await FirebaseFirestore.instance
+          .collection('chatRoom')
+          .doc(chatRoomId)
+          .collection('chats')
+          .orderBy("DateTime", descending: true)
+      // use snapshots() not get() to get data as real time data
+          .snapshots();
+    //}
+   // else{
+      //print("nnnnnnnnnnnnnnnnnnnnn");
+   // }
+
+
+  }
+  Future <Stream<QuerySnapshot>>getChatRoomMessages(chatRoomId)async{
+    return FirebaseFirestore.instance
         .collection('chatRoom')
         .doc(chatRoomId)
-        .collection('chats')
-        .orderBy("DateTime",descending: true)
-    // use snapshots() not get() to get data as real time data
-        .snapshots();
-
-
-  }
-
-
-  Future<Stream<QuerySnapshot>> getSearchedStoreName(String searchStoreName)async{
-   return await FirebaseFirestore.instance.collection('familiesStores')
-        .where('family store name',isEqualTo: searchStoreName)
+        .collection('chats').orderBy('DateTime',descending: true)
         .snapshots();
 
   }
+
+
+  // Future<Stream<QuerySnapshot>> getSearchedStoreName(String searchStoreName)async{
+  //  return  FirebaseFirestore.instance.collection('familiesStores')
+  //       .where('family store name',isEqualTo: searchStoreName)
+  //       .snapshots();
+  //
+  // }
 
 
 //تجربةةةةةة

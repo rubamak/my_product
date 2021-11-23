@@ -49,34 +49,46 @@ class _FamiliesScreenState extends State<FamiliesScreen> {
   var useremail;
   DatabaseMethods databaseMethods = DatabaseMethods();
 
-  createChatRoomAndStartConversation(String receiverUserId, String familyName, String uid, String myName) {
+  createChatRoomAndStartConversation(String receiverUserId, String familyName,
+      String uid, String myName) {
     String chatRoomId = getChatRoomId(receiverUserId, uid);
-    //List<String> chatters = [receiverUserId, uid];
-   // List<String > chattersNames  =[familyName,myName];
+    List <String> chattersList = chatRoomId.split("_") ;
+
+    List<String> chatters = [chattersList[0], chattersList[1]];
+    List<String> chattersNames = [ myName,familyName,];
+
     Map<String, dynamic> chatRoomMap = {
-     // "chatter": chatters,
+      "chatter": chatters,
       "chatRoomId": chatRoomId,
-     // "chatterName": chattersNames,
       "recevierName": familyName,
       "recevierId": receiverUserId,
       "senderName": myName,
-      "senderId":uid,
+      "senderId": uid,
+      "chatterName": chattersNames,
+
     };
     databaseMethods.createChatRoom(chatRoomId, chatRoomMap);
-    Get.to(() => ConversationScreen(
-      recevierId: receiverUserId,
-      recevierName: familyName.toString(),
-      chatRoomId: chatRoomId,
-
-    ));
+    Get.to(() =>
+        ConversationScreen(
+          recevierId: receiverUserId,
+          recevierName: familyName.toString(),
+          chatRoomId: chatRoomId,
+        ));
   }
+
 // to generate the doc id to be contain  two ids for sender and recevier
   getChatRoomId(String receiver, String sender) {
-    if (receiver.substring(0, 1).codeUnitAt(0) > sender.substring(0, 1).codeUnitAt(0)) {
+    //  if (receiver.substring(0, 1).codeUnitAt(0) > sender.substring(0, 1).codeUnitAt(0)) {
+    return "$sender\_$receiver";
+
+    if(sender.hashCode <= receiver.hashCode) {
       return "$sender\_$receiver";
-    } else {
+    }else{
       return "$receiver\_$sender";
     }
+    // } else {
+    // return "$receiver\_$sender";
+    //}
   }
 
   void chatWithFamily ( String userFamilyId, String nameFamily){

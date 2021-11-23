@@ -111,25 +111,18 @@ var userEmail ;
           //body-----------------------------------------
 
           buildListTile("Home Page", Icons.home_outlined,(){
-           // Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> HomePage()));
-            Get.off(()=> HomePage());
-            } ),
+            Get.off(()=> HomePage());} ),
+
           checkLogin() ? buildListTile("My Profile", Icons.person_outline_sharp,(){
             Get.to(()=> ProfileScreen());
           }): SizedBox(height: 0,),
+
           buildListTile('Categories', Icons.dashboard_outlined,(){Get.toNamed(CategoryScreen.routeName);}),
-
-
           checkLogin() ? buildListTile(' My Cart & Favorites', Icons.favorite_outline,(){
             Get.toNamed(TapsScreen.routeName); }): SizedBox(height: 0,),
 
-          // buildListTile('Favourites Products', Icons.favorite_outline,(){Navigator.pushNamed(context, FavoriteScreen.routeName);}),
-          // checkLogin() ? buildListTile('Cart', Icons.shopping_cart_outlined,(){
-          //   Get.off(()=> CartScreen()); }): SizedBox(height: 0,),
           checkLogin() ? buildListTile('My Chats', Icons.chat_outlined,(){
-            Get.off(()=>
-                //ChatListPage()
-                ChatRoomsScreen()
+            Get.off(()=> ChatRoomsScreen()
             ); }): SizedBox(height: 0,),
            Divider(color: Colors.black54),//0xffFFBCBC الللون القديم لو تبيه ياربا
           //هنا مفروض اضيف الفايل او اللسته من الصفحه الجديده اللي ضفتها add_new_family

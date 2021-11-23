@@ -253,11 +253,9 @@ class _ProductDetailsState extends State<ProductDetails> {
                                     Icons.shopping_cart_outlined,
                                     color: Colors.indigoAccent,
                                     size: 35,
-                                  ),
-                                );
+                                  ),);
                               }
-                            } else {
-                              return Text("no connection");
+                            } else {return Text("no connection");
                             }
                           })
                           : IconButton(

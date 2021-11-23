@@ -306,7 +306,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
       productRef.doc(widget.selectedProduct.id).update({
         'product name': productName.trim(),
         'product description': description.trim(),
-        'price': price.trim(),
+        'price': double.parse(price.trim()),
       }).then((value) {
         print("product updated");
 

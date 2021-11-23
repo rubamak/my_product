@@ -12,9 +12,9 @@ import 'package:fluttertoast/fluttertoast.dart';
 class ConversationScreen extends StatefulWidget {
   // const ConversationScreen({Key key}) : super(key: key);
 
-  final String recevierId;
-  final String recevierName;
-  final String chatRoomId;
+   final String recevierId;
+   String recevierName;
+   String chatRoomId= "";
 
   ConversationScreen({this.recevierId,this.recevierName,this.chatRoomId});
 
@@ -27,9 +27,10 @@ class _ConversationScreenState extends State<ConversationScreen> {
   DatabaseMethods databaseMethods = DatabaseMethods();
   TextEditingController messageController = TextEditingController();
   User firebaseUser = FirebaseAuth.instance.currentUser;
-  Stream chatMessagesStream;
 
   Stream messagesStream;
+
+
 
   //اتوقع مش مهم هادا الاي دي ===========
   String messageId="";
@@ -54,61 +55,82 @@ class _ConversationScreenState extends State<ConversationScreen> {
 
         // print(value.id);
       });
-      } else {
-       }
+      } else {}
+
     });
+    widget.chatRoomId =getChatRoomIdByIDs(widget.recevierId,firebaseUser.uid)  ;
+  }
+  getChatRoomIdByIDs(String user1,String user2){
+    if (user1.substring(0, 1).codeUnitAt(0) > user2.substring(0, 1).codeUnitAt(0)) {
+    // if(sender.hashCode <= receiver.hashCode) {
+    return "$user1\_$user2";
+    }else{
+    return "$user2\_$user1";
+    }
+
+  }
+  getAndSetMessages() async{
+    messagesStream = await databaseMethods.getChatRoomMessages(widget.chatRoomId);
+
+
+
   }
 
-
+   doThisNnLaunched()async{
+    await getUserData();
+    getAndSetMessages();
+   }
   @override
   void initState() {
-     getUserData();
-     databaseMethods.getConversationMessages(widget.chatRoomId).then((value){
-       messagesStream = value;
-     });
-    databaseMethods.getConversationMessages(widget.chatRoomId).then((value) {
-      chatMessagesStream = value;
-    });
+    doThisNnLaunched();
+
+    // databaseMethods.getConversationMessages(widget.chatRoomId, firebaseUser.uid).then((value) {
+    //   messagesStream = value;
+   //   print("messages in stream ");});
     setState(() {});
     super.initState();
   }
 
-  Widget chatMessagesList(BuildContext context) {
+  Widget chatMessagesList() {
     return StreamBuilder(
-        stream:
-        //messagesStream,
-        chatMessagesStream,
+        stream: messagesStream,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return ListView.builder(
+              primary: true,
                 reverse: true,
                 itemCount: snapshot.data.docs.length,
                 itemBuilder: (context, i) {
                   DocumentSnapshot snap = snapshot.data.docs[i];
-                  return MessageBubble(
-                    snap['message'].toString(),
-                    snap['senderId'].toString() == firebaseUser.uid ? true : false,
-                    key: ValueKey(snap.id),
-                    recevierName:  snap['senderId'].toString() == firebaseUser.uid?
-                    snap['recevierName'].toString(): snap['senderName'].toString(),
+                  return
+                    // ListTile(
+                    // subtitle: Text(snap['message'].toString() ),
+                    // title:  Text(snap['senderId'].toString() == firebaseUser.uid ?
+                    // snap['sender'].toString() +":"
+                    //     :snap['recevierName'].toString() +":"),
+                  MessageBubble(
+                      snap['message'].toString(),
+                      snap['senderId'].toString() == firebaseUser.uid ? true : false,
+                      key: ValueKey(snap.id),
+                    recevierName: snap['senderId'].toString() == firebaseUser.uid ?
+                    snap['recevierName'].toString():snap['sender'].toString() ,
                   );
                 });
           } else {
             return Center(
-              child: CircularProgressIndicator(),
+              child: Text("no messages"),
             );
           }
         });
   }
 
-  sendMessages() async {
+  addMessages() async {
     //FocusScope.of(context).unfocus();
     if (messageController.text.isNotEmpty) {
-
-      String message = messageController.text;
+      String message = messageController.text.trim();
       var lastMessageTs= DateTime.now();
 
-      Map <String, dynamic> messageMap = {
+      Map <String, dynamic> messageInfoMap = {
         'message':message,
         'sender': myUsername,
         'senderId': firebaseUser.uid,
@@ -119,13 +141,13 @@ class _ConversationScreenState extends State<ConversationScreen> {
       };
       // if(messageId == ""){
       //   messageId= randomAlpha(12);}
-      databaseMethods.addConversationMessages(widget.chatRoomId,messageMap).then((val){
 
+      databaseMethods.addMessage(widget.chatRoomId,messageInfoMap)
+          .then((val){
         Map<String,dynamic> lastMessageInfoMap ={
           "lastMessage": message,
           "lastMessageTS": lastMessageTs,
           "lastMessageSendBy": myUsername,
-
         };
         databaseMethods.updateLastMessageSend(widget.chatRoomId,lastMessageInfoMap);
 
@@ -173,7 +195,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsetsDirectional.only(start: 8, top: 18, end: 7),
-                        child: chatMessagesList(context),
+                        child: chatMessagesList(),
                       ),
                     ),
                     Container(
@@ -188,14 +210,11 @@ class _ConversationScreenState extends State<ConversationScreen> {
                                 decoration: InputDecoration(
                                   hintText: "send a message..",
                                 ),
-
-
-                                // },
                               ),
                             ),
                             IconButton(
                                 onPressed: () {
-                                  sendMessages();
+                                  addMessages();
                                 },
                                 //_enteredMessage.trim().isEmpty? null : _sendMessage,
                                 icon: Icon(Icons.send_outlined))

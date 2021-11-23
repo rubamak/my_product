@@ -11,9 +11,6 @@ import 'package:get/get.dart';
 import 'package:my_product/pages/chat/database_methods.dart';
 import 'package:my_product/pages/products_screen.dart';
 import 'package:my_product/widgets/main_drawer.dart';
-import 'package:toast/toast.dart';
-
-import '../search.dart';
 import 'conversation_screen.dart';
 
 class ChatRoomsScreen extends StatefulWidget {
@@ -24,8 +21,12 @@ class ChatRoomsScreen extends StatefulWidget {
 }
 
 class _ChatRoomsScreenState extends State<ChatRoomsScreen> {
+  final FirebaseFirestore _firebase = FirebaseFirestore.instance;
+  ScrollController _scrollController = ScrollController();
   TextEditingController searchTextController = TextEditingController();
+
   QuerySnapshot<Map<String, dynamic>> searchSnapshot;
+
   User firebaseUser = FirebaseAuth.instance.currentUser;
   DatabaseMethods databaseMethods = DatabaseMethods();
 
@@ -35,25 +36,37 @@ class _ChatRoomsScreenState extends State<ChatRoomsScreen> {
   String uid;
 
   bool isSearching = false;
-  Stream familiesNamesStream, chatRoomsStream;
+  Stream  chatRoomsStream;
+  //Stream familiesNamesStream;
 
   onSearchButtonClick() async {
     isSearching = true;
     setState(() {});
-    // familiesNamesStream= await
-    // databaseMethods.getSearchedStoreName(searchTextController.text.trim().toLowerCase());
+
+  }
+  getChatRoomIdByIDs(String user1,String user2){
+    if (user1.substring(0, 1).codeUnitAt(0) > user2.substring(0, 1).codeUnitAt(0)) {
+      // if(sender.hashCode <= receiver.hashCode) {
+      return "$user1\_$user2";
+    }else{
+      return "$user2\_$user1";
+    }
+
   }
 
-  Widget SearchChatTile({String searchStoreValue,
+  Widget SearchChatTile({
+    String searchStoreValue,
     String storeDesc,
-    String familyName,
+    String recevierName,
     String category,
     String imageStore,
     String familyId,
-    String userIdForFamily, String myName}) {
+    String userIdForFamily,
+    String myName}) {
     return Container(
       width: double.infinity,
-      child: ListView(shrinkWrap: true, children: [
+      child: ListView(
+          shrinkWrap: true, children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -103,21 +116,36 @@ class _ChatRoomsScreenState extends State<ChatRoomsScreen> {
             Flexible(
               flex: 2,
               child: Container(
-                height: 40,
+               height: 42,
                 decoration: BoxDecoration(
                   color: basicColor,
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(90),
                 ),
                 padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                child: GestureDetector(
-                  onTap: () {
-                    createChatRoomAndStartConversation(
-                        userIdForFamily, familyName,
-                        firebaseUser.uid, myName);
+                child: TextButton(
+                  onPressed: () {
+
+                    var chatRoomId = getChatRoomIdByIDs(userIdForFamily, firebaseUser.uid);
+                    Map <String, dynamic> chatRoomInfoMap = {
+                      "chatter" : [userIdForFamily,firebaseUser.uid],
+                      "chatterName": [recevierName, username],
+
+                    };
+                    databaseMethods.createChatRoom(chatRoomId, chatRoomInfoMap);
+                    // createChatRoomAndStartConversation(
+                    //     userIdForFamily, recevierName,
+                    //     firebaseUser.uid, myName);
+                    Get.to(() =>
+                        ConversationScreen(
+                          recevierId: userIdForFamily,
+                          recevierName: recevierName.toString(),
+                          chatRoomId: chatRoomId,
+                        ));
+
                   },
                   child: Text(
                     "message",
-                    style: TextStyle(color: black),
+                    style: TextStyle(color: black,fontSize: 12),
                   ),
                 ),
               ),
@@ -128,17 +156,18 @@ class _ChatRoomsScreenState extends State<ChatRoomsScreen> {
     );
   }
 
-  createChatRoomAndStartConversation(String receiverUserId, String familyName,
+  createChatRoomAndStartConversation(String receiverUserId, String receiverName,
       String uid, String myName) {
     String chatRoomId = getChatRoomId(receiverUserId, uid);
+    List <String> chattersList = chatRoomId.split("_") ;
 
-    List<String> chatters = [receiverUserId, uid];
-    List<String> chattersNames = [familyName, myName];
+    List<String> chatters = [chattersList.first, chattersList.last];
+    List<String> chattersNames = [ myName,receiverName,];
 
     Map<String, dynamic> chatRoomMap = {
       "chatter": chatters,
       "chatRoomId": chatRoomId,
-      "recevierName": familyName,
+      "recevierName": receiverName,
       "recevierId": receiverUserId,
       "senderName": myName,
       "senderId": uid,
@@ -149,18 +178,22 @@ class _ChatRoomsScreenState extends State<ChatRoomsScreen> {
     Get.to(() =>
         ConversationScreen(
           recevierId: receiverUserId,
-          recevierName: familyName.toString(),
+          recevierName: receiverName.toString(),
           chatRoomId: chatRoomId,
         ));
   }
 
 // to generate the doc id to be contain  two ids for sender and recevier
   getChatRoomId(String receiver, String sender) {
-    if (receiver.substring(0, 1).codeUnitAt(0) > sender.substring(0, 1).codeUnitAt(0)) {
+  //  if (receiver.substring(0, 1).codeUnitAt(0) > sender.substring(0, 1).codeUnitAt(0)) {
+   // if(sender.hashCode <= receiver.hashCode) {
       return "$sender\_$receiver";
-    } else {
-      return "$receiver\_$sender";
-    }
+   // }else{
+       return "$receiver\_$sender";
+    //}
+   // } else {
+     // return "$receiver\_$sender";
+    //}
   }
 
   Widget searchFamiliesNamesList() {
@@ -185,7 +218,7 @@ class _ChatRoomsScreenState extends State<ChatRoomsScreen> {
                     },
                     child: SearchChatTile(
                       searchStoreValue: familyDoc['family store name'].toString(),
-                      familyName: familyDoc['family store name'].toString(),
+                      recevierName: familyDoc['family store name'].toString(),
                       category: familyDoc['category name'].toString(),
                       storeDesc: familyDoc['store description'].toString(),
                       imageStore: familyDoc['image family store'].toString(),
@@ -203,26 +236,17 @@ class _ChatRoomsScreenState extends State<ChatRoomsScreen> {
         });
   }
 
-  Widget ChatRoomTile(String userIdForRecevier,String recevierName,String name, String lastMessage){
-    return InkWell(
-      onTap: (){
-
-      },
-      child: ListTile(
+  Widget ChatRoomTile(String userIdForRecevier,String name, String lastMessage){
+    return  ListTile(
         title:Text(name),
         subtitle: Text(lastMessage),
-      ),
+
     );
   }
   Widget chatRoomsList() {
     return StreamBuilder(
         stream:
         chatRoomsStream,
-        // FirebaseFirestore.instance
-        //     .collection("chatRoom")
-        //     .orderBy('lastMessageTS',descending: true)
-        //     .where('chatter',arrayContains: uid).snapshots(),
-
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return ListView.separated(
@@ -233,37 +257,37 @@ class _ChatRoomsScreenState extends State<ChatRoomsScreen> {
                   DocumentSnapshot documentSnapshot = snapshot.data.docs[i];
                   return InkWell(
                     onTap: () {
-                    //   Get.to(() =>
-                    //       ConversationScreen(recevierName:
-                    //       documentSnapshot['senderId']
-                    //           == firebaseUser.uid ?
-                    //       documentSnapshot['recevierName'] : documentSnapshot['senderName']));
+                      Get.to(() =>
+                          ConversationScreen(
+                            recevierName:
+                          documentSnapshot['chatter'][0]
+                              == firebaseUser.uid ?
+                          documentSnapshot['chatterName'][1] : documentSnapshot['chatterName'][0],
+
+                          chatRoomId: getChatRoomId(documentSnapshot['chatter'][1], uid),
+                          recevierId:
+                          documentSnapshot['chatter'][0] == firebaseUser.uid ?
+                          documentSnapshot['chatter'][1]:documentSnapshot['chatter'][0],
+                          ),
+
+                      );
                      },
                     child: ChatRoomTile(
-                      documentSnapshot['recevierId'],
-                        documentSnapshot['recevierName'],
-                        documentSnapshot['chatter'][0] == uid?
-                        documentSnapshot['chatterName'][1]: documentSnapshot['chatterName'][0],
+                      documentSnapshot['chatter'][0] == uid?
+                      documentSnapshot['chatterName'][1]:   documentSnapshot['chatterName'][0],
+                        documentSnapshot['chatter'][0] == uid? documentSnapshot['chatterName'][1]: documentSnapshot['chatterName'][0],
                         documentSnapshot['lastMessage'],
+
+
                         // documentSnapshot.id.replaceAll(firebaseUser.uid, "")
                         // .replaceAll("_", "")
                     ),
-                    // ListTile(
-                    //   title: Text(
-                    //     documentSnapshot['senderId']
-                    //         ==firebaseUser.uid?
-                    //         documentSnapshot['recevierName']:documentSnapshot['senderName'],
-                    //     style: TextStyle(fontSize: 20, fontStyle: FontStyle.normal),
-                    //   ),
-                    //   subtitle: Text(
-                    //     documentSnapshot['lastMessage'],
-                    //     style: TextStyle(fontSize: 15, fontStyle: FontStyle.italic),
-                    //   ),
-                    // ),
                   );
 //كيف اجيب الداتا الي في حقل في اراي داخل الدوكينت ==========================================
                 });
-          } else {
+          }
+
+          else {
             return Center(child: Text("Don't have any chats rooms"));
           }
         });
@@ -288,25 +312,21 @@ class _ChatRoomsScreenState extends State<ChatRoomsScreen> {
 
     });
   }
-
-  getChatRooms() async {
-    chatRoomsStream = await databaseMethods.getChatRooms(uid);
-    setState(() {
-
-    });
+  @override
+  void initState() {
+    onScreenLoaded();
+    print("My all chats rooms screen");
   }
-
   onScreenLoaded() async {
     await getUserData();
     getChatRooms();
   }
-
-  @override
-  void initState() {
-    onScreenLoaded();
-
-    print("My all chats rooms screen");
+  getChatRooms() async {
+    chatRoomsStream = await databaseMethods.getChatRooms(uid);
+    setState(() {});
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -406,7 +426,9 @@ class _ChatRoomsScreenState extends State<ChatRoomsScreen> {
                                   onPressed: () {
                                     if (searchTextController.text.isNotEmpty) {
                                       onSearchButtonClick();
-                                    } else {}
+                                    } else {
+                                      Fluttertoast.showToast(msg: "seraching is empty!",textColor: black,backgroundColor: Colors.red);
+                                    }
                                     //searchToGetStoresNames(searchTextController.text);
                                     // initSearch();
                                     FocusScope.of(context).unfocus();
