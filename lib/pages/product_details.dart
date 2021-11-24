@@ -7,9 +7,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:my_product/color/my_colors.dart';
 import 'dart:ui';
 import 'package:get/get.dart';
-import 'Comment_page.dart';
 import 'Comment_screen.dart';
-import 'package:my_product/pages/Comment_page.dart';
+
 
 class ProductDetails extends StatefulWidget {
   final DocumentSnapshot<Map<String, dynamic>> selectedProduct;

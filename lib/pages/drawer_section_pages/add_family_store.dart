@@ -198,8 +198,6 @@ class _AddFamilyStoreState extends State<AddFamilyStore> {
     //var categoryRef = await FirebaseFirestore.instance.collection('categories');
     var familiesStoresRef = await FirebaseFirestore.instance.collection('familiesStores');
     var familyId = await FirebaseFirestore.instance.collection("familiesStores").doc().id;
-
-
     if (_formKey.currentState.validate() && image !=null) {
       _formKey.currentState.save();
       //=====put image in the storage

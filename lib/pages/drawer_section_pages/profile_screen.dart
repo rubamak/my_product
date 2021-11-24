@@ -152,10 +152,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           cursorColor: black,
                          // controller: _firstNameController,
                           validator: (val){
-                            if( val.length < 3) {
+                            if( val.isEmpty || val.length <2) {
                               return " please enter longer name :(";
                             }   else if( val == docData['first name']){
-                              return " same old first name ";} ;
+                              return " same old first name ";}
+
 
                           },
                           onSaved: (value){
@@ -190,7 +191,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           cursorColor: black,
                          // controller: _lastNameController,
                           validator: (val){
-                            if( val.length < 3) {
+                            if( val.length < 2 || val.isEmpty ) {
                               return " please enter longer name :(";
                             }   else if (val == docData['last name']){
                               return " same old last name ";} ;
@@ -221,17 +222,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 fontWeight: FontWeight.w900,
                                 color: black,
                                 fontStyle: FontStyle.italic),
-                            prefixIcon: IconButton( icon: Icon(Icons.person_pin_outlined, color:black,), onPressed: () {  },),
+                            prefixIcon: IconButton( icon: Icon(Icons.person_pin_outlined, color:black,),),
                           ),
                           keyboardType: TextInputType.name,
                           cursorColor: black,
                           //controller: _userNameController,
                           validator: (val){
-                            if( val.length < 3) {
+                            if( val.length < 2 || val.isEmpty) {
                               return " please enter longer name :(";
                             }   else if ( val == docData['username']){
                               return " same old username";}
-                            else if(!val.contains('.')&& !val.contains('_')&&!val.contains('-')&& !val.contains('@'))
+                            else if(!val.contains('.')&& !val.contains('_')&&!val.contains('-'))
                             {
                             return " add any symbols";
                             }
@@ -267,12 +268,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               _formKey.currentState.save();
                               updateUserInfo();
                               ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                              Get.off(()=> HomePage());
+                              //Get.off(()=> HomePage());
+                              Get.back();
                             }
                           },
                         ),
-
-
                       ],
                     ),
                   ),
@@ -294,7 +294,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     'username':myUsername.trim(),
     }).then((value) {
       //SnackBar(content: Text(" Information is updated ",style: TextStyle(color: white,fontSize: 30),),backgroundColor: black,);
-
       print("user updated");});
 
 

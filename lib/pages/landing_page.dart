@@ -54,13 +54,14 @@ class LandingPage extends StatelessWidget {
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Image.asset('images/logo.png'),
+                          Image.asset('images/myLogo.png',height: 200,width:600 ,),
+                          //SizedBox(height: 20,),
                           Text("Welcome",
                               //textAlign: TextAlign.center,
                               style: TextStyle(
                                   fontWeight: FontWeight.w600,
                                   fontSize: 35,
-                                  color: black)),
+                                  color: basicColor)),
                           CircularProgressIndicator(),
                         ]),
                   ),

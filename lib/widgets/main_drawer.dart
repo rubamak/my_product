@@ -100,7 +100,7 @@ var userEmail ;
 
                       ),
                     ),
-                      Positioned(top: 10,right: 20,left:100 ,bottom:20,child: Image.asset('images/logo.png')),
+                      Positioned(top: 10,right: 20,left:100 ,bottom:20,child: Image.asset('images/myLogo.png')),
 
                     ]
                   ),

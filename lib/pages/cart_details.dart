@@ -97,7 +97,7 @@ class _CartDetails extends State<CartDetails> {
   Widget build(BuildContext context) {
     if (cartList != null) {
       return Scaffold(
-        backgroundColor: Colors.transparent,
+        backgroundColor: white,
         appBar: AppBar(
           iconTheme: IconThemeData(color: black),
           toolbarHeight: 70,

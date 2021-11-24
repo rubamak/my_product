@@ -102,7 +102,7 @@ class _SearchState extends State<Search> {
                         //searchToGetStoresNames(searchTextController.text);
                         initSearch();
                         setState(() {
-                          searchTextController.clear();
+                         // searchTextController.clear();
                         });
                         FocusScope.of(context).unfocus();
                       },
@@ -146,7 +146,8 @@ class _SearchState extends State<Search> {
         itemBuilder: (context,i){
           return InkWell(
             onTap: (){
-              Get.to(()=> ProductsScreen(selectedFamilyStore: searchSnapshot.docs[i],));
+              Get.to(()=> ProductsScreen(selectedFamilyStore: searchSnapshot.docs[i],
+                familyDescription:searchSnapshot.docs[i].data()['store description'] ,));
             },
             child: SearchTile(
               searchStoreValue: searchSnapshot.docs[i].data()['family store name'].toString(),

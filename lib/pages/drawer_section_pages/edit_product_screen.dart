@@ -287,7 +287,6 @@ class _EditProductScreenState extends State<EditProductScreen> {
     if (!_formKey.currentState.validate()) {
       print("updated failed");
       AwesomeDialog(body: Text("please fill the fields with new data"));
-
       setState(() {
         widget.isLoading = false ;
       });
@@ -297,12 +296,9 @@ class _EditProductScreenState extends State<EditProductScreen> {
           (duration: Duration(seconds: 2), content: Text(" product info is updated ",
           style: TextStyle(color: white, fontSize: 15),), backgroundColor: black,);
         _formKey.currentState.save();
-
         // updateProduct();
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
          Get.off(()=> HomePage());
-
-
       productRef.doc(widget.selectedProduct.id).update({
         'product name': productName.trim(),
         'product description': description.trim(),

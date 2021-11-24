@@ -349,12 +349,9 @@ class _AddProductState extends State<AddProduct> {
 
   Future addProduct()async{
     FocusScope.of(context).unfocus();
-
     var productRef = await FirebaseFirestore.instance.collection('products');
     var productId = await FirebaseFirestore.instance.collection("familiesStores").doc().id;
-
     if (_formKey.currentState.validate() && image !=null) {
-
       _formKey.currentState.save();
       setState(() {
         widget.isLoading = true ;
@@ -364,12 +361,7 @@ class _AddProductState extends State<AddProduct> {
       var task = storageImage.putFile(image);
       // take image url to put it in fire store
       imageUrl = await (await task.whenComplete(() => null)).ref.getDownloadURL();
-      //========end image section
-
-try {
-
-
-  productRef.doc(productId).set({
+try {productRef.doc(productId).set({
     'uid': firebaseUser.uid,
     'family store id': datafamily.docs[0].data()['family id'],
     'family name' : datafamily.docs[0].data()['family store name'],
