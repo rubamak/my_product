@@ -77,14 +77,14 @@ class _CartScreenState extends State<CartScreen> {
     if (cartList != null) {
       return Scaffold(
         backgroundColor: Colors.transparent,
-        body: new Column(
+        body:  Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Expanded(
               flex: 5,
               child: Container(
                 height: MediaQuery.of(context).size.height - 100,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     color: Colors.transparent,
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(120),
@@ -100,80 +100,76 @@ class _CartScreenState extends State<CartScreen> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: <Widget>[
-                            Container(
-
-                              child: Row(
-                                  children: <Widget>[
-                                    Hero(
-                                        tag: cartList.docs[i].id,
-                                        child:
+                            Row(
+                                children: <Widget>[
+                                  Hero(
+                                      tag: cartList.docs[i].id,
+                                      child:
+                                      cartList.docs[i].data()['image']
+                                          .toString() != null ?
+                                      Image.network(
                                         cartList.docs[i].data()['image']
-                                            .toString() != null ?
-                                        Image.network(
-                                          cartList.docs[i].data()['image']
-                                              .toString(),
-                                          fit: BoxFit.cover,
-                                          height: 75,
-                                          width: 75,
-                                        ) :
-                                        Image.network(
-                                          "https://thumbs.dreamstime.com/b/product-icon-collection-trendy-modern-flat-linear-vector-white-background-thin-line-outline-illustration-130947207.jpg",
-                                          fit: BoxFit.cover,
-                                          height: 70,
-                                          width: 70,
-                                        )),
+                                            .toString(),
+                                        fit: BoxFit.cover,
+                                        height: 75,
+                                        width: 75,
+                                      ) :
+                                      Image.network(
+                                        "https://thumbs.dreamstime.com/b/product-icon-collection-trendy-modern-flat-linear-vector-white-background-thin-line-outline-illustration-130947207.jpg",
+                                        fit: BoxFit.cover,
+                                        height: 70,
+                                        width: 70,
+                                      )),
 
-                                    SizedBox(width: 10,),
-                                    Column(
-                                      mainAxisAlignment: MainAxisAlignment
-                                          .center,
+                                  SizedBox(width: 10,),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment
+                                        .center,
+                                    crossAxisAlignment: CrossAxisAlignment
+                                        .start,
+                                    children: <Widget>[
+
+                                      Text(cartList.docs[i]
+                                          .data()['product name'].toString()
+                                          ?? "none", style: TextStyle(
+                                          color: black,
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold),),
+
+                                      SizedBox(
+                                          width: 200,
+                                          child:
+                                          Text(cartList.docs[i]
+                                              .data()['description']
+                                              .toString() ?? "none",
+                                            softWrap: true,
+                                            overflow: TextOverflow.fade,
+                                            style: TextStyle(fontSize: 18,
+                                                fontWeight: FontWeight.normal,
+                                                color: black),)
+                                      ),
+                                      Text("${cartList.docs[i].data()['price']
+                                          .toString()} SR" ?? "none",
+                                        softWrap: true,
+                                        overflow: TextOverflow.fade,
+                                        style: TextStyle(fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                            color: black),)
+                                      ,
+                                    ],
+
+
+
+                                  ),
+
+                                  const SizedBox(width: 10,),
+                                  Column(  mainAxisAlignment: MainAxisAlignment
+                                      .center,
                                       crossAxisAlignment: CrossAxisAlignment
                                           .start,
-                                      children: <Widget>[
-
-                                        Text(cartList.docs[i]
-                                            .data()['product name'].toString()
-                                            ?? "none", style: TextStyle(
-                                            color: black,
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold),),
-                                        SizedBox(height: 5,),
-
-                                        Container(
-                                            width: 200,
-                                            child:
-                                            Text(cartList.docs[i]
-                                                .data()['description']
-                                                .toString() ?? "none",
-                                              softWrap: true,
-                                              overflow: TextOverflow.fade,
-                                              style: TextStyle(fontSize: 18,
-                                                  fontWeight: FontWeight.normal,
-                                                  color: black),)
-                                        ),
-                                        Text("${cartList.docs[i].data()['price']
-                                            .toString()} SR" ?? "none",
-                                          softWrap: true,
-                                          overflow: TextOverflow.fade,
-                                          style: TextStyle(fontSize: 16,
-                                              fontWeight: FontWeight.bold,
-                                              color: black),)
-                                        ,
-                                      ],
-
-
-
-                                    ),
-
-                                    SizedBox(width: 10,),
-                                    Column(  mainAxisAlignment: MainAxisAlignment
-                                        .center,
-                                        crossAxisAlignment: CrossAxisAlignment
-                                            .start,
-                                        children: <Widget>[
-                                        ] ),
-                                  ] ),
-                            ),
+                                      children: const <Widget>[
+                                      ] ),
+                                ] ),
                           ],
                         ),
                       );
@@ -205,7 +201,7 @@ class _CartScreenState extends State<CartScreen> {
                       },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
+                        children: const [
                           Text("Go to the payment stage"),
                           Icon(Icons.label),
                         ],),),

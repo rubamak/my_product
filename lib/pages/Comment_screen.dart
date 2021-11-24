@@ -8,9 +8,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:my_product/color/my_colors.dart';
-import 'package:my_product/pages/product_details.dart';
-
-import 'home_page.dart';
 
 class CommentsPage extends StatefulWidget {
   @override
@@ -62,10 +59,7 @@ class CommentPageState extends State<CommentsPage> {
           iconTheme: IconThemeData(color: black),
           toolbarHeight: 70,
           centerTitle: true,
-          // leading: IconButton(
-          //   icon: Icon(Icons.arrow_back_ios, color: black),
-          //   onPressed: () => Get.back,
-          // ),
+
           title: Padding(
             padding: EdgeInsets.only(top: 1),
             child: Text(
@@ -189,10 +183,6 @@ class CommentPageState extends State<CommentsPage> {
                 onPressed: () {
                   addComments();
                   setState(() {
-                    // Navigator.push(context,
-                    //              MaterialPageRoute(builder: (context) =>
-                    //                 ProductDetails(),
-                    //              ));
                   });
                 },
                 // onPressed:(){ addComments();},

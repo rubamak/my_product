@@ -212,7 +212,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
             Padding(
                 padding: EdgeInsets.symmetric(horizontal: 40),
                 child: Text("Store abstract:  ${widget.familyDescription}",textAlign: TextAlign.center,style:
-                TextStyle(color: black,fontSize: 30,fontStyle: FontStyle.italic,fontWeight: FontWeight.w700))),
+                TextStyle(color: black,fontSize: 14,fontStyle: FontStyle.italic,fontWeight: FontWeight.w700))),
             Padding(
                 padding: EdgeInsets.only(top: 45),
                 child: Container(
