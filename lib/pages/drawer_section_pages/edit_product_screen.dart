@@ -293,6 +293,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
     } else {
       try{
         final snackBar = SnackBar
+        //heee
           (duration: Duration(seconds: 2), content: Text(" product info is updated ",
           style: TextStyle(color: white, fontSize: 15),), backgroundColor: black,);
         _formKey.currentState.save();
