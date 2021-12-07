@@ -63,7 +63,34 @@ class _FavoriteScreenState extends State<FavoriteScreen>{
   }
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.transparent,
+      appBar: AppBar(
+        iconTheme: IconThemeData(color: black),
+        elevation: 0,
+        leading: IconButton(
+          onPressed: ()=> Get.back() ,
+          icon: Icon(Icons.arrow_back_ios),
+        ),
+
+
+        title: Padding(
+          padding: EdgeInsets.only(top: 1),
+
+          child: Text("My Favorites",
+
+
+            style: TextStyle(
+              color: black,
+              fontWeight: FontWeight.bold,
+              fontSize: 23,
+            ),
+
+          ),
+        ),
+        backgroundColor: basicColor,
+        toolbarHeight: 80,
+      ),
+
+      backgroundColor:basicColor,
       body: //between them
       FavoriteFlowList(context),
     );
@@ -72,8 +99,15 @@ class _FavoriteScreenState extends State<FavoriteScreen>{
     if (favoriteList != null) {
       return
         Container(
-          height: MediaQuery.of(context).size.height - 200,
-          color: Colors.transparent,
+
+            height: MediaQuery.of(context).size.height - 150,
+            decoration: BoxDecoration(
+                color: white,
+                borderRadius: BorderRadius.only(topLeft: Radius.circular(100),
+                  //bottomRight:Radius.circular(150),
+                )),
+          // height: MediaQuery.of(context).size.height - 150,
+          // color: white,//Colors.transparent,
           child:
           ListView(
             primary: false,
@@ -167,6 +201,13 @@ class _FavoriteScreenState extends State<FavoriteScreen>{
         );
     }else{
       return Container(
+
+        height: MediaQuery.of(context).size.height - 150,
+        decoration: BoxDecoration(
+            color: white,
+            borderRadius: BorderRadius.only(topLeft: Radius.circular(100),
+              //bottomRight:Radius.circular(150),
+            )),
         child: Center(child: Text("no favorites products"),),);
     }
   }

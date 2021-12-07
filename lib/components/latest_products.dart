@@ -22,6 +22,8 @@ class _LatestProductsState extends State<LatestProducts> {
   DocumentSnapshot<Map<String, dynamic>> docData; // for printing
   var username; // for display to user
   var useremail;
+  var userID ;
+  QuerySnapshot<Map<String, dynamic>> latestProducts;
 
   getUserData(String uid) async {
     //اجيب بيانات دوكيمنت واحد فقط
@@ -31,6 +33,7 @@ class _LatestProductsState extends State<LatestProducts> {
       if (value.exists) {
         setState(() {
           docData = value;
+          userID = docData['uid'];
           useremail = docData['email'];
           username = docData['username'];
           // print(value.id);
@@ -44,13 +47,22 @@ class _LatestProductsState extends State<LatestProducts> {
       }
     });
     try {
-      await FirebaseFirestore.instance.collection('products')
-          .where('uid', isNotEqualTo: docData.id)
-          .orderBy('addedAt',descending: true)
+      await FirebaseFirestore.instance.collection('products').orderBy('addedAt',descending: true)
+
+          //.orderBy('addedAt',descending: true)
+          .where('uid',isNotEqualTo:firebaseUser.uid )
+          //.orderBy('addedAt',descending: true)
           .get().then((specifiedDoc) async {
         if (specifiedDoc != null && specifiedDoc.docs.isEmpty == false) {
           setState(() {
+
             productsList = specifiedDoc;
+                latestProducts = productsList;
+
+
+
+
+
           });
           // await FirebaseFirestore.instance.collection('familiesStores')
           //     .where('family id',isEqualTo: productsList.docs[0].data()['family store id']).get().then((doc){
@@ -62,7 +74,7 @@ class _LatestProductsState extends State<LatestProducts> {
         }
       });
     } catch (e) {
-      print('Error Fetching Data$e');
+      print('Error Fetching Data::$e');
     }
     //fetchSpecifiedProduct();
   }
@@ -71,8 +83,8 @@ class _LatestProductsState extends State<LatestProducts> {
     //هذا اللي يجيب ال doc على الابلكيشن
     try {
       await FirebaseFirestore.instance.collection('products')
+    // .where('uid', isNotEqualTo: firebaseUser.uid)
       .orderBy('addedAt',descending: true)
-      //.where('uid', isNotEqualTo: firebaseUser.uid)
           .get().then((specifiedDoc) async {
         if (specifiedDoc != null && specifiedDoc.docs.isEmpty == false) {
           setState(() {
@@ -80,7 +92,6 @@ class _LatestProductsState extends State<LatestProducts> {
           });
           // await FirebaseFirestore.instance.collection('familiesStores')
           //     .where('family id',isEqualTo: productsList.docs[0].data()['family store id']).get().then((doc){
-
 
           
         } else {
@@ -100,59 +111,23 @@ class _LatestProductsState extends State<LatestProducts> {
     if(firebaseUser != null){
       getUserData(firebaseUser.uid);
     }
-fetchSpecifiedProduct();
+    else {
+      fetchSpecifiedProduct();
+    }
 super.initState();
   }
 
 
 
-  // var product_list = [
-  //   {
-  //     "name": "Fatah",
-  //     "picture": "images/products/f.png",
-  //     "owner name": "Happy making",
-  //     "category": "Food",
-  //     "price": 20,
-  //   },
-  //   {
-  //     "name": "Painted Cup",
-  //     "picture": "images/products/hand.jpg",
-  //     "owner name": "Happy making 2 ",
-  //     "category": "Handmade",
-  //     "price": 18,
-  //   },
-  //   {
-  //     "name": "Frappe",
-  //     "picture": "images/products/ice.jpg",
-  //     "owner name": "Happy making 3",
-  //     "category": "Beverages",
-  //     "price": 15,
-  //   },
-  //   {
-  //     "name": "Waffle",
-  //     "picture": "images/products/waff.png",
-  //     "owner name": "Happy making",
-  //     "category": "Food",
-  //     "price": 18,
-  //   },
-  //   {
-  //     "name": "Waffle",
-  //     "picture": "images/products/waff.png",
-  //     "owner name": "Happy making",
-  //     "category": "Food",
-  //     "price": 18,
-  //   },
-  //
-  //
-  // ];
-
   @override
   Widget build(BuildContext context) {
-    return productsList == null ? SizedBox(height: 0,)
-        :GridView.builder(
+    if( productsList != null ){
+    return
+        GridView.builder(
      // physics:NeverScrollableScrollPhysics() ,
 
-          itemCount: productsList.docs.length > 5 ? 6: 3,
+          itemCount:
+          productsList.docs.length > 5 ? 6: 3,
          //scrollDirection: Axis.vertical,
           shrinkWrap: true,
           gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
@@ -173,6 +148,27 @@ super.initState();
           }
 
     );
+    }
+    // else if(firebaseUser != null && latestProducts != null){
+    //   return GridView.builder(
+    //     gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+    //     shrinkWrap: true,
+    //      itemCount:latestProducts.docs.length >3? 5:2,
+    //      itemBuilder:(BuildContext context, int i) {
+    // return Padding(
+    // padding: const EdgeInsets.all(8.0),
+    // child:latestProducts.docs.isEmpty ? CircularProgressIndicator():
+    // Single_prod(
+    //   id: latestProducts.docs[i].data()['product id'],
+    //   product_name:latestProducts.docs[i].data()['product name'],
+    //   product_picture: latestProducts.docs[i].data()['image product'],
+    //   product_category: latestProducts.docs[i].data()['category name'],
+    //   product_price: latestProducts.docs[i].data()['price'],
+    //   selectedPro: latestProducts.docs[i], )
+    // );});}
+    else{
+      return Container(child: CircularProgressIndicator());
+    }
   }
 }
 
@@ -246,25 +242,6 @@ class Single_prod extends StatelessWidget {
 
 
                           ],
-
-                          // leading: Text(product_name,
-                          //     softWrap:product_name.toString().length>5? true: false,
-                          //     maxLines: 2,
-                          //
-                          //     style: TextStyle(fontWeight: FontWeight.bold,color:black)),
-                          // subtitle: Text(
-                          //   "SR $product_price",
-                          //   textAlign: TextAlign.left,
-                          //   style: TextStyle(
-                          //       color: black,
-                          //       fontWeight: FontWeight.w500 ,fontSize: 15),
-                          // ),
-                          // title: Text(
-                          //   "category: ${product_category}",
-                          //   //ربا هنا قبل التيكست ستايل كان في const شلتها لانو اللون مارضي يتغير الا هنا
-                          //   style: TextStyle(
-                          //        fontWeight: FontWeight.w800, fontSize: 12,color:black,),
-                          // ),
                         ),
                       ),
                     ),

@@ -32,7 +32,7 @@ class _CartDetails extends State<CartDetails> {
 
     try{
       final snackBar = SnackBar
-        (duration: Duration(seconds: 2), content: Text(" completed ",
+        (duration: Duration(seconds: 2), content: Text("completed ",
         style: TextStyle(color: white, fontSize: 15),), backgroundColor: black,);
       // updateProduct();
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -97,10 +97,11 @@ class _CartDetails extends State<CartDetails> {
   Widget build(BuildContext context) {
     if (cartList != null) {
       return Scaffold(
-        backgroundColor: white,
+        backgroundColor: basicColor,
         appBar: AppBar(
+          elevation: 0,
           iconTheme: IconThemeData(color: black),
-          toolbarHeight: 70,
+          toolbarHeight: 80,
           centerTitle: true,
           title: Padding(
             padding: EdgeInsets.only(top: 1),
@@ -110,88 +111,93 @@ class _CartDetails extends State<CartDetails> {
             ),
           ),
           backgroundColor: basicColor,
+
         ),
-        body: Column(
+        body: Container(
+            height: MediaQuery.of(context).size.height - 150,
+            decoration: BoxDecoration(
+                color: white,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(120),
+                )),
+          child: Column(
 
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              flex: 5,
-              child: Container(
-                 height: MediaQuery.of(context).size.height - 100,
-                decoration: BoxDecoration(
-                    color: white,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(120),
-                    )),
-                child: ListView.separated(
-                    itemBuilder: (context, i) {
-                      return Container(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            Container(
-                              child: Row(
-                                  children: <Widget>[
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 20,),
+              Expanded(
+                flex: 5,
 
-                                    SizedBox(width: 100,),
-                                    Column(
-                                      mainAxisAlignment: MainAxisAlignment
-                                          .start,
-                                      crossAxisAlignment: CrossAxisAlignment
-                                          .start,
-                                      children: <Widget>[
+                  child: ListView.separated(
+                      itemBuilder: (context, i) {
+                        return Container(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              Container(
+                                child: Row(
+                                    children: <Widget>[
 
-                                        Text(cartList.docs[i]
-                                            .data()['product name'].toString()
-                                            ?? "none", style: TextStyle(
-                                            color: black,
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold),),
-                                        SizedBox(height: 5,),
-
-                                        Text("${cartList.docs[i].data()['price']
-                                            .toString()} SR" ?? "none",
-                                          softWrap: true,
-                                          overflow: TextOverflow.fade,
-                                          style: TextStyle(fontSize: 16,
-                                              fontWeight: FontWeight.bold,
-                                              color: black),)
-                                        ,
-
-                                      ],
-
-
-
-                                    ),
-
-                                    SizedBox(width: 10,),
-
-                                    Column(  mainAxisAlignment: MainAxisAlignment
-                                        .center,
+                                      SizedBox(width: 80,),
+                                      Column(
+                                        mainAxisAlignment: MainAxisAlignment
+                                            .start,
                                         crossAxisAlignment: CrossAxisAlignment
                                             .start,
                                         children: <Widget>[
+                                          SizedBox(height: 15,),
 
-                                          ],
+                                          Text(cartList.docs[i]
+                                              .data()['product name'].toString()
+                                              ?? "none", style: TextStyle(
+                                              color: black,
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold),),
+                                          SizedBox(height: 5,),
+
+                                          Text("${cartList.docs[i].data()['price']
+                                              .toString()} SR" ?? "none",
+                                            softWrap: true,
+                                            overflow: TextOverflow.fade,
+                                            style: TextStyle(fontSize: 16,
+                                                fontWeight: FontWeight.bold,
+                                                color: black),)
+                                          ,
+
+                                        ],
+
+
+
                                       ),
-                                  ] ),
-                            ),
-                          ],
+
+                                      SizedBox(width: 10,),
+                                      //
+                                      // Column(  mainAxisAlignment: MainAxisAlignment
+                                      //     .center,
+                                      //     crossAxisAlignment: CrossAxisAlignment
+                                      //         .start,
+                                      //     children: <Widget>[
+                                      //
+                                      //       ],
+                                      //   ),
+                                    ] ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                      separatorBuilder: (context, i) => Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 40.0,vertical: 12),
+                        child: Container(
+                          height: 3,
+                          color: grey,
                         ),
-                      );
-                    },
-                    separatorBuilder: (context, i) => Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Container(
-                        height: 3,
-                        color: grey,
                       ),
-                    ),
-                    itemCount: cartList.docs.length),
-                //it was here
-              ),
-            ),
+                      itemCount: cartList.docs.length),
+                  //it was here
+                ),
+
+
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.all(30),
@@ -201,7 +207,7 @@ class _CartDetails extends State<CartDetails> {
                       color: basicColor,
 
                       onPressed: (){
-                         cartCompleted();
+                        // cartCompleted();
                         setState(() {
 
                         });
@@ -209,7 +215,7 @@ class _CartDetails extends State<CartDetails> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text("total price : ${newTotalPrice}RS ,press to complete this"),
+                          Text("total price : ${newTotalPrice}RS"),
                         ],),),
                   ],
                 ),
@@ -217,13 +223,13 @@ class _CartDetails extends State<CartDetails> {
               ),
           ],
         ),
-      );
+        ));
     } else {
       return Scaffold(
-          backgroundColor: white,
+          backgroundColor: basicColor,
           appBar: AppBar(
             iconTheme: IconThemeData(color: black),
-            toolbarHeight: 100,
+            toolbarHeight: 800,
             centerTitle: true,
             elevation: 0,
             title: Padding(
@@ -235,10 +241,19 @@ class _CartDetails extends State<CartDetails> {
             ),
             backgroundColor: basicColor,
           ),
-          body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Text("No products in cart"),
+          body: Container(
+            height: MediaQuery.of(context).size.height - 100,
+            decoration: BoxDecoration(
+                color: white,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(120),
+                )),
 
-          ]));
+            child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+              Text("No products in cart"),
+
+            ]),
+          ));
     }
   }
 

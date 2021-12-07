@@ -68,165 +68,217 @@ class _CartScreenState extends State<CartScreen> {
       });
     } catch (e) {print('Error Fetching Data$e');}}
   void initState() {
-    if (firebaseUser != null) {getCart();}
+    if (firebaseUser != null) {
+      getCart();}
     print(cartList);
     super.initState();}
 
   @override
   Widget build(BuildContext context) {
-    if (cartList != null) {
-      return Scaffold(
-        backgroundColor: Colors.transparent,
-        body:  Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Expanded(
-              flex: 5,
-              child: Container(
-                height: MediaQuery.of(context).size.height - 100,
-                decoration: const BoxDecoration(
-                    color: Colors.transparent,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(120),
-                    )),
-                child: ListView.separated(
-                    itemBuilder: (context, i) {
-                      return InkWell(
-                        onTap: () {
-                          Get.to(() =>
-                              ProductDetails(
-                                selectedProduct: cartList.docs[i],));
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: <Widget>[
-                            Row(
-                                children: <Widget>[
-                                  Hero(
-                                      tag: cartList.docs[i].id,
-                                      child:
-                                      cartList.docs[i].data()['image']
-                                          .toString() != null ?
-                                      Image.network(
-                                        cartList.docs[i].data()['image']
-                                            .toString(),
-                                        fit: BoxFit.cover,
-                                        height: 75,
-                                        width: 75,
-                                      ) :
-                                      Image.network(
-                                        "https://thumbs.dreamstime.com/b/product-icon-collection-trendy-modern-flat-linear-vector-white-background-thin-line-outline-illustration-130947207.jpg",
-                                        fit: BoxFit.cover,
-                                        height: 70,
-                                        width: 70,
-                                      )),
+    return Scaffold(
+      appBar: AppBar(
+        iconTheme: IconThemeData(color: black),
+        elevation: 0,
+        leading: IconButton(
+          onPressed: ()=> Get.back() ,
+          icon: Icon(Icons.arrow_back_ios),
+        ),
 
-                                  SizedBox(width: 10,),
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment
-                                        .center,
-                                    crossAxisAlignment: CrossAxisAlignment
-                                        .start,
+
+        title: Padding(
+          padding: EdgeInsets.only(top: 1),
+
+          child: Text("My Cart",
+
+
+            style: TextStyle(
+              color: black,
+              fontWeight: FontWeight.bold,
+              fontSize: 23,
+            ),
+
+          ),
+        ),
+        backgroundColor: basicColor,
+        toolbarHeight: 80,
+      ),
+      backgroundColor: basicColor,
+
+    body: cartList != null?
+       ListView(
+         children:[
+           Container(
+             height: MediaQuery.of(context).size.height - 150,
+             decoration: BoxDecoration(
+                 color: white,
+                 borderRadius: BorderRadius.only(topLeft: Radius.circular(100),
+                   //bottomRight:Radius.circular(150),
+                 )),
+
+             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(height: 20,),
+                Expanded(
+                  flex: 5,
+                  child: Container(
+                    height: MediaQuery.of(context).size.height - 100,
+                    decoration: const BoxDecoration(
+                        color: Colors.transparent,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(120),
+                        )),
+                    child: ListView.separated(
+                        itemBuilder: (context, i) {
+                          return InkWell(
+                            onTap: () {
+                              Get.to(() =>
+                                  ProductDetails(
+                                    selectedProduct: cartList.docs[i],));
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: <Widget>[
+                                Row(
                                     children: <Widget>[
-
-                                      Text(cartList.docs[i]
-                                          .data()['product name'].toString()
-                                          ?? "none", style: TextStyle(
-                                          color: black,
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold),),
-
-                                      SizedBox(
-                                          width: 200,
+                                      Hero(
+                                          tag: cartList.docs[i].id,
                                           child:
+                                          cartList.docs[i].data()['image']
+                                              .toString() != null ?
+                                          Image.network(
+                                            cartList.docs[i].data()['image']
+                                                .toString(),
+                                            fit: BoxFit.cover,
+                                            height: 75,
+                                            width: 75,
+                                          ) :
+                                          Image.network(
+                                            "https://thumbs.dreamstime.com/b/product-icon-collection-trendy-modern-flat-linear-vector-white-background-thin-line-outline-illustration-130947207.jpg",
+                                            fit: BoxFit.cover,
+                                            height: 70,
+                                            width: 70,
+                                          )),
+
+                                      SizedBox(width: 10,),
+                                      Column(
+                                        mainAxisAlignment: MainAxisAlignment
+                                            .center,
+                                        crossAxisAlignment: CrossAxisAlignment
+                                            .start,
+                                        children: <Widget>[
+
                                           Text(cartList.docs[i]
-                                              .data()['description']
-                                              .toString() ?? "none",
+                                              .data()['product name'].toString()
+                                              ?? "none", style: TextStyle(
+                                              color: black,
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold),),
+
+                                          SizedBox(
+                                              width: 200,
+                                              child:
+                                              Text(cartList.docs[i]
+                                                  .data()['description']
+                                                  .toString() ?? "none",
+                                                softWrap: true,
+                                                overflow: TextOverflow.fade,
+                                                style: TextStyle(fontSize: 18,
+                                                    fontWeight: FontWeight.normal,
+                                                    color: black),)
+                                          ),
+                                          Text("${cartList.docs[i].data()['price']
+                                              .toString()} SR" ?? "none",
                                             softWrap: true,
                                             overflow: TextOverflow.fade,
-                                            style: TextStyle(fontSize: 18,
-                                                fontWeight: FontWeight.normal,
+                                            style: TextStyle(fontSize: 16,
+                                                fontWeight: FontWeight.bold,
                                                 color: black),)
+                                          ,
+                                        ],
+
+
+
                                       ),
-                                      Text("${cartList.docs[i].data()['price']
-                                          .toString()} SR" ?? "none",
-                                        softWrap: true,
-                                        overflow: TextOverflow.fade,
-                                        style: TextStyle(fontSize: 16,
-                                            fontWeight: FontWeight.bold,
-                                            color: black),)
-                                      ,
-                                    ],
 
-
-
-                                  ),
-
-                                  const SizedBox(width: 10,),
-                                  Column(  mainAxisAlignment: MainAxisAlignment
-                                      .center,
-                                      crossAxisAlignment: CrossAxisAlignment
-                                          .start,
-                                      children: const <Widget>[
-                                      ] ),
-                                ] ),
-                          ],
+                                      const SizedBox(width: 10,),
+                                      Column(  mainAxisAlignment: MainAxisAlignment
+                                          .center,
+                                          crossAxisAlignment: CrossAxisAlignment
+                                              .start,
+                                          children: const <Widget>[
+                                          ] ),
+                                    ] ),
+                              ],
+                            ),
+                          );
+                        },
+                        separatorBuilder: (context, i) => Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Container(
+                            height: 3,
+                            color: basicColor,
+                          ),
                         ),
-                      );
-                    },
-                    separatorBuilder: (context, i) => Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Container(
-                        height: 3,
-                        color: basicColor,
-                      ),
-                    ),
-                    itemCount: cartList.docs.length),
-                //it was here
-              ),
-            ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(30),
-                child: ListView(
-                  children: [
-                    MaterialButton(
-                      color: basicColor,
-
-                      onPressed: (){
-                        Navigator.push(context,
-                                     MaterialPageRoute(builder: (context) =>
-                            CartDetails(),
-                                     ));
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
-                          Text("Go to the payment stage"),
-                          Icon(Icons.label),
-                        ],),),
-
-                  ],
+                        itemCount: cartList.docs.length),
+                    //it was here
+                  ),
                 ),
-              ),
-            ),
-          ],
-        ),
-      );
-    } else {
-      return Scaffold(
-          backgroundColor: white,
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(30),
+                    child: ListView(
+                      children: [
+                        MaterialButton(
+                          color: basicColor,
 
-          body: Column(mainAxisAlignment: MainAxisAlignment.center, children: const [
+                          onPressed: (){
+                            Get.to (()=>CartDetails());
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const [
+                              Text("Go to the payment stage"),
+                              Icon(Icons.label),
+                            ],),),
+
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+          ),
+           ),
+       ]): Container(
+      height: MediaQuery.of(context).size.height - 150,
+      decoration: BoxDecoration(
+          color: white,
+          borderRadius: BorderRadius.only(topLeft: Radius.circular(100),
+            //bottomRight:Radius.circular(150),
+          )),
+         child: Column(
+    mainAxisAlignment: MainAxisAlignment.center, children: const [
             Center(child:Text(("No products in cart"))),
             SizedBox(
               height: 100,
-            ),
+            )]),
+       ),
+      );
 
+      // Scaffold(
+      //
+      //     backgroundColor: white,
+      //
+      //     body: Column(mainAxisAlignment: MainAxisAlignment.center, children: const [
+      //       Center(child:Text(("No products in cart"))),
+      //       SizedBox(
+      //         height: 100,
+      //       ),
+      //
+      //
+      //       SizedBox(height: 15),
+      //     ]));
 
-            SizedBox(height: 15),
-          ]));
-    }
   }
 
 }

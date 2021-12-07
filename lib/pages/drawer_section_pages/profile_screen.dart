@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_product/color/my_colors.dart';
 import 'package:get/get.dart';
+import 'package:my_product/pages/chat/database_methods.dart';
 
 import '../home_page.dart';
 
@@ -26,6 +27,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   var firebaseUser = FirebaseAuth.instance.currentUser;
   CollectionReference usersRef =  FirebaseFirestore.instance.collection('users');
+  CollectionReference usernameRefComment = FirebaseFirestore.instance.collection('comments');
+
   var userEmail;
   var docData; // for printing
   var  myFirstName, myLastName, myUsername ;
@@ -154,7 +157,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           validator: (val){
                             if( val.isEmpty || val.length <2) {
                               return " please enter longer name :(";
-                            }   else if( val == docData['first name']){
+                            }
+                            else if( val == docData['first name']){
                               return " same old first name ";}
 
 
@@ -267,6 +271,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 style: TextStyle(color: white,fontSize: 20),),backgroundColor: black,);
                               _formKey.currentState.save();
                               updateUserInfo();
+
                               ScaffoldMessenger.of(context).showSnackBar(snackBar);
                               //Get.off(()=> HomePage());
                               Get.back();
@@ -286,6 +291,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     );
   }
+
   Future updateUserInfo()async{
     // DocumentReference usersRef =  FirebaseFirestore.instance.collection('users').doc(firebaseUser.uid);
     usersRef.doc(firebaseUser.uid).update({
@@ -293,8 +299,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
     'last name': myLastName.trim(),
     'username':myUsername.trim(),
     }).then((value) {
-      //SnackBar(content: Text(" Information is updated ",style: TextStyle(color: white,fontSize: 30),),backgroundColor: black,);
+
+      SnackBar(content: Text(" Information is updated ",style: TextStyle(color: white,fontSize: 30),),backgroundColor: black,);
       print("user updated");});
+
+
 
 
   }

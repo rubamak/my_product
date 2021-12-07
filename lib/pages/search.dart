@@ -164,7 +164,7 @@ class _SearchState extends State<Search> {
 searchToGetStoresNames(String storeName)async{
   return await FirebaseFirestore.instance.collection('familiesStores')
       .where('family store name',isEqualTo:storeName)
-      //.where('uid',isNotEqualTo:FirebaseAuth.instance.currentUser.uid)
+      .where('uid',isNotEqualTo:FirebaseAuth.instance.currentUser.uid)
       .get();
 }
 

@@ -54,7 +54,7 @@ class LandingPage extends StatelessWidget {
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Image.asset('images/myLogo.png',height: 200,width:600 ,),
+                          Image.asset('images/myLogo.png',height: 700,width:500 ,),
                           //SizedBox(height: 20,),
                           Text("Welcome",
                               //textAlign: TextAlign.center,

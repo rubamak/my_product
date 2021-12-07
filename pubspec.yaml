@@ -99,11 +99,13 @@ flutter:
     - images/cob.png
     - images/noFamily.jpg
     - images/noProduct.jpg
+    - images/logoDrawer.png
 #    - images/products/f.png
 #    - images/products/ice.jpg
 #    - images/products/waff.png
 #    - images/products/hand.jpg
     - images/myLogo.png
+    - images/myLogo1.png
     - images/logo.png
     - images/clouds.gif
     - images/unnamed.gif

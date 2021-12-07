@@ -6,6 +6,7 @@ import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/rendering.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:my_product/color/my_colors.dart';
+import 'package:my_product/components/cart_screen.dart';
 
 //my imports
 import 'dart:async';
@@ -111,18 +112,32 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: white,
       appBar: AppBar(
         iconTheme: IconThemeData(color: black),
-        leading: IconButton(
-            icon: Icon(Icons.search_rounded, size: 30,),
-            onPressed: () async{
-             Get.to(()=> Search());
-            // await FirebaseAuth.instance.signOut();
-            }),
+        leading: Row(
+          children: [
+            Expanded(
+              child: IconButton(
+                  icon: Icon(Icons.search_rounded, size: 30,),
+                  onPressed: () async{
+                   Get.to(()=> Search());
+                  // await FirebaseAuth.instance.signOut();
+                  }),
+            ),
+            SizedBox(width: 20,),
+            Expanded(
+            child:IconButton(
+                onPressed: (){
+
+                  Get.to(()=> CartScreen());
+                },
+                icon:Icon( Icons.shopping_cart)))
+          ],
+        ),
 
         // elevation: 0,
         toolbarHeight: 110,
         backgroundColor: basicColor,
         title: Text(
-          'Home Page',
+          'My Product',
           style: TextStyle(color: black, fontSize: 30),
         ),
         centerTitle: true,
@@ -155,13 +170,19 @@ class _HomePageState extends State<HomePage> {
                 imageCarousal,
 
                 Container(
-                  margin: EdgeInsets.only(top: 30.0),
+                  decoration:
+
+                  BoxDecoration(
+
+                      borderRadius: BorderRadius.circular(20),color: basicColor),
+                  margin: EdgeInsets.all(20),
                   child: const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 10.0),
-                      child: Text('Our Categories',
+                      padding: EdgeInsets.symmetric(horizontal: 15.0,vertical: 10),
+                      child: Text('Categories',
                           style: TextStyle(
-                            //color: ,
-                            fontSize: 30.0, fontWeight: FontWeight.w800,))),
+                            fontSize: 30.0,
+                            fontWeight: FontWeight.w400,
+                          ) )),
                 ),
                 //horizontal listview here:
                 HorizontelList(),
@@ -177,16 +198,19 @@ class _HomePageState extends State<HomePage> {
 
                 Padding(
                   padding:  EdgeInsets.symmetric(horizontal: 30,vertical: 20),
-                  child: MaterialButton(
-                    color: basicColor,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                        color: Colors.yellow[300]),
+                    child: TextButton.icon(
+                      label:Text("Latest Products",style: TextStyle(color: Colors.black,fontSize: 30),) ,
+                      onPressed: ()=> bottomSheet(context),
 
-                    onPressed: ()=> bottomSheet(context),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text("Latest Products"),
-                        Icon(Icons.new_label),
-                      ],),),
+
+                          //Text("Latest Products"),
+                          icon: Icon(Icons.new_releases_outlined,color: black,size: 30,),
+                        ),
+                  ),
                 ),
 
 

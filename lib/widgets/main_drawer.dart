@@ -100,7 +100,9 @@ var userEmail ;
 
                       ),
                     ),
-                      Positioned(top: 10,right: 20,left:100 ,bottom:20,child: Image.asset('images/myLogo.png')),
+                      Positioned(right: 10,left:180 ,bottom:40,child:
+                      Image.asset('images/logoDrawer.png',)
+                      ),
 
                     ]
                   ),
@@ -118,8 +120,8 @@ var userEmail ;
           }): SizedBox(height: 0,),
 
           buildListTile('Categories', Icons.dashboard_outlined,(){Get.toNamed(CategoryScreen.routeName);}),
-          checkLogin() ? buildListTile(' My Cart & Favorites', Icons.favorite_outline,(){
-            Get.toNamed(TapsScreen.routeName); }): SizedBox(height: 0,),
+          checkLogin() ? buildListTile('Favorites', Icons.favorite_outline,(){
+            Get.toNamed(FavoriteScreen.routeName); }): SizedBox(height: 0,),
 
           checkLogin() ? buildListTile('My Chats', Icons.chat_outlined,(){
             Get.off(()=> ChatRoomsScreen()
@@ -129,18 +131,18 @@ var userEmail ;
 
 
           checkLogin() ?
-          buildListTile('Own Store',Icons.add,(){
+          buildListTile('Own Store',Icons.store_outlined,(){
             Get.to(()=>MyFamilyStorePage());
             //Navigator.push(context,MaterialPageRoute(builder: (context)=> MyFamilyStorePage()));
             }):SizedBox(height: 0,),
-          buildListTile('Settings', Icons.settings,(){ Get.to(()=> SettingsPage());}),
+          //buildListTile('Settings', Icons.settings,(){ Get.to(()=> SettingsPage());}),
           buildListTile('Enjoy to Help you', Icons.help_outline_outlined,(){
                 Get.to(()=> HelpingSection());
            // Navigator.push(context, MaterialPageRoute(builder: (context)=> HelpingSection()));
             }),
           const Divider(color: Colors.black54),//0xffFFBCBC الللون القديم لو تبيه ياربا
            checkLogin()? SizedBox(height: 0,): Padding(
-             padding: const EdgeInsets.all(20.0),
+             padding: const EdgeInsets.all(5.0),
              child: MaterialButton(
               onPressed: () {
                // Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
@@ -153,7 +155,7 @@ var userEmail ;
           ),
            ),
            checkLogin() ? Padding(
-             padding: const EdgeInsets.all(20.0),
+             padding: const EdgeInsets.all(5.0),
              child: MaterialButton(
               onPressed: () async {
                 await FirebaseAuth.instance.signOut();

@@ -105,6 +105,7 @@ class _MyAppState extends State<MyApp> {
           GetPage(name: CategoryScreen.routeName,  page:()=> CategoryScreen()),
           GetPage(name: FamiliesScreen.routeName, page: ()=>FamiliesScreen()),
           GetPage(name: ProductsScreen.routeName, page: ()=>ProductsScreen()),
+          GetPage(name :FavoriteScreen.routeName,page: ()=> FavoriteScreen()),
           //GetPage(name: SingleChatScreen.routeName, page: ()=>  SingleChatScreen()),
               //_toggleFavorites,_isProductFavorite
 

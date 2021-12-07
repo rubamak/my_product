@@ -9,6 +9,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:my_product/color/my_colors.dart';
 import 'package:select_form_field/select_form_field.dart';
+import 'package:get/get.dart';
 
 import 'login.dart';
 class Registartion extends StatefulWidget {
@@ -27,6 +28,7 @@ class _RegistartionState extends State<Registartion> {
 
   var  _emailController = TextEditingController();
   var _passwordController = TextEditingController();
+  TextEditingController _confirmController = TextEditingController();
   var _firstNameController = TextEditingController();
   var _lastNameController = TextEditingController();
   var _usernameController = TextEditingController();
@@ -44,7 +46,6 @@ class _RegistartionState extends State<Registartion> {
 
 
     return  Scaffold(
-
       backgroundColor: white,
       body:Center(
         child: Form(
@@ -78,14 +79,18 @@ class _RegistartionState extends State<Registartion> {
                     keyboardType: TextInputType.name,
                     cursorColor: black,
                     controller: _firstNameController,
-                    validator: (val){
-                      if( val.length < 3) {
-                        return " Short name :(";
-                      }   else{
-                        return null;} ;
+                    validator: (String val) {
+                      if (val.isEmpty) {
+                        return "please enter first name. :(";
+                      }
+                      else if(val.length < 2){
+                        return "short name";
 
+                      }
+                      return null;
                     },
-                    onSaved: (value){
+
+                    onSaved: (String value){
                       firstName = value;
                     },
 
@@ -152,7 +157,7 @@ class _RegistartionState extends State<Registartion> {
                     validator: (val){
                       if(val.isEmpty  ) {
                         return "it is empty";
-                      }else if (val.length<4) {
+                      }else if (val.length<4 ) {
                         return"short username";
 
                       }
@@ -192,9 +197,16 @@ class _RegistartionState extends State<Registartion> {
                     cursorColor: black,
                     controller: _emailController,
                     validator: (val) {
-                      if(val== null || !val.contains("@")|| !val.contains(".")) {
+                      if(val== null && !val.contains("@") && !val.contains(".")) {
                         return " invalid Email :(";
-                      }   else{return null;} ;
+                      } else if(!val.contains("gmail")
+                          &&!val.contains("hotmail")&&!val.contains("yahoo")){
+                        return " invalid Email";
+                      }
+                      else if( !val.contains("com")){
+                        return "invalid Email";
+                      }
+                      else{return null;} ;
                     },
                     onSaved: (value){
                       myEmail = value;
@@ -226,13 +238,14 @@ class _RegistartionState extends State<Registartion> {
                     cursorColor: black,
                     controller: _passwordController,
                     validator: (val) {
+                      myPassword = val ;
                       if(val.toString().length < 8 || val == null) {
                         return " Too Short password:(";
                       }   else{return null;} ;
                     },
-                    onSaved: (value){
-                      myPassword = value;
-                    },
+                    // onSaved: (value){
+                    //   myPassword = value;
+                    // },
                   ),
                 ),
                 Container(
@@ -258,11 +271,14 @@ class _RegistartionState extends State<Registartion> {
                     obscureText: passwordVisible2,
                     keyboardType: TextInputType.visiblePassword,
                     cursorColor: basicColor,
+
                     //controller: _passwordController2,
                     validator: (val) {
-                      if(val != _passwordController.text) {
-                        return " passwords did not match :(";
-                      }   else{return null;} ;
+                      if(val.isEmpty) {
+                        return "empty filed";
+                      }   else if(val != myPassword){
+                        return "passwords did not match" ;}
+                      else {return null ;}
                     },
                   ),
                 ),
@@ -270,8 +286,6 @@ class _RegistartionState extends State<Registartion> {
 
                 if(widget.isLoading)
                   Center(child: CircularProgressIndicator()),
-
-
                 if(!widget.isLoading)
                   Padding(
                     padding: const EdgeInsets.all(20.0),
@@ -288,7 +302,6 @@ class _RegistartionState extends State<Registartion> {
                           borderRadius: BorderRadius.circular(25), ),),
                     ),
                   ),
-
                 SizedBox(height: 10,),
 
               ],
@@ -312,14 +325,17 @@ class _RegistartionState extends State<Registartion> {
     // }
     //يتاكد من الاشياء الي داخل الفورم يتحقق منها عشان بعدها يخزنها
     if(!_formKey.currentState.validate()){
+
       //return ;
+      Fluttertoast.showToast(msg: "invalid sign up");
       print("not valid");
-    }else
+    }else{
       print("vaild");
     // حفظ الداتا الي تحقق منها داخل الفورم
     _formKey.currentState.save();
     _createUser();
     //انشاء حساب لليوزر جديد
+  }
   }
   Future<void> _createUser() async {
 
@@ -335,7 +351,7 @@ class _RegistartionState extends State<Registartion> {
         //print(userCredential.user!.uid);
         Fluttertoast.showToast(msg: "Account has Successfully created ");
         addUser();
-        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Login()));
+        Get.off(() => Login());
 
 
         // if( userCredential.user!.emailVerified ==false ) {
@@ -377,9 +393,9 @@ class _RegistartionState extends State<Registartion> {
       'uid': userCredential.currentUser.uid,
       'first name': _firstNameController.text.trim(),
       'last name': _lastNameController.text.trim(),
-      "email":_emailController.text,
+      "email":_emailController.text.trim(),
       'username': _usernameController.text.trim(),
-     // 'password': _passwordController.text,
+      'password': myPassword.trim(),
 
     })
     //اضيف بدون ما احدد الاي دي الخاص بكل دوكيمنت
