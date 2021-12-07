@@ -275,6 +275,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ScaffoldMessenger.of(context).showSnackBar(snackBar);
                               //Get.off(()=> HomePage());
                               Get.back();
+                              print("updated done!");
+
                             }
                           },
                         ),

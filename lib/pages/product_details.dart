@@ -77,13 +77,6 @@ class _ProductDetailsState extends State<ProductDetails> {
       appBar: AppBar(
         iconTheme: IconThemeData(color: black),
         elevation: 0,
-        // leading:  IconButton(
-        //   icon: Icon(Icons.arrow_back_ios),
-        //   onPressed: () {
-        //     Navigator.pop(context,filteredItem.productName);
-        //   },
-        //   color: Colors.white,
-        // ),
         title: Padding(
           padding: EdgeInsets.only(top: 1),
           child: productInfo != null

@@ -77,7 +77,7 @@ class _LoginState extends State<Login> {
               context: context,
               title: "Error",
               showCloseIcon: true,
-              body: Text("user not registered, not founded !",style: TextStyle(color: black),))
+              body: Text("user not registered, not found !",style: TextStyle(color: black),))
             ..show();
 
           print('No user found for that email.');
