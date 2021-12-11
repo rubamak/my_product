@@ -48,8 +48,8 @@ class HelpingSection extends StatelessWidget {
                     onPressed: ()async{
 
                             try{
-                              await canLaunch("http://myproducts.rf.gd/?i=1")?
-                              await launch("http://myproducts.rf.gd/?i=1"):
+                              await canLaunch("http://myproductsaou.rf.gd/?i=2")?
+                              await launch("http://myproductsaou.rf.gd/?i=2"):
                               throw 'could not get the video';
                             }catch(e){
                               print(e.toString());
