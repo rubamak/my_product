@@ -20,10 +20,9 @@ class _LatestProductsState extends State<LatestProducts> {
   QuerySnapshot<Map<String, dynamic>> productsList;
   //دي اللسته المخزنه فيها الاشياء اللي ف الفيربيس
   DocumentSnapshot<Map<String, dynamic>> docData; // for printing
-  var username; // for display to user
-  var useremail;
-  var userID ;
-  QuerySnapshot<Map<String, dynamic>> latestProducts;
+  String username; // for display to user
+  String useremail;
+   String userID ;
 
   getUserData(String uid) async {
     //اجيب بيانات دوكيمنت واحد فقط
@@ -48,24 +47,19 @@ class _LatestProductsState extends State<LatestProducts> {
     });
     try {
       await FirebaseFirestore.instance.collection('products')
-          .orderBy('addedAt',descending: true)
-          .where('uid',isNotEqualTo:firebaseUser.uid )
+          .where('uid',isNotEqualTo: userID)
+          //.orderBy('addedAt',descending: true)
           .get().then((specifiedDoc) async {
         if (specifiedDoc != null && specifiedDoc.docs.isEmpty == false) {
           setState(() {
 
             productsList = specifiedDoc;
-                latestProducts = productsList;
 
 
 
 
 
           });
-          // await FirebaseFirestore.instance.collection('familiesStores')
-          //     .where('family id',isEqualTo: productsList.docs[0].data()['family store id']).get().then((doc){
-
-
 
         } else {
           print('No Docs Found');
@@ -74,7 +68,6 @@ class _LatestProductsState extends State<LatestProducts> {
     } catch (e) {
       print('Error Fetching Data::$e');
     }
-    //fetchSpecifiedProduct();
   }
   Future fetchSpecifiedProduct() async {
 
@@ -165,7 +158,7 @@ super.initState();
     //   selectedPro: latestProducts.docs[i], )
     // );});}
     else{
-      return Container(child: CircularProgressIndicator());
+      return Container(child: Center(child: CircularProgressIndicator()));
     }
   }
 }

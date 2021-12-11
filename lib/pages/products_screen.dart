@@ -3,13 +3,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:like_button/like_button.dart';
 import 'package:my_product/color/my_colors.dart';
-import 'package:my_product/dummy_data.dart';
 import 'package:my_product/pages/drawer_section_pages/favorite_screen.dart';
 import 'package:my_product/pages/product_details.dart';
 import 'package:my_product/widgets/main_drawer.dart';
-import 'package:my_product/widgets/product_item.dart';
 import 'package:get/get.dart';
 
 import 'families_screen.dart';
@@ -317,7 +314,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
               )),
           child: Center(child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [CircularProgressIndicator(), Text("No products")])));
+              children: [CircularProgressIndicator(),SizedBox(height: 10,), Text("Kindly be patient..")])));
     }
   }
 

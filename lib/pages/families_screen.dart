@@ -16,7 +16,6 @@ import 'dart:io';
 import 'package:get/get.dart';
 
 import 'chat/database_methods.dart';
-import 'chat/single_chat_screen.dart';
 
 class FamiliesScreen extends StatefulWidget {
   static const routeName = '/families_categories';
@@ -340,7 +339,7 @@ class _FamiliesScreenState extends State<FamiliesScreen> {
                 topLeft: Radius.circular(100),
                 bottomRight: Radius.circular(150),
               )),
-          child: Center(child: CircularProgressIndicator()));
+          child: Center(child: Text("Kindly be patient...  ")));
     }
   }
 }

@@ -287,8 +287,11 @@ class _ChatRoomsScreenState extends State<ChatRoomsScreen> {
                 });
           }
 
-          else {
+          else if (!snapshot.hasData){
             return Center(child: Text("Don't have any chats rooms"));
+          }
+          else if(snapshot.connectionState==ConnectionState.waiting){
+            return Center(child: CircularProgressIndicator(),);
           }
         });
   }

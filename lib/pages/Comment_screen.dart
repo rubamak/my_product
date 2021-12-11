@@ -212,6 +212,7 @@ class CommentPageState extends State<CommentsPage> {
                     SizedBox(
                       height: 200,
                     ),
+                Center(child: CircularProgressIndicator(),),
                 Text("No Comments"),
                 SizedBox(
                   height:150,

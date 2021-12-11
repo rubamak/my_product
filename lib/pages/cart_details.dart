@@ -95,7 +95,7 @@ class _CartDetails extends State<CartDetails> {
 
   @override
   Widget build(BuildContext context) {
-    if (cartList != null) {
+
       return Scaffold(
         backgroundColor: basicColor,
         appBar: AppBar(
@@ -106,14 +106,15 @@ class _CartDetails extends State<CartDetails> {
           title: Padding(
             padding: EdgeInsets.only(top: 1),
             child: Text(
-              "cart",
+              "Cart Coast",
               style: TextStyle(color: black, fontSize: 25),
             ),
           ),
           backgroundColor: basicColor,
 
         ),
-        body: Container(
+        body: cartList != null?
+        Container(
             height: MediaQuery.of(context).size.height - 150,
             decoration: BoxDecoration(
                 color: white,
@@ -172,14 +173,6 @@ class _CartDetails extends State<CartDetails> {
 
                                       SizedBox(width: 10,),
                                       //
-                                      // Column(  mainAxisAlignment: MainAxisAlignment
-                                      //     .center,
-                                      //     crossAxisAlignment: CrossAxisAlignment
-                                      //         .start,
-                                      //     children: <Widget>[
-                                      //
-                                      //       ],
-                                      //   ),
                                     ] ),
                               ),
                             ],
@@ -223,38 +216,23 @@ class _CartDetails extends State<CartDetails> {
               ),
           ],
         ),
-        ));
-    } else {
-      return Scaffold(
-          backgroundColor: basicColor,
-          appBar: AppBar(
-            iconTheme: IconThemeData(color: black),
-            toolbarHeight: 800,
-            centerTitle: true,
-            elevation: 0,
-            title: Padding(
-              padding: EdgeInsets.only(top: 1),
-              child: Text(
-                "Add products to cart",
-                style: TextStyle(color: black, fontSize: 25),
-              ),
-            ),
-            backgroundColor: basicColor,
-          ),
-          body: Container(
-            height: MediaQuery.of(context).size.height - 100,
-            decoration: BoxDecoration(
-                color: white,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(120),
-                )),
+        ):  Container(
+          height: MediaQuery.of(context).size.height - 150,
+          decoration: BoxDecoration(
+              color: white,
+              borderRadius: BorderRadius.only(topLeft: Radius.circular(100),
+                //bottomRight:Radius.circular(150),
+              )),
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.center, children: const [
+            Center(child:Text(("No products in cart"))),
+            SizedBox(
+              height: 100,
+            )]),
+        ),);
 
-            child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              Text("No products in cart"),
 
-            ]),
-          ));
-    }
+
   }
 
 }

@@ -1,5 +1,6 @@
 
 import 'dart:core';
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -8,15 +9,13 @@ import 'package:get/get.dart';
 import 'package:my_product/color/my_colors.dart';
 import 'package:my_product/pages/category_screen.dart';
 import 'package:my_product/pages/drawer_section_pages/profile_screen.dart';
-import 'package:my_product/pages/drawer_section_pages/settings_page.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:my_product/pages/chat/chat_rooms_screen.dart';
-import 'package:my_product/pages/chat/single_chat_screen.dart';
 import 'package:my_product/pages/drawer_section_pages/favorite_screen.dart';
 import 'package:my_product/pages/drawer_section_pages/helping_section.dart';
 import 'package:my_product/pages/home_page.dart';
 import 'package:my_product/pages/login.dart';
 import 'package:my_product/pages/drawer_section_pages/my_family_store_page.dart';
-import 'package:my_product/pages/taps_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MainDrawer extends StatefulWidget {
@@ -136,10 +135,8 @@ var userEmail ;
             //Navigator.push(context,MaterialPageRoute(builder: (context)=> MyFamilyStorePage()));
             }):SizedBox(height: 0,),
           //buildListTile('Settings', Icons.settings,(){ Get.to(()=> SettingsPage());}),
-          buildListTile('Enjoy to Help you', Icons.help_outline_outlined,(){
-                Get.to(()=> HelpingSection());
-           // Navigator.push(context, MaterialPageRoute(builder: (context)=> HelpingSection()));
-            }),
+            buildListTile('Enjoy to Help you', Icons.help_outline_outlined,
+                (){Get.to(()=> HelpingSection());}),
           const Divider(color: Colors.black54),//0xffFFBCBC الللون القديم لو تبيه ياربا
            checkLogin()? SizedBox(height: 0,): Padding(
              padding: const EdgeInsets.all(5.0),

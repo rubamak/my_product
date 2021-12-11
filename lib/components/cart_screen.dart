@@ -265,19 +265,6 @@ class _CartScreenState extends State<CartScreen> {
        ),
       );
 
-      // Scaffold(
-      //
-      //     backgroundColor: white,
-      //
-      //     body: Column(mainAxisAlignment: MainAxisAlignment.center, children: const [
-      //       Center(child:Text(("No products in cart"))),
-      //       SizedBox(
-      //         height: 100,
-      //       ),
-      //
-      //
-      //       SizedBox(height: 15),
-      //     ]));
 
   }
 

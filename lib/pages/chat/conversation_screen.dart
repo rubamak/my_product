@@ -95,7 +95,12 @@ class _ConversationScreenState extends State<ConversationScreen> {
     return StreamBuilder(
         stream: messagesStream,
         builder: (context, snapshot) {
-          if (snapshot.hasData) {
+          if(snapshot.connectionState ==ConnectionState.waiting){
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          else if (snapshot.hasData) {
             return ListView.builder(
               primary: true,
                 reverse: true,
@@ -116,7 +121,9 @@ class _ConversationScreenState extends State<ConversationScreen> {
                     snap['recevierName'].toString():snap['sender'].toString() ,
                   );
                 });
-          } else {
+          }
+
+          else {
             return Center(
               child: Text("no messages"),
             );
